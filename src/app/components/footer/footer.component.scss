@@ -1,0 +1,22 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  border-top: 1px solid rgba(168,85,247,0.12);
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--text-dim);
+  background: rgba(8,7,16,0.6);
+
+  a {
+    color: var(--accent3);
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover { color: var(--text); }
+  }
+}
+
+@media (max-width: 480px) {
+  .footer { flex-direction: column; gap: .5rem; text-align: center; }
+}

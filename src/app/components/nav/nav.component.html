@@ -1,0 +1,19 @@
+<nav class="nav" [class.scrolled]="isScrolled">
+  <span class="nav-logo">JS<span class="dot">.</span></span>
+
+  <ul class="nav-links" [class.open]="menuOpen">
+    <li><a href="#work" (click)="closeMenu()">Work</a></li>
+    <li><a href="#skills" (click)="closeMenu()">Skills</a></li>
+    <li><a href="#about" (click)="closeMenu()">About</a></li>
+    <li>
+      <a href="mailto:jothisankarg99@gmail.com" class="nav-cta" (click)="closeMenu()">
+        Say Hello
+      </a>
+    </li>
+  </ul>
+
+  <button class="hamburger" [class.open]="menuOpen"
+          (click)="toggleMenu()" aria-label="Toggle menu">
+    <span></span><span></span>
+  </button>
+</nav>

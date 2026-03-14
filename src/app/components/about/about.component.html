@@ -1,0 +1,39 @@
+<section class="section-wrap" id="about">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>About Me</h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        Frontend developer based in Bengaluru, originally from Hosur, TN. My path here is a bit unusual —
+        I started in mechanical engineering and quality inspection, which trained me to care deeply about
+        precision, process, and finding the root of every problem.
+      </p>
+      <p>
+        Those instincts now go into every component I build. Since joining Infosys in 2022, I've worked
+        across platform features, UI migrations, and architectural decisions that ship to thousands of users.
+      </p>
+      <p>
+        I'm constantly learning — Angular's latest releases, how AI tooling genuinely improves developer
+        workflows, and how good UI decisions actually reduce support tickets.
+      </p>
+
+      <div class="about-award">
+        <span class="award-icon">🏅</span>
+        <div>
+          <strong>Rise Insta Award</strong>
+          <span>Infosys — Recognised for outstanding delivery on the Maximus project</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-stats" #statsSection>
+      <div class="stat" *ngFor="let s of stats">
+        <span class="stat-num">{{ s.display }}</span>
+        <span class="stat-label">{{ s.label }}</span>
+      </div>
+    </div>
+  </div>
+</section>
