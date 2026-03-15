@@ -1,5 +1,5 @@
 <nav class="nav" [class.scrolled]="isScrolled">
-  <span class="nav-logo">JS<span class="dot">.</span></span>
+  <span class="nav-logo">JS</span>
 
   <ul class="nav-links" [class.open]="menuOpen">
     <li><a href="#work" (click)="closeMenu()">Work</a></li>
@@ -12,8 +12,8 @@
     </li>
   </ul>
 
-  <button class="hamburger" [class.open]="menuOpen"
-          (click)="toggleMenu()" aria-label="Toggle menu">
-    <span></span><span></span>
+  <button class="hamburger" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
   </button>
 </nav>

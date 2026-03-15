@@ -10,6 +10,7 @@
   color: var(--text-muted);
   line-height: 1.85;
   margin-bottom: 1.3rem;
+  text-align: justify;
 }
 
 .about-award {
@@ -27,9 +28,15 @@
   span { font-size: .8rem; color: var(--text-muted); }
 }
 
-.award-icon { font-size: 1.4rem; }
+.award-icon {
+  font-size: 1.4rem;
+}
 
-.about-stats { display: flex; flex-direction: column; gap: 2rem; }
+.about-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
 .stat {
   text-align: right;

@@ -20,13 +20,14 @@
   --glow2: rgba(124,58,237,0.12);
   --green: #a855f7;
   --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body: 'Outfit', sans-serif;
-  --font-mono: 'DM Mono', monospace;
+  --font-body: 'Outfit', 'Times New Roman', Times, serif;
+  --font-mono: 'timesnewroman', monospace;
   --max: 1160px;
   --radius: 6px;
 }
-
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: var(--bg);

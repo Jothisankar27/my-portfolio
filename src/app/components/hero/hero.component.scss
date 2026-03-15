@@ -57,7 +57,7 @@
 }
 
 .hero-name {
-  font-family: var(--font-display);
+  font-family: 'Times New Roman', Times, serif;
   font-size: clamp(3.5rem, 9vw, 7.5rem);
   line-height: 1.0;
   letter-spacing: -0.03em;
@@ -72,9 +72,13 @@
   }
 }
 
-.hero-last { color: var(--text-dim); }
+.hero-last {
+  color: var(--text-dim);
+}
 
-.hero-meta { margin-bottom: 1.6rem; }
+.hero-meta {
+  margin-bottom: 1.6rem;
+}
 
 .hero-role {
   font-size: 1rem;
@@ -93,7 +97,7 @@
 }
 
 .hero-summary {
-  max-width: 560px;
+  max-width: auto;
   color: var(--text-muted);
   font-size: 1.05rem;
   line-height: 1.8;
@@ -104,6 +108,67 @@
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.btn-ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.btn-ghost .icon {
+  display: inline-block;
+  vertical-align: middle;
+  height: 20px; /* match the font-size of the button text */
+  width: 20px;
+  object-fit: contain;
+  margin-right: 0.4rem;
+}
+
+
+.btn-ghost .doc-path {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%) translateX(6px);
+  background: rgba(20,20,20,0.92);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 6px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease, transform 150ms ease;
+  z-index: 30;
+}
+
+.btn-ghost:hover .doc-path,
+.btn-ghost:focus .doc-path {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  pointer-events: auto;
+}
+
+/* Mobile fallback: place tooltip above the button when there's limited horizontal space */
+@media (max-width: 480px) {
+  .btn-ghost .doc-path {
+    top: auto;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+  }
+  .btn-ghost:hover .doc-path,
+  .btn-ghost:focus .doc-path {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-ghost .doc-path { transition: none; }
 }
 
 @media (max-width: 768px) {

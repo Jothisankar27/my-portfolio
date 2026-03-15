@@ -12,9 +12,18 @@ export class AboutComponent implements AfterViewInit {
   @ViewChild("statsSection") statsSection!: ElementRef;
 
   stats = [
-    { num: 4, label: "Years experience", display: 0 },
-    { num: 3, label: "Major Angular migrations", display: 0 },
-    { num: 2, label: "Enterprise platforms", display: 0 },
+    { num: 4, 
+      label: "Years experience", 
+      display: 0 
+    },
+    { num: 3, 
+      label: "Angular Version migrations", 
+      display: 0 
+    },
+    { num: 2, 
+      label: "Enterprise platforms", 
+      display: 0 
+    },
   ];
 
   ngAfterViewInit(): void {
