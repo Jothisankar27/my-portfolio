@@ -27,8 +27,9 @@ src/
 
 ```bash
 npm install
-npm start           # Dev server at http://localhost:4200
-npm run build       # Production build
+npm start                             # Dev server at http://localhost:4200
+npm run build                         # Production build
+ng deploy --base-href=/Project-Name/  #to build and push to GH pages
 ```
 
 ## Key Angular Patterns Used
