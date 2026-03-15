@@ -5,20 +5,20 @@
   </div>
 
   <div class="projects">
-    <article class="project-card reveal" #card *ngFor="let p of projects">
+    <article class="project-card reveal" #card *ngFor="let proj of projects">
       <div class="project-top">
-        <span class="project-tag">{{ p.tag }}</span>
-        <span class="project-stack">{{ p.stack }}</span>
+        <span class="project-tag">{{ proj.tag }}</span>
+        <span class="project-stack">{{ proj.stack }}</span>
       </div>
-      <h3 class="project-title">{{ p.title }}
-        <!-- {{ p.titleLine2 }} -->
+      <h3 class="project-title">{{ proj.title }}
+        <!-- {{ proj.titleLine2 }} -->
       </h3>
-      <p class="project-desc">{{ p.desc }}</p>
+      <p class="project-desc">{{ proj.desc }}</p>
       <ul class="project-bullets">
-        <li *ngFor="let b of p.bullets">{{ b }}</li>
+        <li *ngFor="let b of proj.bullets">{{ b }}</li>
       </ul>
-      <div class="project-footer" *ngIf="p.award">
-        <span class="project-award">{{ p.award }}</span>
+      <div class="project-footer" *ngIf="proj.award">
+        <span class="project-award">{{ proj.award }}</span>
       </div>
     </article>
   </div>
