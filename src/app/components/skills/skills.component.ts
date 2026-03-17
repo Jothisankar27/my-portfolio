@@ -10,9 +10,10 @@ import { CommonModule } from '@angular/common';
 })
 export class SkillsComponent {
   groups = [
-    { heading: 'Frontend', items: ['Angular (v13–v20)','JavaScript','HTML5','CSS3 / SCSS','Bootstrap','Angular Material','RxJS','HttpClient'] },
-    { heading: 'Architecture', items: ['Micro-frontends','RESTful APIs','Component Design','Agile / Scrum'] },
+    { heading: 'Frontend', items: ['HTML5','CSS3 / SCSS','JavaScript','TypeScript','Angular (v20)','Bootstrap','Angular Material','RxJS','HttpClient'] },
     { heading: 'Backend & DB', items: ['Node.js','PostgreSQL','MS-SQL'] },
-    { heading: 'Tooling', items: ['GitHub Copilot','Cursor','VS Code','Git / GitHub','Jira','SonarQube','JFrog','Figma (Basic)'] }
+    { heading: 'Architecture', items: ['Micro-frontends','RESTful APIs','Agile / Scrum'] },
+    { heading: 'Platforms & Tools', items: ['VS Code','Git / GitHub','SSMS','Jira','Confluence','SonarQube','GitHub Copilot','Cursor'] },
+    { heading: 'Design', items: ['Canva','Figma (Basic)','Pencil'] }
   ];
 }

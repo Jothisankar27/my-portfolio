@@ -7,17 +7,17 @@
   <div class="projects">
     <article class="project-card reveal" #card *ngFor="let proj of projects">
       <div class="project-top">
-        <span class="project-tag">{{ proj.tag }}</span>
+        <span class="project-tag">{{ proj.tag }} | {{ proj.titleLine2}}</span>
         <span class="project-stack">{{ proj.stack }}</span>
       </div>
-      <h3 class="project-title">{{ proj.title }}
-        <!-- {{ proj.titleLine2 }} -->
+      <h3 class="project-title">{{ proj.title }} 
       </h3>
       <p class="project-desc">{{ proj.desc }}</p>
       <ul class="project-bullets">
         <li *ngFor="let b of proj.bullets">{{ b }}</li>
       </ul>
       <div class="project-footer" *ngIf="proj.award">
+        <span class="project-symbol">🏅 </span>
         <span class="project-award">{{ proj.award }}</span>
       </div>
     </article>
