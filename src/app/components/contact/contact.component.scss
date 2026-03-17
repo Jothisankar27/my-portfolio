@@ -32,7 +32,7 @@
   font-size: .72rem;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--text-dim);
+  color: var(--accent);
   margin-bottom: 1.2rem;
 }
 
@@ -49,6 +49,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    padding-right: 9px;
   }
 }
 
