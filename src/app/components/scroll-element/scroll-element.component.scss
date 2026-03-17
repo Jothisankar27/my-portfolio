@@ -1,0 +1,29 @@
+ .progress-container {
+     position: fixed;
+     top: 0;
+     right: 2rem;
+     width: 1px;
+     height: 100vh;
+     z-index: 9999;
+     background: transparent;
+     pointer-events: none;
+ }
+
+ .progress-bar {
+     width: 100%;
+     background:var(--accent);
+     position: relative;
+     height: 0%;
+     transition: height 0.1s linear;
+     box-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
+ }
+
+ .spider {
+     position: absolute;
+     bottom: -15px;
+     left: 50%;
+     transform: translateX(-50%) rotate(180deg);
+     width: 40px;
+     height: auto;
+     filter: drop-shadow(-2px 5px 5px rgba(0, 0, 0, 0.5));
+ }

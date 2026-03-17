@@ -8,6 +8,7 @@ import { SkillsComponent } from './components/skills/skills.component';
 import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ScrollElement } from './components/scroll-element/scroll-element.component';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +22,9 @@ import { FooterComponent } from './components/footer/footer.component';
     SkillsComponent,
     AboutComponent,
     ContactComponent,
-    FooterComponent
-  ],
+    FooterComponent,
+    ScrollElement
+],
   templateUrl: './app.component.html'
 })
 export class AppComponent {}
