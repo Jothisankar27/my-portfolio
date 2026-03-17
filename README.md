@@ -10,7 +10,7 @@ src/
 │   ├── app.component.ts          # Root component, imports all feature components
 │   └── components/
 │       ├── nav/                  # Sticky nav with scroll + hamburger
-│       ├── hero/                 # Animated hero section
+│       ├── details/              # Animated details section
 │       ├── ticker/               # Infinite marquee ticker
 │       ├── work/                 # Project cards with IntersectionObserver reveal
 │       ├── skills/               # Skills grid
