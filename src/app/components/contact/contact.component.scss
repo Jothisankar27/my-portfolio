@@ -84,7 +84,18 @@
 
     &:hover {
       color: var(--accent3);
+
+      .contact-icon {
+        transform: translateY(-3px);
+        filter: brightness(0) saturate(100%) invert(45%) sepia(85%) saturate(1433%) hue-rotate(234deg) brightness(99%) contrast(96%);
+      }
     }
+  }
+
+  .contact-icon {
+    width: 32px;
+    height: 32px;
+    transition: transform .2s ease-out, filter .2s ease-out;
   }
 }
 
