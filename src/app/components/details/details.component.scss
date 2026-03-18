@@ -197,9 +197,23 @@
 
 /* ── Mobile: tighten all scripts so nothing overflows  */
 @media (max-width: 480px) {
+  // Pull hero-name base font down so even English fits in one pass
+  .hero-name {
+    font-size: clamp(2.4rem, 9vw, 3.5rem);
+  }
+  .name-en {
+    em {
+      display: inline-block;   // gives max-width a surface to act on
+      max-width: 100%;
+      overflow-wrap: anywhere; // wrap inside the long word if needed
+      word-break: break-word;
+    }
+  }
+
   .name-tamil {
     font-size: clamp(1.75rem, 8.5vw, 2.6rem);
     line-height: 1.35;
+    padding-bottom: 0.3em;
   }
 
   .name-hindi {
@@ -230,6 +244,7 @@
 
 .hero-last {
   color: var(--text-dim);
+  padding-left: 4px;
 }
 
 .hero-meta {
@@ -341,5 +356,10 @@
 @media (max-width: 768px) {
   .hero {
     padding: 7rem 1.5rem 3rem;
+  }
+
+  // Clip the swipe container so no span bleeds outside the viewport
+  .hero-name {
+    overflow: hidden;
   }
 }
