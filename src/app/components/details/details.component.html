@@ -4,8 +4,44 @@
     <span>Available for new opportunities</span>
   </div>
 
-  <h1 class="hero-name" [class.visible]="visible" style="transition-delay:0.15s">
-    Jothi Sankar<br/><em>Gnana </em><span class="hero-last">Sambandam</span>
+  <h1
+    class="hero-name"
+    [class.visible]="visible"
+    [attr.data-script]="currentScript"
+    [class.slide-left]="slideDir === 'left'"
+    [class.slide-right]="slideDir === 'right'"
+    style="transition-delay:0.15s"
+    (mousedown)="onMouseDown($event)"
+    (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd()"
+  >
+    <!-- English -->
+    <span
+      class="name-en"
+      [class.active]="currentScript === 'en'"
+      [attr.aria-hidden]="currentScript !== 'en'"
+    >
+      Jothi Sankar<br/><em>GnanaSambandam</em>
+    </span>
+
+    <!-- Tamil -->
+    <span
+      class="name-tamil"
+      [class.active]="currentScript === 'ta'"
+      [attr.aria-hidden]="currentScript !== 'ta'"
+    >
+      ஜோதி ஷங்கர்<br/><em>ஞானசம்பந்தம்</em>
+    </span>
+
+    <!-- Hindi -->
+    <span
+      class="name-hindi"
+      [class.active]="currentScript === 'hi'"
+      [attr.aria-hidden]="currentScript !== 'hi'"
+    >
+      जोति संकर<br/><em>न्यानासम्बंदम</em>
+    </span>
   </h1>
 
   <div class="hero-meta" [class.visible]="visible" style="transition-delay:0.3s">
