@@ -7,18 +7,21 @@ A standalone Angular application portfolio — no NgModules, fully component-bas
 ```
 src/
 ├── app/
-│   ├── app.component.ts          # Root component, imports all feature components
+│   ├── app.component.ts        # Root component, imports all feature components
+│   ├── app.component.html
 │   └── components/
-│       ├── nav/                  # Sticky nav with scroll + hamburger
-│       ├── details/              # Animated details section
-│       ├── ticker/               # Infinite marquee ticker
-│       ├── work/                 # Project cards with IntersectionObserver reveal
-│       ├── skills/               # Skills grid
-│       ├── about/                # About + animated counters
-│       ├── contact/              # Contact section
-│       └── footer/               # Footer
+│       ├── about/              # About + animated counters
+│       ├── contact/            # Contact section
+│       ├── details/            # details section
+│       ├── footer/             # Footer
+│       ├── nav/                # Sticky nav with scroll + hamburger
+│       ├── scroll-element/     # Scroll-progress   
+│       ├── skills/             # Skills grid 
+│       ├── ticker/             # Infinite marquee ticker
+│       └── work/               # Project cards with IntersectionObserver reveal
+├── assets/                     # icons/images/docs
 ├── styles/
-│   └── styles.scss               # Global CSS variables, resets, utilities
+│   └── styles.scss             # Global CSS variables, resets, utilities
 ├── index.html
 └── main.ts
 ```
@@ -29,7 +32,7 @@ src/
 npm install
 npm start                             # Dev server at http://localhost:4200
 npm run build                         # Production build
-ng deploy --base-href=/Project-Name/  #to build and push to GH pages
+ng deploy --base-href=/Project-Name/  # to build and push to GH pages
 ```
 
 ## Key Angular Patterns Used
