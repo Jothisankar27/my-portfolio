@@ -1,65 +1,309 @@
-.projects {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-    gap: 1px;
-    background: rgba(168, 85, 247, 0.12);
-    border: 1px solid rgba(168, 85, 247, 0.15);
-    border-radius: 10px;
-    overflow: hidden;
+/*  Section shell  */
+.section-wrap {
+    padding: 6rem 2.5rem;
+    max-width: var(--max);
+    margin: 0 auto;
 }
 
-.project-card {
-    background: var(--surface);
-    padding: 2.5rem;
+.section-header {
     display: flex;
-    flex-direction: column;
+    align-items: baseline;
     gap: 1rem;
-    transition: background 0.25s, opacity 0.7s ease, transform 0.7s ease, box-shadow 0.25s;
+    margin-bottom: 3.5rem;
+
+    .section-num {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--accent3);
+        letter-spacing: 0.12em;
+    }
+
+    h2 {
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        letter-spacing: -0.03em;
+        padding-right: 1rem;
+    }
+}
+
+/*  Reveal (IntersectionObserver)  */
+.reveal {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
 
     &.visible {
         opacity: 1;
         transform: none;
     }
+}
+
+/*  Deck-wrap: LEFT strip fixed 200px + RIGHT deck fills rest  */
+.deck-wrap {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0;
+    align-items: start;
+    border: 1px solid rgba(168, 85, 247, 0.14);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 8px 48px rgba(0, 0, 0, 0.28);
+}
+
+/*  Left tab strip  */
+.tab-strip {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(168, 85, 247, 0.13);
+    background: rgba(0, 0, 0, 0.18);
+    height: fit-content;
+    align-self: start;
+}
+
+/* Subtle vertical line running down the left edge of strip */
+.tab-line {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(168, 85, 247, 0.25) 20%,
+            rgba(168, 85, 247, 0.25) 80%,
+            transparent 100%);
+    pointer-events: none;
+}
+
+.tab-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.22rem;
+    padding: 1.4rem 1.2rem 1.4rem 1.4rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease;
+    overflow: hidden;
+
+    &:last-of-type {
+        border-bottom: none;
+    }
 
     &:hover {
-        background: var(--surface2);
-        box-shadow: inset 0 0 40px rgba(124, 58, 237, 0.08);
+        background: rgba(168, 85, 247, 0.06);
+    }
+
+    &.active {
+        background: rgba(168, 85, 247, 0.09);
+
+        .tab-index {
+            color: var(--accent3);
+        }
+
+        .tab-title {
+            color: var(--text);
+        }
+
+        .tab-bar {
+            transform: scaleY(1);
+            opacity: 1;
+        }
     }
 }
 
+/* Left-edge accent bar */
+.tab-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent3) 60%, #e879f9 100%);
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+.tab-index {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    transition: color 0.2s;
+}
+
+.tab-title {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-muted);
+    transition: color 0.2s;
+    line-height: 1.3;
+}
+
+.tab-period {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    margin-top: 0.1rem;
+}
+
+/*  Card deck  */
+.deck {
+    position: relative;
+    min-height: 480px;
+    overflow: hidden;
+    align-self: stretch;
+}
+
+/*  Individual cards: driven purely by [data-state]  */
+.project-card {
+    padding: 2.2rem 2.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    background: var(--surface);
+
+    // whenever a hidden card was promoted straight to active.
+    &[data-state="hidden"] {
+        position: absolute;
+        inset: 0;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        // No animation on hidden — crucial to prevent ghost frames
+        animation: none !important;
+    }
+
+    // ── ACTIVE: slides in from the direction set on .deck
+    &[data-state="active"] {
+        position: relative; // drives deck height
+        visibility: visible;
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform, opacity;
+        animation: cardEnterDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+
+    // affect layout while the new active card determines the height.
+    &[data-state="exiting"] {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        will-change: transform, opacity;
+        animation: cardExit 0.24s cubic-bezier(0.4, 0, 0.2, 1) both;
+        pointer-events: none;
+        z-index: 1;
+    }
+}
+
+// Enter from below (going to a later project)
+.deck[data-enter="down"] .project-card[data-state="active"] {
+    animation-name: cardEnterDown;
+}
+
+// Enter from above (going to an earlier project)
+.deck[data-enter="up"] .project-card[data-state="active"] {
+    animation-name: cardEnterUp;
+}
+
+@keyframes cardEnterDown {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardEnterUp {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardExit {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+}
+
+/*  Card internals  */
 .project-top {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     flex-wrap: wrap;
-    gap: .4rem;
+    gap: 0.4rem;
 }
 
 .project-tag {
     font-family: var(--font-mono);
-    font-size: .68rem;
+    font-size: 0.67rem;
     color: var(--text-dim);
-    letter-spacing: .06em;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
 }
 
-.project-stack {
+.project-period {
     font-family: var(--font-mono);
-    font-size: .68rem;
+    font-size: 0.67rem;
     color: var(--accent3);
-    letter-spacing: .04em;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.stack-pill {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.05em;
+    color: var(--accent3);
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.18);
+    border-radius: 4px;
+    padding: 0.18em 0.55em;
 }
 
 .project-title {
     font-family: var(--font-display);
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
     line-height: 1.1;
-    letter-spacing: -.02em;
+    letter-spacing: -0.02em;
 }
 
 .project-desc {
-    font-size: .93rem;
+    font-size: 0.92rem;
     color: var(--text-muted);
     line-height: 1.75;
     text-align: justify;
@@ -69,14 +313,15 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: .4rem;
+    gap: 0.45rem;
 
     li {
-        font-size: .85rem;
+        font-size: 0.84rem;
         color: var(--text-dim);
-        padding-left: 1rem;
+        padding-left: 1.1rem;
         position: relative;
         text-align: justify;
+        line-height: 1.6;
 
         &::before {
             content: '—';
@@ -92,24 +337,104 @@
     padding-top: 1rem;
     border-top: 1px solid rgba(168, 85, 247, 0.12);
     display: flex;
-    flex-direction: row;
+    align-items: flex-start;
     gap: 8px;
 }
 
 .project-award {
     font-family: var(--font-mono);
-    font-size: .72rem;
+    font-size: 0.71rem;
     color: var(--accent3);
-    display: flex;
+    line-height: 1.5;
 }
 
 .project-symbol {
-    font-size: 1.2rem;
-    display: flex;
+    font-size: 1.1rem;
+    flex-shrink: 0;
 }
 
+/* Mobile  */
 @media (max-width: 768px) {
-    .projects {
+    .section-wrap {
+        padding: 5rem 1.5rem;
+    }
+
+    .deck-wrap {
         grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
+    .tab-strip {
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 1px solid rgba(168, 85, 247, 0.13);
+        background: rgba(0, 0, 0, 0.18);
+        overflow-x: auto;
+        height: auto;
+        align-self: auto;
+    }
+
+    .tab-line {
+        display: none;
+    }
+
+    .tab-btn {
+        flex: 1;
+        border-bottom: none;
+        border-right: 1px solid rgba(168, 85, 247, 0.1);
+        padding: 0.9rem 1rem;
+        min-width: 120px;
+
+        &:last-of-type {
+            border-right: none;
+        }
+
+        .tab-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: auto;
+            width: auto;
+            height: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        &.active .tab-bar {
+            transform: scaleX(1);
+        }
+    }
+
+    .tab-period {
+        display: none;
+    }
+
+    .deck {
+        min-height: 560px;
+    }
+
+    .project-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .deck {
+        min-height: 620px;
+    }
+
+    .tab-title {
+        font-size: 0.72rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .project-card,
+    .tab-bar,
+    .tab-btn {
+        transition: none;
+        animation: none;
     }
 }
