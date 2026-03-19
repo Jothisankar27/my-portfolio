@@ -4,6 +4,41 @@
       <span class="section-num">02</span>
       <h2>Technical Skills & Tools</h2>
     </div>
+
+    <!--  Two-column proficiency bars  -->
+    <div class="bars-section" #barsSection>
+
+      <div class="bars-col">
+        <h4 class="bars-col-heading">Frontend</h4>
+        <div class="bar-row" *ngFor="let s of frontendBars">
+          <div class="bar-meta">
+            <span class="bar-name">{{ s.name }}</span>
+            <span class="bar-pct">{{ s.animated }}%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" [style.width.%]="s.animated"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bars-divider"></div>
+
+      <div class="bars-col">
+        <h4 class="bars-col-heading">Backend & DB</h4>
+        <div class="bar-row" *ngFor="let s of backendBars">
+          <div class="bar-meta">
+            <span class="bar-name">{{ s.name }}</span>
+            <span class="bar-pct">{{ s.animated }}%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--backend" [style.width.%]="s.animated"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Pills — architecture, tools, design  -->
     <div class="skills-grid">
       <div class="skill-group" *ngFor="let g of groups">
         <h4>{{ g.heading }}</h4>
@@ -12,5 +47,6 @@
         </div>
       </div>
     </div>
+
   </section>
 </div>
