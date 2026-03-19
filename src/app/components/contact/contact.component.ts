@@ -1,7 +1,7 @@
 import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FormModel } from '../../models/model';
 
@@ -39,19 +39,21 @@ export class ContactComponent {
 
     const { name, email, subject, message } = this.model();
 
-    const payload = {
-      access_key:  environment.web3formsKey,
-      subject:     'Portfolio message: ' + subject,
-      from_name:   name,
-      replyto:     email,
-      name,
-      email,
-      message,
-      botcheck:    '',    // honeypot — must stay empty
-    };
+    // ── Use FormData instead of JSON
+    const formData = new FormData();
+    formData.append('access_key',environment.web3formsKey);
+    formData.append('subject','Portfolio message: ' + subject);
+    formData.append('from_name',name);
+    formData.append('replyto',email);
+    formData.append('name',name);
+    formData.append('email',email);
+    formData.append('message',message);
+    formData.append('botcheck','');
 
+    // No Content-Type header — let the browser set it automatically with
+    // the correct multipart boundary for FormData
     this.http
-      .post<{ success: boolean }>( environment.web3Fromslink, payload )
+      .post<{ success: boolean }>(environment.web3Fromslink, formData)
       .subscribe({
         next: (res) => {
           this.status.set(res.success ? 'success' : 'error');
