@@ -1,5 +1,5 @@
 <section class="section-wrap" id="about">
-  <div class="section-header">
+  <div class="section-header" #sectionHeader>
     <span class="section-num">03</span>
     <h2>About Me</h2>
   </div>
@@ -29,8 +29,8 @@
     </div>
 
     <div class="about-stats" #statsSection>
-      <div class="stat" *ngFor="let s of stats">
-        <span class="stat-num">{{ s.display }}</span>
+      <div class="stat" *ngFor="let s of stats" [class.counted]="s.display !== null">
+        <span class="stat-num">{{ s.display ?? '' }}</span>
         <span class="stat-label">{{ s.label }}</span>
       </div>
     </div>

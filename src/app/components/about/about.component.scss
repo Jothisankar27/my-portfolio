@@ -41,8 +41,24 @@
 .stat {
   text-align: right;
   position: relative;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+
+  &.counted {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   &::after { content: '+'; font-family: var(--font-display); font-size: 2rem; background: linear-gradient(135deg, var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; vertical-align: super; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .stat-num { display: block; font-family: var(--font-display); font-size: 4rem; line-height: 1; background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -.03em; }

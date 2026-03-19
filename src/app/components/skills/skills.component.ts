@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,7 +8,21 @@ import { CommonModule } from '@angular/common';
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss'
 })
-export class SkillsComponent {
+export class SkillsComponent implements AfterViewInit {
+  @ViewChild('sectionHeader') sectionHeader!: ElementRef;
+
+  ngAfterViewInit(): void {
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          obs.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.08 }
+    );
+    obs.observe(this.sectionHeader.nativeElement);
+  }
   groups = [
     { heading: 'Frontend', items: ['HTML5','CSS3 / SCSS','JavaScript','TypeScript','Angular (v20)','Bootstrap','Angular Material','RxJS','HttpClient'] },
     { heading: 'Backend & DB', items: ['Node.js','PostgreSQL','MS-SQL'] },

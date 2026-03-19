@@ -4,6 +4,7 @@ import {
   ElementRef,
   QueryList,
   ViewChildren,
+  ViewChild,
   signal,
   ChangeDetectorRef,
   inject,
@@ -29,6 +30,7 @@ export interface Project {
 })
 export class WorkComponent implements AfterViewInit {
   @ViewChildren("deckWrap") deckWrap!: QueryList<ElementRef>;
+  @ViewChild("sectionHeader") sectionHeader!: ElementRef;
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -79,6 +81,7 @@ export class WorkComponent implements AfterViewInit {
       { threshold: 0.08 },
     );
     this.deckWrap.forEach((c) => obs.observe(c.nativeElement));
+    obs.observe(this.sectionHeader.nativeElement);
   }
 
   selectProject(index: number): void {

@@ -10,52 +10,78 @@ import { CommonModule } from '@angular/common';
 })
 export class AboutComponent implements AfterViewInit {
   @ViewChild("statsSection") statsSection!: ElementRef;
+  @ViewChild("sectionHeader") sectionHeader!: ElementRef;
 
   stats = [
-    { num: 4, 
-      label: "Years experience", 
-      display: 0 
-    },
-    { num: 3, 
-      label: "Angular Version migrations", 
-      display: 0 
-    },
-    { num: 2, 
-      label: "Enterprise platforms", 
-      display: 0 
-    },
+    { 
+      num: 4,  
+      label: "Years experience",          
+      display: null as number | null },
+    { 
+      num: 3,  
+      label: "Angular version migrations", 
+      display: null as number | null },
+    { 
+      num: 2,  
+      label: "Enterprise platforms",       
+      display: null as number | null },
   ];
 
   ngAfterViewInit(): void {
-    const obs = new IntersectionObserver(
+    const headerObs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          headerObs.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.08 }
+    );
+    headerObs.observe(this.sectionHeader.nativeElement);
+
+    const statsObs = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
             this.animateCounters();
-            obs.unobserve(e.target);
+            statsObs.unobserve(e.target);
           }
         });
       },
       { threshold: 0.3 },
     );
-    obs.observe(this.statsSection.nativeElement);
+    statsObs.observe(this.statsSection.nativeElement);
   }
 
   private animateCounters(): void {
-    this.stats.forEach((stat) => {
-      const duration = 1200;
-      const steps = 60;
-      const increment = stat.num / steps;
-      let current = 0;
-      const timer = setInterval(() => {
-        current += increment;
-        if (current >= stat.num) {
-          stat.display = stat.num;
-          clearInterval(timer);
-        } else {
-          stat.display = Math.floor(current);
-        }
-      }, duration / steps);
+    const DURATION = 1400; // ms — total animation time per counter
+    const STAGGER  = 120;  // ms — delay between each counter starting
+
+    // Cubic ease-out: fast start, gradual deceleration to final value.
+    // t is progress 0→1, returns eased progress 0→1.
+    const easeOut = (t: number): number => 1 - Math.pow(1 - t, 3);
+
+    this.stats.forEach((stat, i) => {
+      // Stagger: each counter waits a little longer than the previous
+      setTimeout(() => {
+        const startTime = performance.now();
+
+        const tick = (now: number) => {
+          const elapsed  = now - startTime;
+          const progress = Math.min(elapsed / DURATION, 1);       // clamp to 1
+          const eased    = easeOut(progress);
+
+          stat.display = Math.round(eased * stat.num);
+
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            stat.display = stat.num; // guarantee exact final value
+          }
+        };
+
+        requestAnimationFrame(tick);
+      }, i * STAGGER);
     });
   }
 }
