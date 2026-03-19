@@ -48,7 +48,7 @@ export class ContactComponent {
     formData.append('name',name);
     formData.append('email',email);
     formData.append('message',message);
-    formData.append('botcheck','');
+    // formData.append('botcheck','');
 
     // No Content-Type header — let the browser set it automatically with
     // the correct multipart boundary for FormData
