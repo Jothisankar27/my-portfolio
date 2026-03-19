@@ -86,8 +86,28 @@ body {
   align-items: baseline;
   gap: 1.4rem;
   margin-bottom: 3.5rem;
-  border-bottom: 1px solid var(--border);
+  position: relative; // needed for ::after positioning
   padding-bottom: 1.2rem;
+  
+  // The line is a pseudo-element so we can animate its width independently
+  // of the content above it. scaleX is GPU-composited — no layout reflow.
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: var(--border);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // Triggered by JS adding .visible to this element
+  &.visible::after {
+    transform: scaleX(1);
+  }
 
   .section-num {
     font-family: var(--font-mono);
@@ -104,6 +124,12 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-header::after {
+    transition: none;
   }
 }
 
