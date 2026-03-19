@@ -9,6 +9,8 @@ src/
 ├── app/
 │   ├── app.component.ts        # Root component, imports all feature components
 │   ├── app.component.html
+|   ├── models/
+|   |   ├── model/              # model objects
 │   └── components/
 │       ├── about/              # About + animated counters
 │       ├── contact/            # Contact section
@@ -16,9 +18,9 @@ src/
 │       ├── footer/             # Footer
 │       ├── nav/                # Sticky nav with scroll + hamburger
 │       ├── scroll-element/     # Scroll-progress   
-│       ├── skills/             # Skills grid 
+│       ├── skills/             # Skills with progress bar and chips 
 │       ├── ticker/             # Infinite marquee ticker
-│       └── work/               # Project cards with IntersectionObserver reveal
+│       └── work/               # Project cards 
 ├── assets/                     # icons/images/docs
 ├── styles/
 │   └── styles.scss             # Global CSS variables, resets, utilities
