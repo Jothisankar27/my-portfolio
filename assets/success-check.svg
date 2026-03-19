@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 110" width="110" height="110">
+  <defs>
+    <style>
+      @keyframes circle-draw {
+        from { stroke-dashoffset: 283; }
+        to   { stroke-dashoffset: 0; }
+      }
+      @keyframes check-draw {
+        from { stroke-dashoffset: 80; }
+        to   { stroke-dashoffset: 0; }
+      }
+      @keyframes fill-in {
+        from { opacity: 0; }
+        to   { opacity: 0.13; }
+      }
+      @keyframes pop {
+        0%   { transform: scale(0.6); opacity: 0; }
+        60%  { transform: scale(1.12); }
+        80%  { transform: scale(0.96); }
+        100% { transform: scale(1);   opacity: 1; }
+      }
+      @keyframes burst {
+        0%   { opacity: 1; }
+        100% { opacity: 0; }
+      }
+
+      .wrap {
+        transform-origin: 55px 55px;
+        animation: pop 0.5s cubic-bezier(.36,.07,.19,.97) both;
+      }
+      .bg {
+        fill: #7c3aed;
+        opacity: 0;
+        animation: fill-in 0.3s ease 0.62s forwards;
+      }
+      .ring {
+        fill: none;
+        stroke: #7c3aed;
+        stroke-width: 5;
+        stroke-linecap: round;
+        stroke-dasharray: 283;
+        stroke-dashoffset: 283;
+        animation: circle-draw 0.55s cubic-bezier(0.65,0,0.45,1) 0.1s forwards;
+      }
+      .tick {
+        fill: none;
+        stroke: #7c3aed;
+        stroke-width: 5.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 80;
+        stroke-dashoffset: 80;
+        animation: check-draw 0.3s cubic-bezier(0.65,0,0.45,1) 0.65s forwards;
+      }
+      .p1 { animation: burst 0.5s ease-out 0.72s both; fill: #a78bfa; }
+      .p2 { animation: burst 0.5s ease-out 0.76s both; fill: #a78bfa; }
+      .p3 { animation: burst 0.5s ease-out 0.74s both; fill: #a78bfa; }
+      .p4 { animation: burst 0.5s ease-out 0.78s both; fill: #a78bfa; }
+      .p5 { animation: burst 0.5s ease-out 0.72s both; fill: #a78bfa; }
+      .p6 { animation: burst 0.5s ease-out 0.76s both; fill: #a78bfa; }
+      .p7 { animation: burst 0.5s ease-out 0.74s both; fill: #a78bfa; }
+      .p8 { animation: burst 0.5s ease-out 0.78s both; fill: #a78bfa; }
+    </style>
+  </defs>
+
+  <g class="wrap">
+    <!-- Background fill -->
+    <circle class="bg" cx="55" cy="55" r="48"/>
+
+    <!-- Animated ring -->
+    <circle class="ring" cx="55" cy="55" r="45" transform="rotate(-90 55 55)"/>
+
+    <!-- Animated tick -->
+    <path class="tick" d="M30 55 L46 72 L80 36"/>
+
+    <!-- Burst particles -->
+    <circle class="p1" cx="55"  cy="8"   r="3"/>
+    <circle class="p2" cx="91"  cy="21"  r="2.5"/>
+    <circle class="p3" cx="102" cy="55"  r="3"/>
+    <circle class="p4" cx="91"  cy="89"  r="2"/>
+    <circle class="p5" cx="55"  cy="102" r="3"/>
+    <circle class="p6" cx="19"  cy="89"  r="2.5"/>
+    <circle class="p7" cx="8"   cy="55"  r="3"/>
+    <circle class="p8" cx="19"  cy="21"  r="2"/>
+  </g>
+</svg>
