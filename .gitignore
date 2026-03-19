@@ -9,6 +9,7 @@ coverage/
 tmp/
 temp/
 npm-debug.log*
+src/environments/environment.ts        
 .DS_Store
 *.sublime-workspace
 *.sublime-project

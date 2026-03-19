@@ -13,3 +13,10 @@ export interface SkillBar {
   level: number;
   animated: number;
 }
+
+export interface FormModel {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
