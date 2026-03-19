@@ -64,24 +64,24 @@
     }
   }
 
-  .nav-cta {
-    color: var(--accent3);
-    border: 1px solid rgba(168,85,247,0.4);
-    padding: 0.35rem 1rem;
-    border-radius: var(--radius);
-    background: rgba(168,85,247,0.06);
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+  // .nav-cta {
+  //   color: var(--accent3);
+  //   border: 1px solid rgba(168,85,247,0.4);
+  //   padding: 0.35rem 1rem;
+  //   border-radius: var(--radius);
+  //   background: rgba(168,85,247,0.06);
+  //   transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
 
-    // nav-cta has its own border treatment — no underline pseudo
-    &::after { display: none; }
+  //   // nav-cta has its own border treatment — no underline pseudo
+  //   &::after { display: none; }
 
-    &:hover {
-      background: rgba(168,85,247,0.18);
-      color: var(--text);
-      box-shadow: 0 0 14px rgba(168,85,247,0.3);
-      border-color: var(--accent);
-    }
-  }
+  //   &:hover {
+  //     background: rgba(168,85,247,0.18);
+  //     color: var(--text);
+  //     box-shadow: 0 0 14px rgba(168,85,247,0.3);
+  //     border-color: var(--accent);
+  //   }
+  // }
 }
 
 .hamburger {
