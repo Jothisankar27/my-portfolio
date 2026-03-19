@@ -1,7 +1,6 @@
 .contact-section {
   background: linear-gradient(180deg, var(--surface) 0%, rgba(124, 58, 237, 0.06) 50%, var(--surface) 100%);
   padding: 8rem 2.5rem;
-  text-align: center;
   border-top: 1px solid rgba(168, 85, 247, 0.15);
   position: relative;
   overflow: hidden;
@@ -19,11 +18,26 @@
   }
 }
 
+// ── Two-column grid
+
 .contact-inner {
-  max-width: 680px;
+  max-width: 1100px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+// ── Left column
+
+.contact-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
 }
 
 .contact-eyebrow {
@@ -33,15 +47,14 @@
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 1.2rem;
 }
 
 .contact-heading {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-size: clamp(2rem, 4vw, 3.5rem);
   line-height: 1.1;
   letter-spacing: -.03em;
-  margin-bottom: 2rem;
+  margin: 0;
 
   em {
     font-style: italic;
@@ -55,12 +68,11 @@
 
 .contact-email {
   display: inline-block;
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--text);
   text-decoration: none;
   border-bottom: 1px solid rgba(168, 85, 247, 0.5);
   padding-bottom: 2px;
-  margin-bottom: 2rem;
   transition: color .2s, border-color .2s;
 
   &:hover {
@@ -71,25 +83,17 @@
 
 .contact-links {
   display: flex;
-  justify-content: center;
-  gap: 2.5rem;
-  margin-top: 3rem;
+  gap: 2rem;
+  margin-top: .5rem;
 
   a {
-    font-family: var(--font-mono);
-    font-size: .78rem;
-    letter-spacing: .07em;
     color: var(--text-muted);
     text-decoration: none;
     transition: color .2s;
 
-    &:hover {
-      color: var(--accent3);
-
-      .contact-icon {
-        transform: translateY(-3px);
-        filter: brightness(0) saturate(100%) invert(45%) sepia(85%) saturate(1433%) hue-rotate(234deg) brightness(99%) contrast(96%);
-      }
+    &:hover .contact-icon {
+      transform: translateY(-3px);
+      filter: brightness(0) saturate(100%) invert(45%) sepia(85%) saturate(1433%) hue-rotate(234deg) brightness(99%) contrast(96%);
     }
   }
 
@@ -100,10 +104,13 @@
   }
 }
 
-// ── Form ──────────────────────────────────────────────────────────────────────
+// Right column
+
+.contact-right {
+  width: 100%;
+}
 
 .form-wrapper {
-  margin-top: 2.5rem;
   text-align: left;
 }
 
@@ -200,8 +207,7 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-// ── Banners ───────────────────────────────────────────────────────────────────
-
+//Banners 
 .banner {
   display: flex;
   align-items: center;
@@ -229,28 +235,31 @@
   flex-shrink: 0;
 }
 
-// ── Success card ──────────────────────────────────────────────────────────────
+//  Success card 
 
 .success-card {
-  margin-top: 2rem;
   padding: 2.5rem 2rem;
   background: rgba(124, 58, 237, 0.07);
   border: 1px solid rgba(168, 85, 247, 0.25);
   border-radius: 12px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
 
   .success-title {
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--text);
-    margin: .5rem 0 .25rem;
+    margin: .25rem 0 0;
   }
 
   .success-sub {
     color: var(--text-muted);
     font-size: .9rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 }
 
@@ -268,9 +277,24 @@
   &:hover { background: rgba(124, 58, 237, 0.1); }
 }
 
-// ── Mobile ────────────────────────────────────────────────────────────────────
+// Mobile — stack to single column 
 
-@media (max-width: 480px) {
-  .contact-links { flex-direction: column; gap: 1rem; align-items: center; }
-  .contact-section { padding: 5rem 1.5rem; }
+@media (max-width: 768px) {
+  .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .contact-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  .contact-links {
+    justify-content: center;
+  }
+
+  .contact-section {
+    padding: 5rem 1.5rem;
+  }
 }
