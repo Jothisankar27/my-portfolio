@@ -13,7 +13,7 @@ src/
 |   |   ├── model/              # model objects
 │   └── components/
 │       ├── about/              # Career timeline + animated stat counters
-│       ├── contact/            # Reactive form via Formspree + social links
+│       ├── contact/            # Reactive form via web3forms + social links
 │       ├── details/            # Hero — multilingual name swipe, entrance animations
 │       ├── footer/             # Footer with live read-time + scroll depth stats
 │       ├── nav/                # Sticky nav, active section highlight, hamburger
