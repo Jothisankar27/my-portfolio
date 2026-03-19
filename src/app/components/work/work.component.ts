@@ -10,16 +10,7 @@ import {
   inject,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-
-export interface Project {
-  tag: string;
-  stack: string;
-  title: string;
-  titleLine2: string;
-  desc: string;
-  bullets: string[];
-  award?: string;
-}
+import { Project } from "../../models/model";
 
 @Component({
   selector: "app-work",
