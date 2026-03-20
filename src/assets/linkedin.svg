@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5b21b6"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <filter id="glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#7c3aed" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <!-- Rounded card -->
+  <rect x="2" y="2" width="60" height="60" rx="13" fill="url(#bg)" filter="url(#glow)"/>
+  <!-- Shine overlay -->
+  <rect x="2" y="2" width="60" height="26" rx="13" fill="white" fill-opacity="0.08"/>
+  <!-- LinkedIn "in" mark -->
+  <!-- Dot -->
+  <circle cx="21.5" cy="21.5" r="4.5" fill="white"/>
+  <!-- Left bar -->
+  <rect x="17" y="28" width="9" height="18" rx="2" fill="white"/>
+  <!-- Right "n": stem + arch + stem -->
+  <rect x="28" y="28" width="9" height="18" rx="2" fill="white"/>
+  <rect x="28" y="28" width="19" height="9" rx="4.5" fill="white"/>
+  <rect x="38" y="28" width="9" height="18" rx="2" fill="white"/>
+</svg>

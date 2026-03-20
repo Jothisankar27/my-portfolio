@@ -3,17 +3,21 @@
     <div class="contact-left">
       <span class="contact-eyebrow">Let's build something Meaningful</span>
       <h2 class="contact-heading">Have a project or<br /><em>opportunity !</em></h2>
-      <a href="mailto:jothisankarg99@gmail.com" class="contact-email">jothisankarg99@gmail.com</a>
+      <!-- <a href="mailto:jothisankarg99@gmail.com" class="contact-email">jothisankarg99@gmail.com</a> -->
 
       <div class="contact-links">
+        <a href="mailto:jothisankarg99@gmail.com" target="_blank">
+           <img src="assets/mail.svg" alt="LinkedIn" class="contact-icon">
+        </a>
+
         <a href="https://linkedin.com/in/jothi-sankar-g" target="_blank">
-          <img src="assets/linkedin.png" alt="LinkedIn" class="contact-icon">
+          <img src="assets/linkedin.svg" alt="LinkedIn" class="contact-icon">
         </a>
         <a href="https://github.com/Jothisankar27" target="_blank">
-          <img src="assets/github.png" alt="GitHub" class="contact-icon">
+          <img src="assets/github.svg" alt="GitHub" class="contact-icon">
         </a>
-        <a href="tel:+919003779407">
-          <img src="assets/phone.png" alt="Phone" class="contact-icon">
+        <a href="+919003779407">
+          <img src="assets/telephone.svg" alt="Phone" class="contact-icon">
         </a>
       </div>
     </div>
@@ -23,7 +27,7 @@
 
       <!-- Error banner -->
       <div class="banner banner--error" *ngIf="isError()">
-        Oops!!! Please try again or email me directly.
+       Sorry for the inconvenience !!! Please try again or Mail me directly.
         <button class="banner-close" (click)="reset()">✕</button>
       </div>
 
@@ -37,7 +41,7 @@
 
             <div class="field" [class.field--error]="name.invalid && name.touched">
               <label for="cf-name">Name</label>
-              <input id="cf-name" name="name" type="text" placeholder="Jothi Sankar" [ngModel]="model().name"
+              <input id="cf-name" name="name" type="text" placeholder="Your Name here Please" [ngModel]="model().name"
                 (ngModelChange)="updateField('name', $event)" #name="ngModel" required minlength="2"
                 autocomplete="name" />
               <span class="field-hint" *ngIf="name.touched && name.errors?.['required']">Name is required.</span>
@@ -56,7 +60,7 @@
 
           <div class="field" [class.field--error]="subject.invalid && subject.touched">
             <label for="cf-subject">Subject</label>
-            <input id="cf-subject" name="subject" type="text" placeholder="Project enquiry / Opportunity / …"
+            <input id="cf-subject" name="subject" type="text" placeholder="Short Reason"
               [ngModel]="model().subject" (ngModelChange)="updateField('subject', $event)" #subject="ngModel"
               required />
             <span class="field-hint" *ngIf="subject.touched && subject.errors?.['required']">Subject is required.</span>
@@ -64,7 +68,7 @@
 
           <div class="field" [class.field--error]="message.invalid && message.touched">
             <label for="cf-message">Message</label>
-            <textarea id="cf-message" name="message" placeholder="Tell me about your project or idea…" rows="5"
+            <textarea id="cf-message" name="message" placeholder="Detailed Description" rows="5"
               [ngModel]="model().message" (ngModelChange)="updateField('message', $event)" #message="ngModel" required
               minlength="10"></textarea>
             <span class="field-hint" *ngIf="message.touched && message.errors?.['required']">Message is required.</span>
@@ -86,7 +90,7 @@
       <div class="success-card" *ngIf="isSuccess()">
         <img src="assets/success-check.svg" alt="Success" width="110" height="110">
         <p class="success-title">Message sent!</p>
-        <p class="success-sub">I'll get back to you soon. Check your inbox for a confirmation.</p>
+        <p class="success-sub">I'll get back to you soon.</p>
         <button class="banner-reset" (click)="reset()">Send another</button>
       </div>
 
