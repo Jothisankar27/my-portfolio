@@ -21,7 +21,7 @@ src/
 │       ├── skills/             # Two-column proficiency bars + categorised pills
 │       ├── ticker/             # Infinite seamless marquee with edge fade
 │       └── work/               # Tabbed project cards with flicker-free animations
-├── assets/                     # Icons, images, resume PDF
+├── assets/                     # Icons svg, images, resume
 ├── styles/
 │   └── styles.scss             # Global CSS variables, resets, utilities
 ├── index.html
