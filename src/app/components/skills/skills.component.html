@@ -1,51 +1,60 @@
 <div class="section-alt-bg">
   <section class="section-wrap" id="skills">
+
     <div class="section-header" #sectionHeader>
       <span class="section-num">02</span>
       <h2>Technical Skills & Tools</h2>
     </div>
 
-    <!--  Two-column proficiency bars  -->
-    <div class="bars-section" #barsSection>
+    <!-- Two-column proficiency bars -->
+    <div class="bars-section">
 
       <div class="bars-col">
         <h4 class="bars-col-heading">Frontend</h4>
-        <div class="bar-row" *ngFor="let s of frontendBars">
-          <div class="bar-meta">
-            <span class="bar-name">{{ s.name }}</span>
-            <span class="bar-pct">{{ s.animated }}%</span>
+        @for (s of frontendBars; track s.name) {
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span class="bar-name">{{ s.name }}</span>
+              <span class="bar-pct">{{ s.level }}%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" [style.width.%]="s.level"></div>
+            </div>
           </div>
-          <div class="bar-track">
-            <div class="bar-fill" [style.width.%]="s.animated"></div>
-          </div>
-        </div>
+        }
       </div>
 
       <div class="bars-divider"></div>
 
       <div class="bars-col">
         <h4 class="bars-col-heading">Backend & DB</h4>
-        <div class="bar-row" *ngFor="let s of backendBars">
-          <div class="bar-meta">
-            <span class="bar-name">{{ s.name }}</span>
-            <span class="bar-pct">{{ s.animated }}%</span>
+        @for (s of backendBars; track s.name) {
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span class="bar-name">{{ s.name }}</span>
+              <span class="bar-pct">{{ s.level }}%</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill bar-fill--backend" [style.width.%]="s.level"></div>
+            </div>
           </div>
-          <div class="bar-track">
-            <div class="bar-fill bar-fill--backend" [style.width.%]="s.animated"></div>
-          </div>
-        </div>
+        }
       </div>
 
     </div>
 
-    <!-- Pills — architecture, tools, design  -->
+    <!-- Pills — architecture, tools, design -->
     <div class="skills-grid">
-      <div class="skill-group" *ngFor="let g of groups">
-        <h4>{{ g.heading }}</h4>
-        <div class="skill-list">
-          <span *ngFor="let item of g.items">{{ item }}</span>
+      @for (g of groups; track g.heading) {
+        <div class="skill-group">
+          <h4>{{ g.heading }}</h4>
+          <div class="skill-list">
+            @for (item of g.items; track item) {
+              <span>{{ item }}</span>
+            }
+          </div>
         </div>
-      </div>
+      }
     </div>
 
   </section>

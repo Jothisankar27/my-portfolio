@@ -51,6 +51,7 @@ ng deploy --base-href=/Project-Name/  # Build and push to GitHub Pages
 
 ## Features
 
+|-------------------------------|------------------|---------------------------------------------------------------------------|
 | Feature                       | Component        | Implementation                                                            |
 |-------------------------------|------------------|---------------------------------------------------------------------------|
 | Multilingual name swipe       | `details`        | Mouse + touch drag, slide animations, English / Tamil / Hindi             |
@@ -62,3 +63,4 @@ ng deploy --base-href=/Project-Name/  # Build and push to GitHub Pages
 | Animated stat counters        | `about`          | RAF cubic ease-out, 120ms stagger, `null` initial state                   |
 | Two-column skill bars         | `skills`         | Frontend left / Backend right, interleaved stagger, `tabular-nums`        |
 | Scroll progress indicator     | `scroll-element` | Spider-Man SVG — uncomment in `app.component.html` to enable              |
+|-------------------------------|------------------|---------------------------------------------------------------------------|

@@ -68,9 +68,7 @@
   height: 100%;
   border-radius: 2px;
   background: linear-gradient(90deg, var(--accent2) 0%, var(--accent3) 100%);
-  transition: width 0.016s linear;
 
-  // Backend column gets a slightly cooler shade to visually separate the two
   &--backend {
     background: linear-gradient(90deg, var(--accent2) 0%, rgba(168, 85, 247, 0.7) 100%);
   }
@@ -87,10 +85,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bar-fill { transition: none; }
-}
-
 /*  Skill pill grid  */
 .skills-grid {
     display: grid;
@@ -100,8 +94,8 @@
 
 .skill-group h4 {
     font-family: var(--font-mono);
-    font-size: .7rem;
-    letter-spacing: .12em;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--accent3);
     margin-bottom: 1rem;
@@ -110,28 +104,28 @@
 .skill-list {
     display: flex;
     flex-wrap: wrap;
-    gap: .5rem;
+    gap: 0.5rem;
 
-    span {
-        font-size: .8rem;
-        color: var(--text-muted);
-        background: rgba(124, 58, 237, 0.08);
-        border: 1px solid rgba(168, 85, 247, 0.18);
-        padding: .3rem .7rem;
-        border-radius: 4px;
-        transition: border-color .2s, color .2s, background .2s, box-shadow .2s;
+  span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.18);
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
 
-        &:hover {
-            border-color: var(--accent);
-            color: var(--accent3);
-            background: rgba(168, 85, 247, 0.15);
-            box-shadow: 0 0 8px rgba(168, 85, 247, 0.2);
-        }
+    &:hover {
+      border-color: var(--accent);
+      color: var(--accent3);
+      background: rgba(168, 85, 247, 0.15);
+      box-shadow: 0 0 8px rgba(168, 85, 247, 0.2);
     }
+  }
 }
 
 @media (max-width: 480px) {
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
 }

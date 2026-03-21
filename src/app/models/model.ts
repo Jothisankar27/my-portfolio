@@ -11,7 +11,7 @@ export interface Project {
 export interface SkillBar {
   name: string;
   level: number;
-  animated: number;
+ // animated: number;
 }
 
 export interface FormModel {
