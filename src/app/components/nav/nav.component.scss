@@ -57,6 +57,13 @@
 
     &:hover { color: var(--accent3); }
 
+    &:focus-visible {
+      color: var(--accent3);
+      outline: 2px solid var(--accent3);
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+
     &.active {
       color: var(--accent3);
 
@@ -92,6 +99,12 @@
   border: none;
   cursor: pointer;
   padding: 4px;
+  border-radius: 4px;
+
+  &:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 4px;
+  }
 
   span {
     display: block;

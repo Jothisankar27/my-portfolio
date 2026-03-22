@@ -90,9 +90,15 @@
     color: var(--text-muted);
     text-decoration: none;
     transition: color .2s;
+    border-radius: 6px;
 
     &:hover .contact-icon {
       transform: translateY(-4px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent3);
+      outline-offset: 4px;
     }
   }
 
@@ -149,7 +155,7 @@
 
     &::placeholder { color: var(--text-muted); opacity: .6; }
 
-    &:focus {
+    &:focus-visible {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
@@ -186,6 +192,10 @@
 
   &:hover:not(:disabled) { opacity: .88; transform: translateY(-1px); }
   &:disabled { opacity: .55; cursor: not-allowed; }
+  &:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 3px;
+  }
 }
 
 .spinner-wrap {
@@ -232,6 +242,12 @@
   font-size: 1rem;
   padding: 0;
   flex-shrink: 0;
+  border-radius: 3px;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
 }
 
 //  Success card 
@@ -274,6 +290,11 @@
   transition: background .2s;
 
   &:hover { background: rgba(124, 58, 237, 0.1); }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 3px;
+  }
 }
 
 // Mobile — stack to single column 

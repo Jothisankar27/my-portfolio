@@ -19,7 +19,7 @@
   --glow: rgba(168,85,247,0.18);
   --glow2: rgba(124,58,237,0.12);
   --green: #a855f7;
-  --font-display:'DM Serif Display', Georgia, 'Times New Roman', serif;;
+  --font-display:'DM Serif Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Outfit', system-ui, sans-serif;
   --font-mono: 'DM Mono', 'Fira Code', monospace;
   --max: 1160px;
@@ -131,6 +131,16 @@ body {
   .section-header::after {
     transition: none;
   }
+
+}
+:focus {
+  outline: none; 
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent3);
+  outline-offset: 3px;
+  border-radius: var(--radius);    // matches the shape of most interactive elements
 }
 
 /* Buttons */
@@ -155,6 +165,11 @@ body {
     box-shadow: 0 0 32px rgba(168,85,247,0.55);
     transform: translateY(-2px);
   }
+
+  // Tighter offset on filled buttons — ring sits just outside the gradient edge
+  &:focus-visible {
+    outline-offset: 4px;
+  }
 }
 
 .btn-ghost {
@@ -177,6 +192,11 @@ body {
     color: var(--text);
     background: rgba(168,85,247,0.12);
     box-shadow: 0 0 12px rgba(168,85,247,0.2);
+  }
+
+  // Ring sits flush with the existing border — no double-border feel
+  &:focus-visible {
+    outline-offset: 2px;
   }
 }
 
