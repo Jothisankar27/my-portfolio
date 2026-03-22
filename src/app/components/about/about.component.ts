@@ -18,34 +18,35 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   ];
 
   private counted = false;
-  private listener!: () => void;
+  private observer!: IntersectionObserver;
 
   constructor(private ngZone: NgZone) {}
 
   ngAfterViewInit(): void {
-    // Trigger the count-up the moment the CSS scroll-driven entrance
-    // animation fires on the stats container — no IntersectionObserver needed.
-    // Falls back to immediate count-up if animation-timeline is unsupported.
     const el = this.statsSection.nativeElement as HTMLElement;
 
-    this.listener = () => {
-      if (this.counted) return;
-      this.counted = true;
-      this.ngZone.run(() => this.animateCounters());
-    };
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !this.counted) {
+          this.counted = true;
+          this.ngZone.run(() => this.animateCounters());
+          // No need to keep observing once triggered
+          this.observer.disconnect();
+        }
+      },
+      {
+        // Fire when at least 10% of the stats container is visible.
+        // Lowering this to 0 would fire the moment even 1px enters the
+        // viewport — useful on small screens where the section is tall.
+        threshold: 0.1,
+      }
+    );
 
-    el.addEventListener('animationstart', this.listener);
-
-    // Fallback: if CSS scroll-timeline isn't supported, the animationstart
-    // event never fires — so start the counter immediately on init instead.
-    if (!CSS.supports('animation-timeline', 'view()')) {
-      this.animateCounters();
-    }
+    this.observer.observe(el);
   }
 
   ngOnDestroy(): void {
-    this.statsSection?.nativeElement
-      .removeEventListener('animationstart', this.listener);
+    this.observer?.disconnect();
   }
 
   private animateCounters(): void {

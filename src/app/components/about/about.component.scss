@@ -32,19 +32,12 @@
   font-size: 1.4rem;
 }
 
+// The stats container no longer needs its own scroll-driven animation
+// to trigger the JS counter — IntersectionObserver handles that now.
 .about-stats {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
-  // A zero-duration animation on the container itself so animationstart
-  // fires on it as it enters the viewport — this is what triggers the
-  // JS count-up in the component without needing an IntersectionObserver.
-  @supports (animation-timeline: view()) {
-    animation: stat-in 1ms linear both;
-    animation-timeline: view();
-    animation-range: entry 5% entry 6%;  // fires as soon as container enters viewport
-  }
 }
 
 @keyframes stat-in {
@@ -56,21 +49,32 @@
   text-align: right;
   position: relative;
 
-  // Default: always visible for unsupported browsers
+  // Default: always visible (unsupported browsers / reduced-motion)
   opacity: 1;
 
+  // Visual entrance animation — purely cosmetic, no longer tied to JS trigger.
+  // Browsers that don't support scroll-driven animations simply skip the block
+  // and the stats are visible immediately (opacity: 1 above is the fallback).
   @supports (animation-timeline: view()) {
     animation: stat-in linear both;
     animation-duration: 1ms;
     animation-timeline: view();
 
-    // Stagger each stat by shifting its animation-range later
     &:nth-child(1) { animation-range: entry 5%  entry 50%; }
     &:nth-child(2) { animation-range: entry 15% entry 60%; }
     &:nth-child(3) { animation-range: entry 25% entry 70%; }
   }
 
-  &::after { content: '+'; font-family: var(--font-display); font-size: 2rem; background: linear-gradient(135deg, var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; vertical-align: super; }
+  &::after {
+    content: '+';
+    font-family: var(--font-display);
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--accent2), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    vertical-align: super;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -80,8 +84,27 @@
   }
 }
 
-.stat-num { display: block; font-family: var(--font-display); font-size: 4rem; line-height: 1; background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -.03em; }
-.stat-label { display: block; font-family: var(--font-mono); font-size: .7rem; color: var(--text-dim); letter-spacing: .07em; text-transform: uppercase; margin-top: .3rem; }
+.stat-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 1;
+  background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -.03em;
+}
+
+.stat-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--text-dim);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  margin-top: .3rem;
+}
 
 @media (max-width: 768px) {
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
