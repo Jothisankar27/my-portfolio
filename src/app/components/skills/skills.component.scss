@@ -92,13 +92,40 @@
     gap: 2rem;
 }
 
-.skill-group h4 {
+@keyframes pill-in {
+  from { opacity: 0; translate: 0 10px; }
+  to   { opacity: 1; translate: 0 0;    }
+}
+
+.skill-group {
+  // Each group enters the viewport at a staggered range so they
+  // don't all animate simultaneously as the section scrolls in.
+  @supports (animation-timeline: view()) {
+    opacity: 0;
+    translate: 0 16px;
+    animation: pill-in linear both;
+    animation-duration: 1ms;
+    animation-timeline: view();
+
+    &:nth-child(1) { animation-range: entry 0%  entry 45%; }
+    &:nth-child(2) { animation-range: entry 10% entry 55%; }
+    &:nth-child(3) { animation-range: entry 20% entry 65%; }
+
+    @media (prefers-reduced-motion: reduce) {
+      opacity: 1;
+      translate: none;
+      animation: none;
+    }
+  }
+
+  h4 {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--accent3);
     margin-bottom: 1rem;
+  }
 }
 
 .skill-list {
@@ -113,13 +140,40 @@
     border: 1px solid rgba(168, 85, 247, 0.18);
     padding: 0.3rem 0.7rem;
     border-radius: 4px;
-    transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s, color 0.2s, background 0.2s,
+                box-shadow 0.2s, transform 0.15s;
+
+    // Each pill fades up with a staggered delay — creates a cascade
+    // effect as pills appear one after another within their group.
+    // animation-fill-mode: both keeps the pill invisible before the
+    // delay fires so there's no flash of visible content.
+    @supports (animation-timeline: view()) {
+      opacity: 0;
+      animation: pill-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+
+      @for $i from 1 through 8 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{($i - 1) * 60}ms;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        opacity: 1;
+        animation: none;
+      }
+    }
 
     &:hover {
       border-color: var(--accent);
       color: var(--accent3);
       background: rgba(168, 85, 247, 0.15);
       box-shadow: 0 0 8px rgba(168, 85, 247, 0.2);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: scale(0.95);
+      transition-duration: 80ms;
     }
   }
 }

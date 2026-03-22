@@ -1,0 +1,34 @@
+<section class="section-wrap" id="timeline">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>Career Journey</h2>
+  </div>
+
+  <ol class="timeline" aria-label="Career timeline">
+    @for (event of events; track event.year + event.role) {
+      <li class="timeline-item" [class.timeline-item--current]="event.current">
+
+        <!-- Year label -->
+        <span class="timeline-year">{{ event.year }}</span>
+
+        <!-- Dot on the spine -->
+        <span class="timeline-dot"
+              [class.timeline-dot--work]="event.type === 'work'"
+              [class.timeline-dot--milestone]="event.type === 'milestone'"
+              aria-hidden="true">
+        </span>
+
+        <!-- Card -->
+        <div class="timeline-card">
+          <p class="timeline-role">{{ event.role }}</p>
+          <p class="timeline-place">{{ event.place }}</p>
+          <p class="timeline-desc">{{ event.desc }}</p>
+          @if (event.current) {
+            <span class="timeline-badge">Current</span>
+          }
+        </div>
+
+      </li>
+    }
+  </ol>
+</section>

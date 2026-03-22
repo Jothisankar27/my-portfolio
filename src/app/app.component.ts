@@ -9,6 +9,7 @@ import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ScrollElement } from './components/scroll-element/scroll-element.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ import { ScrollElement } from './components/scroll-element/scroll-element.compon
     AboutComponent,
     ContactComponent,
     FooterComponent,
-    ScrollElement
+    ScrollElement,
+    TimelineComponent
 ],
   templateUrl: './app.component.html'
 })

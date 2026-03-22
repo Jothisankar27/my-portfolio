@@ -20,3 +20,12 @@ export interface FormModel {
   subject: string;
   message: string;
 }
+
+export interface TimelineEvent {
+  year:     string;
+  role:     string;
+  place:    string;
+  desc:     string;
+  type:     'work' | 'milestone';  // drives the dot colour
+  current?: boolean;               // adds the live pulse to the active item
+}

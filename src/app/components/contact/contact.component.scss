@@ -89,23 +89,44 @@
   a {
     color: var(--text-muted);
     text-decoration: none;
-    transition: color .2s;
-    border-radius: 6px;
+    border-radius: 8px;
+    display: inline-flex;
+    padding: 0.4rem;               // hit area slightly larger than the icon
+    -webkit-tap-highlight-color: transparent;
 
-    &:hover .contact-icon {
-      transform: translateY(-4px);
+    // Transition the whole link — lift + scale on the outer element
+    // means the focus ring and hit area move with the icon
+    transition:
+      transform  200ms cubic-bezier(0.34, 1.56, 0.64, 1),  // spring overshoot on release
+      filter     200ms ease;
+
+    &:hover {
+      transform: translateY(-4px) scale(1.1);
+      filter: drop-shadow(0 4px 10px rgba(168, 85, 247, 0.45));
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.93);
+      filter: none;
+      transition-duration: 80ms;   // snap in fast, spring out slowly on release
     }
 
     &:focus-visible {
       outline: 2px solid var(--accent3);
       outline-offset: 4px;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: filter 200ms ease;
+      &:hover  { transform: none; }
+      &:active { transform: none; }
+    }
   }
 
   .contact-icon {
     width: 32px;
     height: 32px;
-    transition: transform .2s ease-out, filter .2s ease-out;
+    display: block;                // removes inline baseline gap beneath the image
   }
 }
 
@@ -155,6 +176,8 @@
 
     &::placeholder { color: var(--text-muted); opacity: .6; }
 
+    // :focus-visible instead of :focus — ring only shows for keyboard users,
+    // not when clicking into the field with a mouse.
     &:focus-visible {
       outline: none;
       border-color: var(--accent);
