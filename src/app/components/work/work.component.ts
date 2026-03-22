@@ -1,10 +1,5 @@
 import {
   Component,
-  AfterViewInit,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  ViewChild,
   signal,
   ChangeDetectorRef,
   inject,
@@ -19,9 +14,7 @@ import { Project } from "../../models/model";
   templateUrl: "./work.component.html",
   styleUrl: "./work.component.scss",
 })
-export class WorkComponent implements AfterViewInit {
-  @ViewChildren("deckWrap") deckWrap!: QueryList<ElementRef>;
-  @ViewChild("sectionHeader") sectionHeader!: ElementRef;
+export class WorkComponent {
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -59,21 +52,6 @@ export class WorkComponent implements AfterViewInit {
       ],
     },
   ];
-
-  ngAfterViewInit(): void {
-    const obs = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("visible");
-            obs.unobserve(e.target);
-          }
-        }),
-      { threshold: 0.08 },
-    );
-    this.deckWrap.forEach((c) => obs.observe(c.nativeElement));
-    obs.observe(this.sectionHeader.nativeElement);
-  }
 
   selectProject(index: number): void {
     if (this.animating || index === this.activeIndex()) return;

@@ -25,18 +25,6 @@
     }
 }
 
-/*  Reveal (IntersectionObserver)  */
-.reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-
-    &.visible {
-        opacity: 1;
-        transform: none;
-    }
-}
-
 /*  Deck-wrap: LEFT strip fixed 200px + RIGHT deck fills rest  */
 .deck-wrap {
     display: grid;
@@ -99,6 +87,8 @@
         background: rgba(168, 85, 247, 0.06);
     }
 
+    // Inset ring — the button has overflow:hidden so an outset outline would be clipped.
+    // box-shadow doesn't clip, so we use it to fake an inset focus ring instead.
     &:focus-visible {
         outline: none;
         box-shadow: inset 0 0 0 2px var(--accent3);

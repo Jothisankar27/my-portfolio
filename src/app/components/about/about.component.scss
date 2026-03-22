@@ -36,18 +36,38 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  // A zero-duration animation on the container itself so animationstart
+  // fires on it as it enters the viewport — this is what triggers the
+  // JS count-up in the component without needing an IntersectionObserver.
+  @supports (animation-timeline: view()) {
+    animation: stat-in 1ms linear both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 6%;  // fires as soon as container enters viewport
+  }
+}
+
+@keyframes stat-in {
+  from { opacity: 0; translate: 0 12px; }
+  to   { opacity: 1; translate: 0 0;    }
 }
 
 .stat {
   text-align: right;
   position: relative;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
 
-  &.counted {
-    opacity: 1;
-    transform: translateY(0);
+  // Default: always visible for unsupported browsers
+  opacity: 1;
+
+  @supports (animation-timeline: view()) {
+    animation: stat-in linear both;
+    animation-duration: 1ms;
+    animation-timeline: view();
+
+    // Stagger each stat by shifting its animation-range later
+    &:nth-child(1) { animation-range: entry 5%  entry 50%; }
+    &:nth-child(2) { animation-range: entry 15% entry 60%; }
+    &:nth-child(3) { animation-range: entry 25% entry 70%; }
   }
 
   &::after { content: '+'; font-family: var(--font-display); font-size: 2rem; background: linear-gradient(135deg, var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; vertical-align: super; }
@@ -56,8 +76,7 @@
 @media (prefers-reduced-motion: reduce) {
   .stat {
     opacity: 1;
-    transform: none;
-    transition: none;
+    animation: none !important;
   }
 }
 

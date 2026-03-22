@@ -1,29 +1,49 @@
- .progress-container {
-     position: fixed;
-     top: 0;
-     right: 2rem;
-     width: 1px;
-     height: 100vh;
-     z-index: 9999;
-     background: transparent;
-     pointer-events: none;
- }
+@keyframes spider-climb {
+    from {
+        height: 0%;
+    }
 
- .progress-bar {
-     width: 100%;
-     background:var(--accent);
-     position: relative;
-     height: 0%;
-     transition: height 0.1s linear;
-     box-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
- }
+    to {
+        height: 100%;
+    }
+}
 
- .spider {
-     position: absolute;
-     bottom: -15px;
-     left: 50%;
-     transform: translateX(-50%) rotate(180deg);
-     width: 40px;
-     height: auto;
-     filter: drop-shadow(-2px 5px 5px rgba(0, 0, 0, 0.5));
- }
+.progress-container {
+    position: fixed;
+    top: 0;
+    right: 2rem;
+    width: 1px;
+    height: 100vh;
+    z-index: 9999;
+    background: transparent;
+    pointer-events: none;
+}
+
+.progress-bar {
+    width: 100%;
+    background: var(--accent);
+    position: relative;
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
+
+    // CSS scroll-timeline — replaces the HostListener entirely.
+    // Runs on the compositor thread: zero JS, zero Angular change detection,
+    // zero scroll event listeners on the main thread.
+    animation: spider-climb linear both;
+    animation-duration: 1ms; // required — Firefox ignores 0ms animations
+    animation-timeline: scroll(root block);
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+        height: 0;
+    }
+}
+
+.spider {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    width: 40px;
+    height: auto;
+    filter: drop-shadow(-2px 5px 5px rgba(0, 0, 0, 0.5));
+}

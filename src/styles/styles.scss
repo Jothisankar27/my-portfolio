@@ -19,7 +19,7 @@
   --glow: rgba(168,85,247,0.18);
   --glow2: rgba(124,58,237,0.12);
   --green: #a855f7;
-  --font-display:'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --font-display: 'DM Serif Display', Georgia, serif;
   --font-body: 'Outfit', system-ui, sans-serif;
   --font-mono: 'DM Mono', 'Fira Code', monospace;
   --max: 1160px;
@@ -51,22 +51,48 @@ body {
   background-size: 200px 200px;
 }
 
-/* Reveal animation utility */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+/* ── Scroll-driven reveal — CSS animation-timeline: view()
+   Replaces all IntersectionObserver + .visible class toggling.
+   Elements animate as they enter the viewport with zero JS.
+   Falls back to instant-visible for browsers without support. */
 
-  &.visible {
-    opacity: 1;
-    transform: translateY(0);
+@keyframes reveal-up {
+  from { opacity: 0; translate: 0 24px; }
+  to   { opacity: 1; translate: 0 0;    }
+}
+
+@keyframes line-draw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+// Default: always visible — safe baseline for all browsers
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+// Progressive enhancement: animate only when scroll-timeline is supported
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-up linear both;
+    animation-duration: 1ms;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
   }
 }
 
-.delay-1 { transition-delay: 0.15s; }
-.delay-2 { transition-delay: 0.30s; }
-.delay-3 { transition-delay: 0.45s; }
-.delay-4 { transition-delay: 0.60s; }
+// Legacy .visible class — keeps working if any component still adds it via JS
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+  animation: none;
+}
+
+.delay-1 { animation-delay: calc(-1ms * 0); }
+.delay-2 { animation-delay: calc(-1ms * 1); }
+.delay-3 { animation-delay: calc(-1ms * 2); }
+.delay-4 { animation-delay: calc(-1ms * 3); }
 
 /* Section layout utilities */
 .section-wrap {
@@ -86,11 +112,9 @@ body {
   align-items: baseline;
   gap: 1.4rem;
   margin-bottom: 3.5rem;
-  position: relative; // needed for ::after positioning
+  position: relative;
   padding-bottom: 1.2rem;
-  
-  // The line is a pseudo-element so we can animate its width independently
-  // of the content above it. scaleX is GPU-composited — no layout reflow.
+
   &::after {
     content: '';
     position: absolute;
@@ -99,14 +123,23 @@ body {
     height: 1px;
     width: 100%;
     background: var(--border);
-    transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+    // Default: line fully drawn — visible on unsupported browsers
+    transform: scaleX(1);
+
+    @supports (animation-timeline: view()) {
+      animation: line-draw linear both;
+      animation-duration: 1ms;
+      animation-timeline: view();
+      animation-range: entry 5% entry 55%;
+    }
   }
 
-  // Triggered by JS adding .visible to this element
+  // Legacy: still responds if JS adds .visible (e.g. details hero on first paint)
   &.visible::after {
     transform: scaleX(1);
+    animation: none;
   }
 
   .section-num {
@@ -128,14 +161,20 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .reveal,
   .section-header::after {
-    transition: none;
+    animation: none !important;
+    opacity: 1;
+    transform: none;
   }
+}
 
-}
-:focus {
-  outline: none; 
-}
+/* ── Focus-visible: global reset + base ring
+   Removes the browser's default :focus outline on everything,
+   then restores a consistent custom ring only for keyboard navigation.
+   Mouse and touch users never see it — that's the whole point of :focus-visible. */
+
+:focus { outline: none; }
 
 :focus-visible {
   outline: 2px solid var(--accent3);
@@ -145,7 +184,9 @@ body {
 
 /* Buttons */
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(135deg, var(--accent2) 0%, var(--accent) 100%);
   color: #fff;
   font-family: var(--font-mono);
@@ -156,24 +197,51 @@ body {
   text-decoration: none;
   border-radius: var(--radius);
   font-weight: 500;
-  transition: box-shadow 0.25s, transform 0.15s;
   cursor: pointer;
   border: none;
-  box-shadow: 0 0 18px rgba(168,85,247,0.35);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  // Transition only compositor-safe properties — no layout reflow
+  transition:
+    box-shadow  250ms ease,
+    transform   150ms cubic-bezier(0.34, 1.56, 0.64, 1);  // spring overshoot on release
+
+  // Resting state: bottom-edge shadow gives a subtle 3D "raised" feel
+  box-shadow:
+    0 0 18px rgba(168,85,247,0.35),
+    0 2px 0 0 rgba(60,10,100,0.5);     // bottom edge = depth
 
   &:hover {
-    box-shadow: 0 0 32px rgba(168,85,247,0.55);
+    box-shadow:
+      0 0 32px rgba(168,85,247,0.55),
+      0 2px 0 0 rgba(60,10,100,0.5);
     transform: translateY(-2px);
   }
 
-  // Tighter offset on filled buttons — ring sits just outside the gradient edge
+  // Press: moves down onto the shadow edge — button physically depresses
+  &:active {
+    transform: translateY(2px);
+    box-shadow:
+      0 0 10px rgba(168,85,247,0.25),
+      0 0   0 0 rgba(60,10,100,0);     // shadow collapses flush — "sits down"
+    transition-duration: 80ms;         // snap in fast, spring out slow on release
+  }
+
   &:focus-visible {
     outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: box-shadow 250ms ease;
   }
 }
 
 .btn-ghost {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   color: var(--accent3);
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -183,20 +251,43 @@ body {
   text-decoration: none;
   border: 1px solid rgba(168,85,247,0.35);
   border-radius: var(--radius);
-  transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
   cursor: pointer;
   background: rgba(168,85,247,0.05);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    border-color  200ms ease,
+    color         200ms ease,
+    background    200ms ease,
+    box-shadow    200ms ease,
+    transform     150ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
   &:hover {
     border-color: var(--accent);
     color: var(--text);
     background: rgba(168,85,247,0.12);
     box-shadow: 0 0 12px rgba(168,85,247,0.2);
+    transform: translateY(-2px);
+  }
+
+  // Press: scale inward — cleaner than translateY for a bordered button
+  // since there's no depth shadow to collapse
+  &:active {
+    transform: scale(0.97) translateY(1px);
+    box-shadow: none;
+    background: rgba(168,85,247,0.08);
+    transition-duration: 80ms;
   }
 
   // Ring sits flush with the existing border — no double-border feel
   &:focus-visible {
     outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: border-color 200ms ease, color 200ms ease,
+                background 200ms ease, box-shadow 200ms ease;
   }
 }
 

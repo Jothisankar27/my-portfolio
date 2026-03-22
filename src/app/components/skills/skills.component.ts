@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SkillBar } from '../../models/model';
 
@@ -9,8 +9,7 @@ import { SkillBar } from '../../models/model';
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss'
 })
-export class SkillsComponent implements AfterViewInit, OnDestroy {
-  @ViewChild("sectionHeader") sectionHeader!: ElementRef;
+export class SkillsComponent {
 
   frontendBars: SkillBar[] = [
     { name: 'Angular (v20)',       level: 70 },
@@ -61,23 +60,4 @@ export class SkillsComponent implements AfterViewInit, OnDestroy {
       ] },
   ];
 
-  private headerObs!: IntersectionObserver;
-
-  ngAfterViewInit(): void {
-    this.headerObs = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            this.headerObs.unobserve(e.target);
-          }
-        }),
-      { threshold: 0.08 },
-    );
-    this.headerObs.observe(this.sectionHeader.nativeElement);
-  }
-
-  ngOnDestroy(): void {
-    this.headerObs?.disconnect();
-  }
 }
