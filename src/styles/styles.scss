@@ -51,6 +51,51 @@ body {
   background-size: 200px 200px;
 }
 
+/* ── Scroll progress bar
+   Sits at the very top of the viewport, above the nav.
+   Driven entirely by CSS animation-timeline: scroll() —
+   no JS, no event listeners, runs on the compositor thread. */
+
+@keyframes progress-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 101;                  // above nav (100), below noise overlay (9999)
+  pointer-events: none;
+  transform-origin: left;
+  transform: scaleX(0);          // starts collapsed — visible default for @supports fallback
+
+  // Gradient matches the existing --accent2 → --accent3 palette
+  background: linear-gradient(
+    90deg,
+    var(--accent2)  0%,
+    var(--accent)  50%,
+    var(--accent3) 100%
+  );
+
+  // Subtle glow so it reads against both light and dark section backgrounds
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+
+  @supports (animation-timeline: scroll()) {
+    animation: progress-grow linear both;
+    animation-duration: 1ms; // non-zero required — Firefox ignores 0ms
+    animation-timeline: scroll(root block);
+    // root  = the <html> element (whole page scroll)
+    // block = vertical axis
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}
+
 /* ── Scroll-driven reveal — CSS animation-timeline: view()
    Replaces all IntersectionObserver + .visible class toggling.
    Elements animate as they enter the viewport with zero JS.
