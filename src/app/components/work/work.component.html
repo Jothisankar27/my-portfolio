@@ -9,13 +9,15 @@
 
     <!--  Left tab strip  -->
     <div class="tab-strip">
-      <button class="tab-btn" *ngFor="let proj of projects; let i = index" [class.active]="i === activeIndex()"
-        (click)="selectProject(i)" [attr.aria-label]="'View ' + proj.title">
-        <span class="tab-bar"></span>
-        <span class="tab-index">0{{ i + 1 }}</span>
-        <span class="tab-title">{{ proj.title }}</span>
-        <span class="tab-period">{{ proj.tag }}</span>
-      </button>
+      @for (proj of projects; track proj.title; let i = $index) {
+        <button class="tab-btn" [class.active]="i === activeIndex()"
+          (click)="selectProject(i)" [attr.aria-label]="'View ' + proj.title">
+          <span class="tab-bar"></span>
+          <span class="tab-index">0{{ i + 1 }}</span>
+          <span class="tab-title">{{ proj.title }}</span>
+          <span class="tab-period">{{ proj.tag }}</span>
+        </button>
+      }
 
       <!-- vertical connector line between tabs -->
       <div class="tab-line"></div>
@@ -23,29 +25,33 @@
 
     <!-- Card deck  -->
     <div class="deck deck--open" [attr.data-enter]="enterDir">
-      <article class="project-card" *ngFor="let proj of projects; let i = index" [attr.data-state]="cardState(i)">
-        <div class="project-top">
-          <!-- stack pills -->
-          <div class="stack-row">
-            <span class="stack-pill" *ngFor="let s of proj.stack.split(' · ')">{{ s }}</span>
+      @for (proj of projects; track proj.title; let i = $index) {
+        <article class="project-card" [attr.data-state]="cardState(i)">
+          <div class="project-top">
+            <div class="stack-row">
+              @for (s of proj.stack.split(' · '); track s) {
+                <span class="stack-pill">{{ s }}</span>
+              }
+            </div>
+            <span class="project-period">{{ proj.titleLine2 }}</span>
           </div>
-          <span class="project-period">{{ proj.titleLine2 }}</span>
-        </div>
 
-        <!-- desc -->
-        <p class="project-desc">{{ proj.desc }}</p>
+          <p class="project-desc">{{ proj.desc }}</p>
 
-        <!-- bullets -->
-        <ul class="project-bullets">
-          <li *ngFor="let b of proj.bullets">{{ b }}</li>
-        </ul>
+          <ul class="project-bullets">
+            @for (b of proj.bullets; track b) {
+              <li>{{ b }}</li>
+            }
+          </ul>
 
-        <!-- award -->
-        <div class="project-footer" *ngIf="proj.award">
-          <span class="project-symbol">🏅</span>
-          <span class="project-award">{{ proj.award }}</span>
-        </div>
-      </article>
+          @if (proj.award) {
+            <div class="project-footer">
+              <span class="project-symbol">🏅</span>
+              <span class="project-award">{{ proj.award }}</span>
+            </div>
+          }
+        </article>
+      }
     </div>
 
   </div>
