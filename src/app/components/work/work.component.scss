@@ -333,49 +333,19 @@
     border-top: 1px solid rgba(168, 85, 247, 0.12);
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
+}
+
+.project-award {
+    font-family: var(--font-mono);
+    font-size: 0.71rem;
+    color: var(--accent3);
+    line-height: 1.5;
 }
 
 .project-symbol {
     font-size: 1.1rem;
     flex-shrink: 0;
-    margin-top: 0.1rem;
-}
-
-.award-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    position: relative;
-}
-
-.award-item {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    position: relative;
-}
-
-.award-year {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    color: var(--accent3);
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.22);
-    border-radius: 4px;
-    padding: 0.12em 0.45em;
-    white-space: nowrap;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1; // sits above the connector line
-}
-
-.award-text {
-    font-family: var(--font-mono);
-    font-size: 0.71rem;
-    color: var(--text-muted);
-    line-height: 1.5;
 }
 
 /* Mobile  */
@@ -432,11 +402,21 @@
     }
 
     .tab-period {
-        display: none;
+        display: -webkit-box;
+        font-size: 0.52rem;
+        white-space: normal;
+        line-height: 1.4;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .award-text {
+        text-align: justify;
     }
 
     .deck {
-        min-height: 560px;
+        min-height: 620px;
     }
 
     .project-card {
