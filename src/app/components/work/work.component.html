@@ -47,7 +47,14 @@
           @if (proj.award) {
             <div class="project-footer">
               <span class="project-symbol">🏅</span>
-              <span class="project-award">{{ proj.award }}</span>
+              <div class="award-list">
+                @for (award of proj.award; track award.text) {
+                  <div class="award-item">
+                    <span class="award-year">{{ award.year }}</span>
+                    <span class="award-text">{{ award.text }}</span>
+                  </div>
+                }
+              </div>
             </div>
           }
         </article>

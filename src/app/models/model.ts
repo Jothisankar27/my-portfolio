@@ -5,7 +5,7 @@ export interface Project {
   titleLine2: string;
   desc: string;
   bullets: string[];
-  award?: string;
+  award?: { text: string; year: number }[];
 }
 
 export interface SkillBar {

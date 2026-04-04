@@ -37,7 +37,10 @@ export class WorkComponent {
         "Connected with Stakeholders and delivered features based on their requirements, suggestions",
         "End-to-end framework migration with maintaining full stability",
       ],
-      award:"Rise Insta Award · Infosys · For exceptional delivery of Requirements under minimal timeframe",
+      award: [
+        { text: "Rise Insta Award · Infosys · For exceptional delivery of Requirements under minimal timeframe", year: 2025 },
+        { text: "Rise Insta Award · Infosys · For Delivering Critical Modules in Production under Tight turnaround time", year: 2026 },
+      ],
     },
     {
       tag: "Infosys · Virtual Events Hosting Platform",
