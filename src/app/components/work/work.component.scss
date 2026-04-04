@@ -333,19 +333,50 @@
     border-top: 1px solid rgba(168, 85, 247, 0.12);
     display: flex;
     align-items: flex-start;
-    gap: 8px;
-}
-
-.project-award {
-    font-family: var(--font-mono);
-    font-size: 0.71rem;
-    color: var(--accent3);
-    line-height: 1.5;
+    gap: 10px;
 }
 
 .project-symbol {
-    font-size: 1.1rem;
+    font-size: 1rem;
     flex-shrink: 0;
+    margin-top: 0.75rem;
+}
+
+.award-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.award-item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+}
+
+.award-year {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: var(--accent3);
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.18);
+    border-radius: 4px;
+    padding: 0.1em 0.4em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.award-text {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent3);
+    line-height: 1.55;
+    letter-spacing: 0.02em;
+    text-align: justify;
 }
 
 /* Mobile  */
