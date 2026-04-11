@@ -22,6 +22,7 @@ export class NavComponent implements OnInit, OnDestroy {
   private observer!: IntersectionObserver;
   private readonly sectionOrder = [
     "home",
+    "timeline",
     "work",
     "skills",
     "about",

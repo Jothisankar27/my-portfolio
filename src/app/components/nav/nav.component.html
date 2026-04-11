@@ -3,6 +3,7 @@
 
   <ul class="nav-links" [class.open]="menuOpen">
     <li><a href="#home"    (click)="closeMenu()" [class.active]="activeSection() === 'home'">Home</a></li>
+    <li><a href="#timeline"  (click)="closeMenu()" [class.active]="activeSection() === 'timeline'">Career</a></li>
     <li><a href="#work"    (click)="closeMenu()" [class.active]="activeSection() === 'work'">Work</a></li>
     <li><a href="#skills"  (click)="closeMenu()" [class.active]="activeSection() === 'skills'">Skills</a></li>
     <li><a href="#about"   (click)="closeMenu()" [class.active]="activeSection() === 'about'">About</a></li>
