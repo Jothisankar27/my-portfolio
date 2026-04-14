@@ -9,7 +9,7 @@
   &::before {
     content: '';
     position: absolute;
-    left: 7.5rem;              // aligns with centre of dot column
+    left: 7.75rem;              // aligns with centre of dot column
     top: 0;
     bottom: 0;
     width: 1px;
@@ -70,10 +70,9 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  margin-top: 0.25rem;
+  margin-top: 3.2rem;
   position: relative;
   flex-shrink: 0;
-  justify-self: center;
 
   &--work {
     background: var(--accent);
