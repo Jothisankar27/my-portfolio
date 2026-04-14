@@ -32,14 +32,20 @@ export class NavComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            this.activeSection.set(e.target.id);
-          }
-        });
+        const intersecting = entries
+          .filter((e) => e.isIntersecting)
+          .sort(
+            (a, b) =>
+              this.sectionOrder.indexOf(a.target.id) -
+              this.sectionOrder.indexOf(b.target.id)
+          );
+
+        if (intersecting.length > 0) {
+          this.activeSection.set(intersecting[0].target.id);
+        }
       },
       {
-        rootMargin: "-64px 0px -60% 0px",
+        rootMargin: '-64px 0px -45% 0px',
         threshold: 0,
       },
     );

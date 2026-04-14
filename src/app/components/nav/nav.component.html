@@ -2,17 +2,12 @@
   <a class="nav-logo" href="#home" (click)="closeMenu()">JS</a>
 
   <ul class="nav-links" [class.open]="menuOpen">
-    <li><a href="#home"    (click)="closeMenu()" [class.active]="activeSection() === 'home'">Home</a></li>
+    <li><a href="#home"      (click)="closeMenu()" [class.active]="activeSection() === 'home'">Home</a></li>
     <li><a href="#timeline"  (click)="closeMenu()" [class.active]="activeSection() === 'timeline'">Career</a></li>
-    <li><a href="#work"    (click)="closeMenu()" [class.active]="activeSection() === 'work'">Work</a></li>
-    <li><a href="#skills"  (click)="closeMenu()" [class.active]="activeSection() === 'skills'">Skills</a></li>
-    <li><a href="#about"   (click)="closeMenu()" [class.active]="activeSection() === 'about'">About</a></li>
-    <li><a href="#contact" (click)="closeMenu()" [class.active]="activeSection() === 'contact'">Contact</a></li>
-    <!-- <li>
-      <a href="mailto:jothisankarg99@gmail.com" class="nav-cta" (click)="closeMenu()">
-        Say Hello
-      </a>
-    </li> -->
+    <li><a href="#work"      (click)="closeMenu()" [class.active]="activeSection() === 'work'">Work</a></li>
+    <li><a href="#skills"    (click)="closeMenu()" [class.active]="activeSection() === 'skills'">Skills</a></li>
+    <li><a href="#about"     (click)="closeMenu()" [class.active]="activeSection() === 'about'">About</a></li>
+    <li><a href="#contact"   (click)="closeMenu()" [class.active]="activeSection() === 'contact'">Contact</a></li>
   </ul>
 
   <button class="hamburger" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Toggle menu">
