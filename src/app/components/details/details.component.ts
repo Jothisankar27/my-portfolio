@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WorkPanelService } from '../../services/workpanel.service';
 
 @Component({
   selector: 'app-details',
@@ -9,6 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './details.component.scss'
 })
 export class DetailsComponent implements OnInit, OnDestroy {
+  workPanel = inject(WorkPanelService);
   visible = false;
   scriptIndex = 0;   // 0 = English , 1 = Tamil , 2 = Hindi
   readonly SCRIPTS = ['en', 'ta', 'hi'] as const;

@@ -1,0 +1,89 @@
+<div class="panel-backdrop" [class.open]="panelService.isOpen()" (click)="onBackdropClick($event)">
+  <aside class="panel" [class.open]="panelService.isOpen()" role="dialog" aria-modal="true" aria-label="Project showcase">
+
+    <!-- Header -->
+    <div class="panel-header">
+      <div class="panel-title-group">
+        <span class="panel-eyebrow">PORTFOLIO</span>
+        <h2 class="panel-title">My Work</h2>
+      </div>
+      <button class="panel-close" (click)="panelService.close()" aria-label="Close panel">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Chip strip -->
+    <div class="chip-strip" role="tablist">
+      @for (chip of chips; track chip.id) {
+        <button
+          class="chip"
+          role="tab"
+          [class.active]="panelService.activeChip() === chip.id"
+          (click)="panelService.selectChip(chip.id)"
+          [attr.aria-selected]="panelService.activeChip() === chip.id"
+          [attr.aria-controls]="'panel-' + chip.id"
+        >
+          <span class="chip-dot"></span>
+          <span class="chip-label">{{ chip.label }}</span>
+          <span class="chip-sub">{{ chip.sub }}</span>
+        </button>
+      }
+    </div>
+
+    <!-- Content area -->
+    <div class="panel-body">
+      @for (chip of chips; track chip.id) {
+        <div
+          class="project-panel"
+          [class.active]="panelService.activeChip() === chip.id"
+          [id]="'panel-' + chip.id"
+          role="tabpanel"
+        >
+          <!-- Project meta -->
+          <div class="project-meta">
+            <p class="project-blurb">{{ chip.blurb }}</p>
+            <div class="meta-pills">
+              @for (tag of chip.tags; track tag) {
+                <span class="meta-pill">{{ tag }}</span>
+              }
+            </div>
+          </div>
+
+          <!-- Image grid -->
+          <div class="image-grid" [class]="'grid-' + chip.images.length">
+            @for (img of chip.images; track img.label; let i = $index) {
+              <figure class="img-card" [style.animation-delay]="(i * 0.06) + 's'">
+                <div class="img-wrap">
+                  <img
+                    [src]="img.src"
+                    [alt]="img.label"
+                    loading="lazy"
+                    (error)="onImgError($event)"
+                  />
+                  <div class="img-overlay">
+                    <span class="img-label">{{ img.label }}</span>
+                  </div>
+                </div>
+                @if (img.caption) {
+                  <figcaption>{{ img.caption }}</figcaption>
+                }
+              </figure>
+            }
+          </div>
+
+          <!-- Empty state — shown when no real screenshots yet -->
+          @if (chip.images.length === 0) {
+            <div class="empty-state">
+              <div class="empty-icon">🔒</div>
+              <p class="empty-title">Screenshots Restricted</p>
+              <p class="empty-sub">This is an enterprise application — screenshots are under NDA. Reach out to discuss the work in detail.</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+  </aside>
+</div>
