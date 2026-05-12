@@ -55,7 +55,7 @@
   </p>
 
   <div class="hero-actions" [class.visible]="visible" style="transition-delay:0.6s">
-    <a href="#work" class="btn-primary">View My Work</a>
+    <button class="btn-primary" (click)="workPanel.open()" type="button">View My Work</button>
     <a href="assets/Jothi Sankar Resume 2026.pdf" download="Jothi Sankar Resume 2026.pdf" class="btn-ghost" target="_blank"
       aria-label="Download resume">
       <img src="assets/download icon.png" class="icon"/>
