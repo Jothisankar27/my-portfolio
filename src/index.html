@@ -8,6 +8,13 @@
   <meta name="description" content="Jothi Sankar G — Angular Frontend Developer with 4 years of experience in micro-frontends, RESTful APIs, and scalable web systems.">
   <link rel="icon" type="image/x-icon" href="assets/color-shift.svg">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${environment.gaMeasurementId}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${environment.gaMeasurementId}');
+  </script>
 </head>
 <body>
   <app-root></app-root>

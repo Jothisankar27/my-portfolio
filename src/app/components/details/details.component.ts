@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkPanelService } from '../../services/workpanel.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-details',
@@ -10,14 +11,16 @@ import { WorkPanelService } from '../../services/workpanel.service';
   styleUrl: './details.component.scss'
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  workPanel = inject(WorkPanelService);
+  public workPanel = inject(WorkPanelService);
+  private analytics = inject(AnalyticsService);
+
   visible = false;
   scriptIndex = 0;   // 0 = English , 1 = Tamil , 2 = Hindi
   readonly SCRIPTS = ['en', 'ta', 'hi'] as const;
   slideDir: 'left' | 'right' | null = null;
 
   private swipeStartX: number | null = null;
-  private swipeFired  = false;     
+  private swipeFired  = false;
   private readonly SWIPE_THRESHOLD = 48;
   private animating   = false;
   private pendingTimer: ReturnType<typeof setTimeout> | null = null;
@@ -32,7 +35,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
     if (this.pendingTimer) clearTimeout(this.pendingTimer);
   }
 
-  // Mouse
+  // ← add this one new method
+  onResumeDownload(): void {
+    this.analytics.trackResumeDownload();
+  };
+
   onMouseDown(e: MouseEvent): void {
     this.swipeStartX = e.clientX;
     this.swipeFired  = false;
@@ -57,7 +64,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.swipeFired  = false;
   }
 
-  // ── Touch
+  // Touch
   onTouchStart(e: TouchEvent): void {
     this.swipeStartX = e.touches[0].clientX;
     this.swipeFired  = false;

@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FormModel } from '../../models/model';
+import {AnalyticsService} from '../../services/analytics.service';
 
 type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 
@@ -17,6 +18,7 @@ type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 export class ContactComponent {
 
   private readonly http = inject(HttpClient);
+  private readonly analytics = inject(AnalyticsService);
 
   readonly status = signal<FormStatus>('idle');
   readonly model = signal<FormModel>({
@@ -48,16 +50,14 @@ export class ContactComponent {
     formData.append('name',name);
     formData.append('email',email);
     formData.append('message',message);
-    // formData.append('botcheck','');
 
-    // No Content-Type header — let the browser set it automatically with
-    // the correct multipart boundary for FormData
     this.http
       .post<{ success: boolean }>(environment.web3Fromslink, formData)
       .subscribe({
         next: (res) => {
           this.status.set(res.success ? 'success' : 'error');
           if (res.success) {
+            this.analytics.trackContactSubmit();
             form.resetForm();
             this.model.set({ name: '', email: '', subject: '', message: '' });
           }
@@ -66,7 +66,7 @@ export class ContactComponent {
       });
   }
 
-  // ── Field updater (keeps model signal immutable pattern) 
+  // Field updater (keeps model signal immutable pattern) 
   updateField(field: keyof FormModel, value: string): void {
     this.model.update(m => ({ ...m, [field]: value }));
   }
