@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WorkPanelService } from '../../services/workpanel.service';
 import { AnalyticsService } from '../../services/analytics.service';
@@ -19,6 +19,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
   readonly SCRIPTS = ['en', 'ta', 'hi'] as const;
   slideDir: 'left' | 'right' | null = null;
 
+  // Hint state: 'hidden' until hero entrance done, 'click' at rest, 'drag' while held
+  readonly hintState = signal<'hidden' | 'click' | 'drag'>('hidden');
+
   private swipeStartX: number | null = null;
   private swipeFired  = false;
   private readonly SWIPE_THRESHOLD = 48;
@@ -29,23 +32,25 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     setTimeout(() => (this.visible = true), 100);
+    // Reveal hint after hero-name entrance animation finishes:
+    // 100ms (visible delay) + 150ms (transition-delay on name) + 700ms (transition) + 100ms buffer
+    setTimeout(() => this.hintState.set('click'), 1050);
   }
 
   ngOnDestroy(): void {
     if (this.pendingTimer) clearTimeout(this.pendingTimer);
   }
 
-  // ← add this one new method
   onResumeDownload(): void {
     this.analytics.trackResumeDownload();
-  };
+  }
 
   onMouseDown(e: MouseEvent): void {
     this.swipeStartX = e.clientX;
     this.swipeFired  = false;
+    if (this.hintState() === 'click') this.hintState.set('drag');
   }
 
-  // Track movement in real-time — fire the moment threshold is crossed
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent): void {
     if (this.swipeStartX === null || this.swipeFired) return;
@@ -57,20 +62,20 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Clean up if user releases without hitting threshold
   @HostListener('document:mouseup')
   onMouseUp(): void {
     this.swipeStartX = null;
     this.swipeFired  = false;
+    // If they clicked but didn't drag, go back to 'click' hint
+    if (this.hintState() === 'drag') this.hintState.set('click');
   }
 
-  // Touch
   onTouchStart(e: TouchEvent): void {
     this.swipeStartX = e.touches[0].clientX;
     this.swipeFired  = false;
+    if (this.hintState() === 'click') this.hintState.set('drag');
   }
 
-  // Fire the moment finger crosses the threshold — no need to lift the finger
   onTouchMove(e: TouchEvent): void {
     if (this.swipeStartX === null || this.swipeFired) return;
     const delta = e.touches[0].clientX - this.swipeStartX;
@@ -84,11 +89,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
   onTouchEnd(): void {
     this.swipeStartX = null;
     this.swipeFired  = false;
+    if (this.hintState() === 'drag') this.hintState.set('click');
   }
 
-  // ── Core
   private triggerSwipe(delta: number): void {
     if (this.animating) return;
+
+    // Hide hint during the slide animation, restore it after
+    this.hintState.set('hidden');
 
     this.animating = true;
     this.slideDir  = delta < 0 ? 'left' : 'right';
@@ -100,6 +108,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
       requestAnimationFrame(() => {
         this.animating    = false;
         this.pendingTimer = null;
+        // Restore click hint so user knows they can swipe again
+        this.hintState.set('click');
       });
     }, 300);
   }

@@ -55,7 +55,7 @@
   background: var(--accent);
   border-radius: 50%;
   flex-shrink: 0;
-  position: relative;        // anchor for the ripple ring
+  position: relative;
   box-shadow: 0 0 6px rgba(168, 85, 247, 0.8);
 
   // ── Expanding ripple ring — gives the dot a visible "live" broadcast feel
@@ -150,7 +150,7 @@
   font-size: clamp(2.2rem, 6vw, 5.8rem);
   line-height: 1.25;
   letter-spacing: 0;
-  padding-bottom: 0.1em; // give some room for Tamil diacritics
+  padding-bottom: 0.1em;
 
   &:not(.active) {
     transform: translateX(60px);
@@ -169,7 +169,7 @@
   max-width: 100%;
   
   em {
-    display: inline-block; // makes max-width apply to the inline gradient span
+    display: inline-block;
     max-width: 100%;
     overflow-wrap: anywhere;
     padding-right: 20px;
@@ -215,19 +215,65 @@
   transform: translateX(-90px); 
 }
 
-/* ── Mobile: tighten all scripts so nothing overflows  */
+/* ── Drag hint — always in DOM, space always reserved, no layout shift */
+.drag-hint {
+  grid-area: 2 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--accent3);
+  pointer-events: none;
+  user-select: none;
+  // Invisible by default — still occupies space so nothing below shifts
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, color 0.25s ease;
+
+  &.is-visible {
+    opacity: 0.45;
+    visibility: visible;
+  }
+
+  &.is-drag {
+    opacity: 0.85;
+    color: var(--accent);
+  }
+}
+
+.hint-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+// Label swap — no DOM toggling, just CSS
+.hint-label--click { display: inline; }
+.hint-label--drag  { display: none; }
+
+.drag-hint.is-drag {
+  .hint-label--click { display: none; }
+  .hint-label--drag  { display: inline; }
+}
+
+// Hover brightens the idle hint
+.hero-name:hover .drag-hint.is-visible:not(.is-drag) {
+  opacity: 0.72;
+}
+
+/* ── Mobile  */
 @media (max-width: 480px) {
-  // Contain the whole hero to the viewport — prevents left-side shift
   .hero-name {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    // vw-only clamp: scales smoothly with viewport, no hard floor overflow
     font-size: clamp(1.9rem, 8vw, 3rem);
   }
 
-  // English — GnanaSambandam is one long unbroken token
-  // Make em an inline-block so max-width + break works on it
   .name-en {
     width: 100%;
     max-width: 100%;
@@ -253,20 +299,19 @@
   }
 }
 
-// Extra tight breakpoint for narrow phones (≤400px — Redmi, iPhone SE, etc.)
 @media (max-width: 400px) {
   .hero {
-    padding: 7rem 1.2rem 3rem;  // tighter side padding → more room for name
+    padding: 7rem 1.2rem 3rem;
   }
 
   .hero-name {
     font-size: clamp(1.7rem, 7.5vw, 2.6rem);
-    letter-spacing: -0.02em;    // slightly looser — reduces total word width
+    letter-spacing: -0.02em;
   }
 
   .name-en {
     em {
-      font-size: 0.92em;        // scale the long italic word down relative to parent
+      font-size: 0.92em;
     }
   }
 
@@ -278,25 +323,6 @@
   .name-hindi {
     font-size: clamp(1.4rem, 7vw, 2rem);
   }
-}
-
-/* ── Swipe hint */
-.hero-name::after {
-  content: '⟵ swipe ⟶';
-  position: absolute;
-  bottom: -1.4rem;
-  left: 0;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  color: var(--accent3);
-  opacity: 0.45;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.hero-name:hover::after {
-  opacity: 0.75;
 }
 
 .hero-last {

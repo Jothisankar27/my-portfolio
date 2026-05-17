@@ -42,6 +42,26 @@
     >
       जोति संकर<br/><em>न्यानासम्बंदम</em>
     </span>
+
+    <!-- Drag hint — always in DOM to prevent layout shift; visibility driven by signal -->
+    <span
+      class="drag-hint"
+      [class.is-visible]="hintState() !== 'hidden'"
+      [class.is-drag]="hintState() === 'drag'"
+      aria-hidden="true"
+    >
+      <!-- Left arrow -->
+      <svg class="hint-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <!-- Label swaps via CSS, no DOM change -->
+      <span class="hint-label hint-label--click">click &amp; drag</span>
+      <span class="hint-label hint-label--drag">drag to switch</span>
+      <!-- Right arrow -->
+      <svg class="hint-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
   </h1>
 
   <div class="hero-meta" [class.visible]="visible" style="transition-delay:0.3s">
