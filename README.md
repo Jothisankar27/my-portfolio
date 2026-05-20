@@ -7,24 +7,29 @@ A standalone Angular application portfolio — no NgModules, fully component-bas
 ```
 src/
 ├── app/
-│   ├── app.component.ts        # Root component, imports all feature components
+│   ├── app.component.ts            # Root component, imports all feature components
 │   ├── app.component.html
 |   ├── models/
-|   |   ├── model.ts            # Shared interfaces: Project, SkillBar, FormModel, TimelineEvent
+|   |   ├── model.ts                # Shared interfaces: Project, SkillBar, FormModel, TimelineEvent
+|   ├── services/
+|   |   ├── analytics.service.ts /  # Using google analytics(GA4) to monitor the applications movement
+|   |   └── workpanel.service.ts/   # service for the workpanel function
 │   └── components/
-│       ├── about/              # Bio + animated stat counters via IntersectionObserver
-│       ├── contact/            # Web3Forms contact form with signal-based state + social links
-│       ├── details/            # Hero — multilingual name swipe, entrance animations
-│       ├── footer/             # Minimal footer
-│       ├── nav/                # Sticky nav, active section highlight, hamburger
-│       ├── scroll-element/     # Spider-Man scroll progress (currently disabled)
-│       ├── skills/             # Two-column proficiency bars + categorised pills
-│       ├── ticker/             # Infinite seamless marquee with edge fade
-│       ├── timeline/           # Career journey vertical timeline (new)
-│       └── work/               # Tabbed project cards with flicker-free animations
-├── assets/                     # Icons svg, images, resume
+│       ├── about/                  # Bio + animated stat counters via IntersectionObserver
+│       ├── contact/                # Web3Forms contact form with signal-based state + social links
+│       ├── details/                # Hero — multilingual name swipe, entrance animations
+│       ├── footer/                 # Minimal footer
+│       ├── nav/                    # Sticky nav, active section highlight, hamburger
+│       ├── scroll-element/         # Spider-Man scroll progress (currently disabled)
+│       ├── skills/                 # Two-column proficiency bars + categorised pills
+│       ├── ticker/                 # Infinite seamless marquee with edge fade
+│       ├── timeline/               # Career journey vertical timeline (new)
+│       ├── work/                   # Tabbed project cards with flicker-free animations
+|       └── workpanel/              # Details and showcase of the work on a extended panel
+|          
+├── assets/                         # Icons svg, images, resume
 ├── styles/
-│   └── styles.scss             # Global CSS variables, resets, utilities
+│   └── styles.scss                 # Global CSS variables, resets, utilities
 ├── index.html
 └── main.ts
 ```
