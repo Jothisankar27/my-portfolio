@@ -20,7 +20,7 @@ src/
 │       ├── details/                # Hero — multilingual name swipe, entrance animations
 │       ├── footer/                 # Minimal footer
 │       ├── nav/                    # Sticky nav, active section highlight, hamburger
-│       ├── scroll-element/         # Spider-Man scroll progress (currently disabled)
+│       ├── scroll-element/         # Spider scroll progress (currently disabled)
 │       ├── skills/                 # Two-column proficiency bars + categorised pills
 │       ├── ticker/                 # Infinite seamless marquee with edge fade
 │       ├── timeline/               # Career journey vertical timeline (new)
