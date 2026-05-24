@@ -37,6 +37,8 @@ jobs:
 
       - name: Generate environment file
         run: |
+          mkdir -p src/environments
+          touch src/environments/environment.ts
           cat > src/environments/environment.ts << ENVEOF
           export const environment = {
             production: true,
