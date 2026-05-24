@@ -13,7 +13,15 @@ export class TimelineComponent {
   events: TimelineEvent[] = [
     {
       year: "2026",
-      role: "Angular Frontend Developer",
+      role: "Angular Developer",
+      place: "Tata Consultancy Services - Bengaluru, India (Offer Accepted)",
+      desc: "New",
+      type: "work",
+      current: false,
+    },
+    {
+      year: "2026",
+      role: "Angular Developer",
       place: "Infosys — Order Management System",
       desc: "Angular v20 migration, micro-frontend architecture, cross-MFE communication, stakeholder delivery. Rise Insta Award recipient.",
       type: "work",
@@ -21,7 +29,7 @@ export class TimelineComponent {
     },
     {
       year: "2022",
-      role: "Angular Frontend Developer",
+      role: "Angular Developer",
       place: "Infosys — Meridian Events · Bengaluru, India",
       desc: "Joined Infosys; built virtual event platform features on Angular + Node.js. PubNub real-time chat POC. PostgreSQL query optimisation.",
       type: "work",
@@ -29,7 +37,7 @@ export class TimelineComponent {
     {
       year: "2020",
       role: "Quality Inspector",
-      place: "Automotive Industry — Hosur, Tamil Nadu",
+      place: "Ashok Leyland — Hosur, Tamil Nadu",
       desc: "Root-cause analysis, process documentation, tolerance inspection. Built the instincts for precision that now go into every component.",
       type: "milestone",
     },
