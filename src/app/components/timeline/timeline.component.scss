@@ -182,3 +182,23 @@
     grid-row: 2;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  // Kill the ripple on the current timeline dot
+  .timeline-item--current .timeline-dot::after {
+    animation: none;
+    opacity: 0;
+  }
+ 
+  // Kill entrance animations on timeline items
+  .timeline-item {
+    opacity: 1 !important;
+    translate: none !important;
+    animation: none !important;
+  }
+ 
+  // Kill card hover transitions
+  .timeline-card {
+    transition: none;
+  }
+}
