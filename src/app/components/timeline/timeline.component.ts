@@ -11,14 +11,14 @@ import { TimelineEvent } from '../../models/model';
 })
 export class TimelineComponent {
   events: TimelineEvent[] = [
-    {
-      year: "2026",
-      role: "Angular Developer",
-      place: "Tata Consultancy Services - Bengaluru, India (Offer Accepted)",
-      desc: "New",
-      type: "work",
-      current: false,
-    },
+    // {
+    //   year: "2026",
+    //   role: "Angular Developer",
+    //   place: "Tata Consultancy Services - Bengaluru, India (Offer Accepted)",
+    //   desc: "New",
+    //   type: "work",
+    //   current: false,
+    // },
     {
       year: "2026",
       role: "Angular Developer",
