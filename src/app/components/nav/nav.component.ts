@@ -3,9 +3,11 @@ import {
   HostListener,
   OnInit,
   OnDestroy,
+  inject,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-nav',
@@ -20,6 +22,7 @@ export class NavComponent implements OnInit, OnDestroy {
   activeSection = signal<string>("home");
 
   private observer!: IntersectionObserver;
+  private analytics = inject(AnalyticsService);
   private readonly sectionOrder = [
     "home",
     "timeline",
@@ -32,6 +35,7 @@ export class NavComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.observer = new IntersectionObserver(
       (entries) => {
+        //  Active section logic (unchanged)
         const intersecting = entries
           .filter((e) => e.isIntersecting)
           .sort(
@@ -43,6 +47,18 @@ export class NavComponent implements OnInit, OnDestroy {
         if (intersecting.length > 0) {
           this.activeSection.set(intersecting[0].target.id);
         }
+
+        // Dwell tracking 
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (!id) return;
+
+          if (entry.isIntersecting) {
+            this.analytics.trackSectionEnter(id);
+          } else {
+            this.analytics.trackSectionExit(id);
+          }
+        });
       },
       {
         rootMargin: '-64px 0px -45% 0px',
@@ -57,6 +73,8 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // flush any open dwell timers before component tears down
+    this.sectionOrder.forEach((id) => this.analytics.trackSectionExit(id));
     this.observer?.disconnect();
   }
 
