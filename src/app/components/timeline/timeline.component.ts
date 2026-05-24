@@ -13,7 +13,7 @@ export class TimelineComponent {
   events: TimelineEvent[] = [
     {
       year: "2026",
-      role: "Angular Frontend Developer",
+      role: "Angular Developer",
       place: "Infosys — Order Management System",
       desc: "Angular v20 migration, micro-frontend architecture, cross-MFE communication, stakeholder delivery. Rise Insta Award recipient.",
       type: "work",
@@ -21,7 +21,7 @@ export class TimelineComponent {
     },
     {
       year: "2022",
-      role: "Angular Frontend Developer",
+      role: "Angular Developer",
       place: "Infosys — Meridian Events · Bengaluru, India",
       desc: "Joined Infosys; built virtual event platform features on Angular + Node.js. PubNub real-time chat POC. PostgreSQL query optimisation.",
       type: "work",
