@@ -1,4 +1,4 @@
-<div class="panel-backdrop" [class.open]="panelService.isOpen()" (click)="onBackdropClick($event)">
+<div class="panel-backdrop" [class.open]="panelService.isOpen()" (click)="onBackdropClick($any($event))" (keydown.enter)="onBackdropClick($any($event))" tabindex="-1">
   <aside class="panel" [class.open]="panelService.isOpen()" role="dialog" aria-modal="true" aria-label="Project showcase">
 
     <!-- Header -->
@@ -7,7 +7,11 @@
         <span class="panel-eyebrow">PORTFOLIO</span>
         <h2 class="panel-title">My Work</h2>
       </div>
-      <button class="panel-close" (click)="panelService.close()" aria-label="Close panel">
+      <button
+        class="panel-close"
+        (click)="panelService.close()"
+        (keydown.enter)="panelService.close()"
+        aria-label="Close panel">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
@@ -22,6 +26,7 @@
           role="tab"
           [class.active]="panelService.activeChip() === chip.id"
           (click)="panelService.selectChip(chip.id)"
+          (keydown.enter)="panelService.selectChip(chip.id)"
           [attr.aria-selected]="panelService.activeChip() === chip.id"
           [attr.aria-controls]="'panel-' + chip.id"
         >

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, NgZone, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, NgZone, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -20,7 +20,7 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   private counted = false;
   private observer!: IntersectionObserver;
 
-  constructor(private ngZone: NgZone) {}
+  private ngZone = inject(NgZone);
 
   ngAfterViewInit(): void {
     const el = this.statsSection.nativeElement as HTMLElement;
