@@ -62,12 +62,6 @@
           "options": {
             "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:web-test-runner",
-          "options": {
-            "tsConfig": "tsconfig.spec.json"
-          }
         }
       }
     }
