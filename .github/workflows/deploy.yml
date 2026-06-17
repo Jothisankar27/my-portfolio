@@ -70,7 +70,7 @@ jobs:
           ENVEOF
 
       - name: Run tests
-        run: npx ng test --watch=false
+        run: npx ng test
 
   # ─── Job 3: Build + Deploy ─────────────────────────────────────────────────
   deploy:
