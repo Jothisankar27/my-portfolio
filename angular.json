@@ -66,17 +66,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:web-test-runner",
           "options": {
-            "tsConfig": "tsconfig.spec.json",
-            "polyfills": [],
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
-              }
-            ],
-            "styles": ["src/styles/styles.scss"],
-            "scripts": []
+            "tsConfig": "tsconfig.spec.json"
           }
         }
       }
