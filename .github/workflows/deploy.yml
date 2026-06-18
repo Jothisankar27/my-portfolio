@@ -19,24 +19,24 @@ jobs:
   # ─── Job 1: Lint ───────────────────────────────────────────────────────────
   # Prerequisite: run `ng add angular-eslint` locally and commit the changes.
   # Until that's done, comment this job out and remove `needs: lint` from test.
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
+  # lint:
+  #   name: Lint
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4.2.2
 
-      - name: Set up Node 22
-        uses: actions/setup-node@v4.4.0
-        with:
-          node-version: 22
-          cache: npm
+  #     - name: Set up Node 22
+  #       uses: actions/setup-node@v4.4.0
+  #       with:
+  #         node-version: 22
+  #         cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+  #     - name: Install dependencies
+  #       run: npm ci
 
-      - name: Run lint
-        run: npx ng lint
+  #     - name: Run lint
+  #       run: npx ng lint
 
   # ─── Job 2: Test ───────────────────────────────────────────────────────────
   # Angular v20 uses Web Test Runner (not Karma).
@@ -76,7 +76,7 @@ jobs:
   deploy:
     name: Build & Deploy
     runs-on: ubuntu-latest
-    needs: [lint]
+    # needs: [lint]
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     environment:
