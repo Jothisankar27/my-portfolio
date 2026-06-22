@@ -30,6 +30,7 @@
   list-style: none;
   gap: 2.4rem;
   align-items: center;
+  margin-left: auto;
 
   a {
     font-family: var(--font-mono);
@@ -66,30 +67,105 @@
 
     &.active {
       color: var(--accent3);
-
       &::after { transform: scaleX(1); }
     }
   }
-
-  // .nav-cta {
-  //   color: var(--accent3);
-  //   border: 1px solid rgba(168,85,247,0.4);
-  //   padding: 0.35rem 1rem;
-  //   border-radius: var(--radius);
-  //   background: rgba(168,85,247,0.06);
-  //   transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
-
-  //   // nav-cta has its own border treatment — no underline pseudo
-  //   &::after { display: none; }
-
-  //   &:hover {
-  //     background: rgba(168,85,247,0.18);
-  //     color: var(--text);
-  //     box-shadow: 0 0 14px rgba(168,85,247,0.3);
-  //     border-color: var(--accent);
-  //   }
-  // }
 }
+
+// ── Theme Switcher
+
+.theme-switcher {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 1.8rem;
+}
+
+.theme-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  cursor: pointer;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+
+  &:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--glow);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 3px;
+  }
+}
+
+.theme-trigger-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: block;
+  transition: background 300ms ease;
+}
+
+.theme-palette {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  // Hidden by default
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px) scale(0.95);
+  transform-origin: top right;
+  transition:
+    opacity     200ms ease,
+    transform   200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  .theme-switcher.open & {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    transform   150ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 150ms ease;
+
+  &:hover {
+    transform: scale(1.25);
+  }
+
+  &.active {
+    border-color: var(--text);
+    transform: scale(1.15);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+  }
+}
+
+// ── Hamburger Menu for Mobile 
 
 .hamburger {
   display: none;
@@ -135,4 +211,9 @@
   }
 
   .hamburger { display: flex; }
+
+  // On mobile, palette opens downward but needs more room
+  .theme-palette {
+    right: -8px;
+  }
 }

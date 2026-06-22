@@ -29,3 +29,10 @@ export interface TimelineEvent {
   type:     'work' | 'milestone';  // drives the dot colour
   current?: boolean;               // adds the live pulse to the active item
 }
+
+export type Theme = 'purple' | 'teal' | 'amber' | 'rose';
+export interface ThemeMeta {
+  id: Theme;
+  label: string;
+  swatch: string; 
+}

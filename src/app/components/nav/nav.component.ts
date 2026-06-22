@@ -5,9 +5,12 @@ import {
   OnDestroy,
   inject,
   signal,
+  computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnalyticsService } from '../../services/analytics.service';
+import { ThemeService } from '../../services/themes.service';
+import { Theme } from 'src/app/models/model';
 
 @Component({
   selector: 'app-nav',
@@ -19,10 +22,12 @@ import { AnalyticsService } from '../../services/analytics.service';
 export class NavComponent implements OnInit, OnDestroy {
   isScrolled = false;
   menuOpen = false;
-  activeSection = signal<string>("home");
+  paletteOpen = signal(false);
+  activeSection = signal<string>('home');
 
   private observer!: IntersectionObserver;
   private analytics = inject(AnalyticsService);
+  readonly themeService = inject(ThemeService);
   private readonly sectionOrder = [
     "home",
     "timeline",
@@ -60,10 +65,7 @@ export class NavComponent implements OnInit, OnDestroy {
           }
         });
       },
-      {
-        rootMargin: '-64px 0px -45% 0px',
-        threshold: 0,
-      },
+      { rootMargin: '-64px 0px -45% 0px', threshold: 0 }
     );
 
     this.sectionOrder.forEach((id) => {
@@ -83,6 +85,20 @@ export class NavComponent implements OnInit, OnDestroy {
     this.isScrolled = window.scrollY > 60;
   }
 
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.paletteOpen.set(false);
+  }
+
+  // Close palette when clicking outside
+  @HostListener('document:click', ['$event'])
+  onDocClick(e: MouseEvent): void {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.theme-switcher')) {
+      this.paletteOpen.set(false);
+    }
+  }
+
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
   }
@@ -90,4 +106,21 @@ export class NavComponent implements OnInit, OnDestroy {
   closeMenu(): void {
     this.menuOpen = false;
   }
+
+  togglePalette(): void {
+    this.paletteOpen.update(v => !v);
+  }
+
+  pickTheme(theme: Theme, event: MouseEvent): void {
+    event.stopPropagation();
+    this.themeService.switchTheme(theme, event.clientX, event.clientY);
+    this.paletteOpen.set(false);
+  }
+
+  readonly currentSwatch = computed(() => {
+  const theme = this.themeService.themes.find(
+    t => t.id === this.themeService.current()
+  );
+  return theme?.swatch ?? '#a855f7';
+});
 }

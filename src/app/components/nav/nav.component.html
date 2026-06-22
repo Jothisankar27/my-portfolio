@@ -10,6 +10,34 @@
     <li><a href="#contact"   (click)="closeMenu()" [class.active]="activeSection() === 'contact'">Connect</a></li>
   </ul>
 
+  <!-- Theme switcher -->
+  <div class="theme-switcher" [class.open]="paletteOpen()">
+    <button
+      class="theme-trigger"
+      (click)="togglePalette()"
+      [attr.aria-expanded]="paletteOpen()"
+      aria-label="Change theme"
+      title="Change theme"
+    >
+    <span class="theme-trigger-dot" [style.background]="currentSwatch()"></span>
+
+    </button>
+
+    <div class="theme-palette" role="listbox" aria-label="Theme options">
+      @for (theme of themeService.themes; track theme.id) {
+        <button
+          class="swatch"
+          role="option"
+          [attr.aria-selected]="themeService.current() === theme.id"
+          [class.active]="themeService.current() === theme.id"
+          [style.background]="theme.swatch"
+          [title]="theme.label"
+          (click)="pickTheme(theme.id, $event)"
+        ></button>
+      }
+    </div>
+  </div>
+
   <button class="hamburger" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Toggle menu">
     <span></span>
     <span></span>
