@@ -72,7 +72,7 @@
   }
 }
 
-// ── Theme Switcher
+// Theme Switcher
 
 .theme-switcher {
   position: relative;
@@ -210,9 +210,16 @@
     &.open { display: flex; }
   }
 
-  .hamburger { display: flex; }
+  .theme-switcher {
+    margin-left: auto;  // takes over pushing from nav-links being hidden
+    margin-right: 0.8rem;
+  }
 
-  // On mobile, palette opens downward but needs more room
+  .hamburger {
+    display: flex;
+    margin-left: 0;     // hamburger sits naturally after theme-switcher
+  }
+
   .theme-palette {
     right: -8px;
   }
