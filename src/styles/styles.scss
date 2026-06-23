@@ -5,20 +5,100 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
-  --bg: #080710;
-  --surface: #0f0d1a;
+/* THEME TOKENS */
+:root,
+[data-theme='purple'] {
+  --bg:       #080710;
+  --surface:  #0f0d1a;
   --surface2: #17132b;
-  --border: rgba(160,120,255,0.12);
-  --text: #ede8ff;
+  --text:       #ede8ff;
   --text-muted: #8b80b0;
-  --text-dim: #4a4268;
-  --accent: #a855f7;
-  --accent2: #7c3aed;
-  --accent3: #c084fc;
-  --glow: rgba(168,85,247,0.18);
-  --glow2: rgba(124,58,237,0.12);
-  --green: #a855f7;
+  --text-dim:   #4a4268;
+  --accent:      #a855f7;
+  --accent2:     #7c3aed;
+  --accent3:     #c084fc;
+  --accent-rgb:  168, 85, 247;
+  --accent2-rgb: 124, 58, 237;
+  --btn-depth:   60, 10, 100;
+  --glow:        rgba(168, 85, 247, 0.18);
+  --glow-strong: rgba(168, 85, 247, 0.14);
+  --glow2:       rgba(124, 58, 237, 0.08);
+  --glow2-rgb:   124, 58, 237;
+  --border:      rgba(160, 120, 255, 0.12);
+  --em-end:      #e879f9;
+  --bg-rgb:      8, 7, 16;
+}
+
+[data-theme='teal'] {
+  --bg:       #030d0c;
+  --surface:  #071412;
+  --surface2: #0c1f1d;
+  --text:       #d4f5f1;
+  --text-muted: #5fa89f;
+  --text-dim:   #2d5f59;
+  --accent:      #2dd4bf;
+  --accent2:     #0d9488;
+  --accent3:     #5eead4;
+  --accent-rgb:  45, 212, 191;
+  --accent2-rgb: 13, 148, 136;
+  --btn-depth:   0, 50, 45;
+  --glow:        rgba(45, 212, 191, 0.18);
+  --glow-strong: rgba(45, 212, 191, 0.14);
+  --glow2:       rgba(13, 148, 136, 0.08);
+  --glow2-rgb:   13, 148, 136;
+  --border:      rgba(45, 212, 191, 0.12);
+  --em-end:      #a5f3fc;
+  --bg-rgb:      3, 13, 12;
+}
+
+[data-theme='amber'] {
+  --bg:       #0d0900;
+  --surface:  #160e01;
+  --surface2: #1f1502;
+  --text:       #fef3c7;
+  --text-muted: #a07c3a;
+  --text-dim:   #5a420d;
+  --accent:      #f59e0b;
+  --accent2:     #d97706;
+  --accent3:     #fcd34d;
+  --accent-rgb:  245, 158, 11;
+  --accent2-rgb: 217, 119, 6;
+  --btn-depth:   100, 45, 0;
+  --glow:        rgba(245, 158, 11, 0.18);
+  --glow-strong: rgba(245, 158, 11, 0.14);
+  --glow2:       rgba(217, 119, 6, 0.08);
+  --glow2-rgb:   217, 119, 6;
+  --border:      rgba(245, 158, 11, 0.12);
+  --em-end:      #fb923c;
+  --bg-rgb:      13, 9, 0;
+}
+
+[data-theme='rose'] {
+  --bg:       #0d0306;
+  --surface:  #160409;
+  --surface2: #1e060e;
+  --text:       #ffe4e6;
+  --text-muted: #9f4f60;
+  --text-dim:   #5a1d2a;
+  --accent:      #f43f5e;
+  --accent2:     #e11d48;
+  --accent3:     #fb7185;
+  --accent-rgb:  244, 63, 94;
+  --accent2-rgb: 225, 29, 72;
+  --btn-depth:   100, 0, 25;
+  --glow:        rgba(244, 63, 94, 0.18);
+  --glow-strong: rgba(244, 63, 94, 0.14);
+  --glow2:       rgba(225, 29, 72, 0.08);
+  --glow2-rgb:   225, 29, 72;
+  --border:      rgba(244, 63, 94, 0.12);
+  --em-end:      #f9a8d4;
+  --bg-rgb:      13, 3, 6;
+}
+
+/*BASE */
+
+:root {
+  --green: var(--accent);
   --font-display: 'DM Serif Display', Georgia, serif;
   --font-body: 'Outfit', system-ui, sans-serif;
   --font-mono: 'DM Mono', 'Fira Code', monospace;
@@ -32,8 +112,8 @@ html {
 body {
   background: var(--bg);
   background-image:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124,58,237,0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 30% at 90% 80%, rgba(168,85,247,0.08) 0%, transparent 50%);
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(var(--accent2-rgb), 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 90% 80%,  rgba(var(--accent-rgb),  0.08) 0%, transparent 50%);
   color: var(--text);
   font-family: var(--font-body);
   font-size: 16px;
@@ -63,43 +143,27 @@ body {
 
 .scroll-progress-bar {
   position: fixed;
-  top: 0;
+  top: 0; 
   left: 0;
   width: 100%;
   height: 3px;
-  z-index: 101;                  // above nav (100), below noise overlay (9999)
+  z-index: 101;
   pointer-events: none;
   transform-origin: left;
-  transform: scaleX(0);          // starts collapsed — visible default for @supports fallback
-
-  // Gradient matches the existing --accent2 → --accent3 palette
-  background: linear-gradient(
-    90deg,
-    var(--accent2)  0%,
-    var(--accent)  50%,
-    var(--accent3) 100%
-  );
-
-  // Subtle glow so it reads against both light and dark section backgrounds
-  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--accent2) 0%, var(--accent) 50%, var(--accent3) 100%);
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.6);
 
   @supports (animation-timeline: scroll()) {
     animation: progress-grow linear both;
-    animation-duration: 1ms; // non-zero required — Firefox ignores 0ms
+    animation-duration: 1ms;
     animation-timeline: scroll(root block);
-    // root  = the <html> element (whole page scroll)
-    // block = vertical axis
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    display: none;
-  }
+  @media (prefers-reduced-motion: reduce) { display: none; }
 }
 
-/* ── Scroll-driven reveal — CSS animation-timeline: view()
-   Replaces all IntersectionObserver + .visible class toggling.
-   Elements animate as they enter the viewport with zero JS.
-   Falls back to instant-visible for browsers without support. */
+/* SCROLL-DRIVEN REVEALS */
 
 @keyframes reveal-up {
   from { opacity: 0; translate: 0 24px; }
@@ -134,10 +198,29 @@ body {
   animation: none;
 }
 
-.delay-1 { animation-delay: calc(-1ms * 0); }
-.delay-2 { animation-delay: calc(-1ms * 1); }
-.delay-3 { animation-delay: calc(-1ms * 2); }
-.delay-4 { animation-delay: calc(-1ms * 3); }
+.delay-1 {
+  animation-delay: calc(-1ms * 0);
+}
+
+.delay-2 {
+  animation-delay: calc(-1ms * 1);
+}
+
+.delay-3 {
+  animation-delay: calc(-1ms * 2);
+}
+
+.delay-4 {
+  animation-delay: calc(-1ms * 3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .section-header::after {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}
 
 /* Section layout utilities */
 .section-wrap {
@@ -147,9 +230,9 @@ body {
 }
 
 .section-alt-bg {
-  background: linear-gradient(180deg, var(--surface) 0%, rgba(124,58,237,0.05) 50%, var(--surface) 100%);
-  border-top: 1px solid rgba(168,85,247,0.1);
-  border-bottom: 1px solid rgba(168,85,247,0.1);
+  background: linear-gradient(180deg, var(--surface) 0%, rgba(var(--accent2-rgb), 0.05) 50%, var(--surface) 100%);
+  border-top: 1px solid rgba(var(--accent-rgb), 0.1);
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.1);
 }
 
 .section-header {
@@ -205,26 +288,16 @@ body {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .reveal,
-  .section-header::after {
-    animation: none !important;
-    opacity: 1;
-    transform: none;
+/* Focus */
+
+:focus {
+   outline: none; 
   }
-}
-
-/* ── Focus-visible: global reset + base ring
-   Removes the browser's default :focus outline on everything,
-   then restores a consistent custom ring only for keyboard navigation.
-   Mouse and touch users never see it — that's the whole point of :focus-visible. */
-
-:focus { outline: none; }
 
 :focus-visible {
   outline: 2px solid var(--accent3);
   outline-offset: 3px;
-  border-radius: var(--radius);    // matches the shape of most interactive elements
+  border-radius: var(--radius);
 }
 
 /* Buttons */
@@ -247,20 +320,18 @@ body {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 
-  // Transition only compositor-safe properties — no layout reflow
   transition:
-    box-shadow  250ms ease,
-    transform   150ms cubic-bezier(0.34, 1.56, 0.64, 1);  // spring overshoot on release
+    box-shadow 250ms ease,
+    transform  150ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  // Resting state: bottom-edge shadow gives a subtle 3D "raised" feel
   box-shadow:
-    0 0 18px rgba(168,85,247,0.35),
-    0 2px 0 0 rgba(60,10,100,0.5);     // bottom edge = depth
+    0 0 18px rgba(var(--accent-rgb), 0.35),
+    0 2px 0 0 rgba(var(--btn-depth), 0.5);
 
   &:hover {
     box-shadow:
-      0 0 32px rgba(168,85,247,0.55),
-      0 2px 0 0 rgba(60,10,100,0.5);
+      0 0 32px rgba(var(--accent-rgb), 0.55),
+      0 2px 0 0 rgba(var(--btn-depth), 0.5);
     transform: translateY(-2px);
   }
 
@@ -268,9 +339,9 @@ body {
   &:active {
     transform: translateY(2px);
     box-shadow:
-      0 0 10px rgba(168,85,247,0.25),
-      0 0   0 0 rgba(60,10,100,0);     // shadow collapses flush — "sits down"
-    transition-duration: 80ms;         // snap in fast, spring out slow on release
+      0 0 10px rgba(var(--accent-rgb), 0.25),
+      0 0   0 0 rgba(var(--btn-depth), 0);
+    transition-duration: 80ms;
   }
 
   &:focus-visible {
@@ -294,25 +365,25 @@ body {
   text-transform: uppercase;
   padding: 0.8rem 1.8rem;
   text-decoration: none;
-  border: 1px solid rgba(168,85,247,0.35);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
   border-radius: var(--radius);
   cursor: pointer;
-  background: rgba(168,85,247,0.05);
+  background: rgba(var(--accent-rgb), 0.05);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 
   transition:
-    border-color  200ms ease,
-    color         200ms ease,
-    background    200ms ease,
-    box-shadow    200ms ease,
-    transform     150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-color 200ms ease,
+    color        200ms ease,
+    background   200ms ease,
+    box-shadow   200ms ease,
+    transform    150ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
   &:hover {
     border-color: var(--accent);
     color: var(--text);
-    background: rgba(168,85,247,0.12);
-    box-shadow: 0 0 12px rgba(168,85,247,0.2);
+    background:  rgba(var(--accent-rgb), 0.12);
+    box-shadow:  0 0 12px rgba(var(--accent-rgb), 0.2);
     transform: translateY(-2px);
   }
 
@@ -321,14 +392,11 @@ body {
   &:active {
     transform: scale(0.97) translateY(1px);
     box-shadow: none;
-    background: rgba(168,85,247,0.08);
+    background: rgba(var(--accent-rgb), 0.08);
     transition-duration: 80ms;
   }
 
-  // Ring sits flush with the existing border — no double-border feel
-  &:focus-visible {
-    outline-offset: 2px;
-  }
+  &:focus-visible { outline-offset: 2px; }
 
   @media (prefers-reduced-motion: reduce) {
     transition: border-color 200ms ease, color 200ms ease,
@@ -336,7 +404,7 @@ body {
   }
 }
 
-/* Responsive */
+/* MISC */
 @media (max-width: 768px) {
   .section-wrap { padding: 4rem 1.5rem; }
 }
@@ -344,54 +412,14 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(168,85,247,0.35); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(var(--accent-rgb), 0.35); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* Text selection */
-::selection { background: rgba(168,85,247,0.3); color: var(--text); }
-
-:root,
-[data-theme='purple'] {
-  --accent:  #a855f7;
-  --accent2: #7c3aed;
-  --accent3: #c084fc;
-  --glow:    rgba(168, 85, 247, 0.18);
-  --glow2:   rgba(124, 58, 237, 0.12);
-  --border:  rgba(160, 120, 255, 0.12);
+::selection { 
+  background: rgba(var(--accent-rgb), 0.3); 
+  color: var(--text); 
 }
- 
-[data-theme='teal'] {
-  --accent:  #2dd4bf;
-  --accent2: #0d9488;
-  --accent3: #5eead4;
-  --glow:    rgba(45, 212, 191, 0.18);
-  --glow2:   rgba(13, 148, 136, 0.12);
-  --border:  rgba(45, 212, 191, 0.12);
-}
- 
-[data-theme='amber'] {
-  --accent:  #f59e0b;
-  --accent2: #d97706;
-  --accent3: #fcd34d;
-  --glow:    rgba(245, 158, 11, 0.18);
-  --glow2:   rgba(217, 119, 6, 0.12);
-  --border:  rgba(245, 158, 11, 0.12);
-}
- 
-[data-theme='rose'] {
-  --accent:  #f43f5e;
-  --accent2: #e11d48;
-  --accent3: #fb7185;
-  --glow:    rgba(244, 63, 94, 0.18);
-  --glow2:   rgba(225, 29, 72, 0.12);
-  --border:  rgba(244, 63, 94, 0.12);
-}
- 
-/* ── Circular reveal overlay
-   Created and removed programmatically by ThemeService.switchTheme().
-   Needs its own background so the expanding circle shows the new theme's
-   bg colour as it sweeps across the screen. */
- 
+/* ── Circular reveal overlay */
 .theme-reveal-overlay {
   background: var(--bg);
 }

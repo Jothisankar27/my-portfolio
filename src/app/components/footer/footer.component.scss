@@ -3,11 +3,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2.5rem;
-  border-top: 1px solid rgba(168,85,247,0.12);
+  border-top: 1px solid rgba(var(--accent-rgb),0.12);
   font-family: var(--font-mono);
   font-size: .7rem;
   color: var(--text-dim);
-  background: rgba(8,7,16,0.6);
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
 
   a {
     color: var(--accent3);

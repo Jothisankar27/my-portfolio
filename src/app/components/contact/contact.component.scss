@@ -1,7 +1,7 @@
 .contact-section {
-  background: linear-gradient(180deg, var(--surface) 0%, rgba(124, 58, 237, 0.06) 50%, var(--surface) 100%);
+  background: linear-gradient(180deg, var(--surface) 0%, rgba(var(--accent2-rgb), 0.06) 50%, var(--surface) 100%);
   padding: 8rem 2.5rem;
-  border-top: 1px solid rgba(168, 85, 247, 0.15);
+  border-top: 1px solid rgba(var(--accent-rgb), 0.15);
   position: relative;
   overflow: hidden;
 
@@ -13,7 +13,7 @@
     transform: translate(-50%, -50%);
     width: 600px;
     height: 400px;
-    background: radial-gradient(ellipse, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(var(--accent2-rgb), 0.1) 0%, transparent 70%);
     pointer-events: none;
   }
 }
@@ -58,7 +58,7 @@
 
   em {
     font-style: italic;
-    background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 60%, #e879f9 100%);
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 60%, var(--em-end) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -71,7 +71,7 @@
   font-size: 1rem;
   color: var(--text);
   text-decoration: none;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.5);
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.5);
   padding-bottom: 2px;
   transition: color .2s, border-color .2s;
 
@@ -102,7 +102,7 @@
 
     &:hover {
       transform: translateY(-4px) scale(1.1);
-      filter: drop-shadow(0 4px 10px rgba(168, 85, 247, 0.45));
+      filter: drop-shadow(0 4px 10px rgba(var(--accent-rgb), 0.45));
     }
 
     &:active {
@@ -164,8 +164,8 @@
 
   input,
   textarea {
-    background: rgba(124, 58, 237, 0.06);
-    border: 1px solid rgba(168, 85, 247, 0.25);
+    background: rgba(var(--accent2-rgb), 0.06);
+    border: 1px solid rgba(var(--accent-rgb), 0.25);
     border-radius: 8px;
     padding: .75rem 1rem;
     font-size: .95rem;
@@ -181,7 +181,7 @@
     &:focus-visible {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+      box-shadow: 0 0 0 3px rgba(var(--accent2-rgb), 0.18);
     }
   }
 
@@ -277,8 +277,8 @@
 
 .success-card {
   padding: 2.5rem 2rem;
-  background: rgba(124, 58, 237, 0.07);
-  border: 1px solid rgba(168, 85, 247, 0.25);
+  background: rgba(var(--accent2-rgb), 0.07);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
   border-radius: 12px;
   text-align: center;
   display: flex;
@@ -303,7 +303,7 @@
 
 .banner-reset {
   background: none;
-  border: 1px solid rgba(168, 85, 247, 0.4);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
   color: var(--accent3);
   padding: .5rem 1.2rem;
   border-radius: 6px;
@@ -312,7 +312,7 @@
   cursor: pointer;
   transition: background .2s;
 
-  &:hover { background: rgba(124, 58, 237, 0.1); }
+  &:hover { background: rgba(var(--accent2-rgb), 0.1); }
 
   &:focus-visible {
     outline: 2px solid var(--accent3);

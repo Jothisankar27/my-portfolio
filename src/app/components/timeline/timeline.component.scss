@@ -16,8 +16,8 @@
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(168, 85, 247, 0.3) 8%,
-      rgba(168, 85, 247, 0.3) 92%,
+      rgba(var(--accent-rgb), 0.3) 8%,
+      rgba(var(--accent-rgb), 0.3) 92%,
       transparent 100%
     );
   }
@@ -76,12 +76,12 @@
 
   &--work {
     background: var(--accent);
-    box-shadow: 0 0 8px rgba(168, 85, 247, 0.7);
+    box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.7);
   }
 
   &--milestone {
     background: transparent;
-    border: 2px solid rgba(168, 85, 247, 0.5);
+    border: 2px solid rgba(var(--accent-rgb), 0.5);
   }
 }
 
@@ -103,14 +103,14 @@
 // ── Card
 .timeline-card {
   background: var(--surface);
-  border: 1px solid rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
   border-radius: 10px;
   padding: 1.1rem 1.4rem;
   transition: border-color 0.2s, box-shadow 0.2s;
 
   &:hover {
-    border-color: rgba(168, 85, 247, 0.3);
-    box-shadow: 0 4px 24px rgba(124, 58, 237, 0.1);
+    border-color: rgba(var(--accent-rgb), 0.3);
+    box-shadow: 0 4px 24px rgba(var(--accent2-rgb), 0.1);
   }
 }
 
@@ -144,8 +144,8 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent3);
-  background: rgba(168, 85, 247, 0.1);
-  border: 1px solid rgba(168, 85, 247, 0.25);
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
   border-radius: 4px;
   padding: 0.2em 0.6em;
 }

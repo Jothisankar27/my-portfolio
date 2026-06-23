@@ -34,5 +34,6 @@ export type Theme = 'purple' | 'teal' | 'amber' | 'rose';
 export interface ThemeMeta {
   id: Theme;
   label: string;
-  swatch: string; 
+  swatch: string;   
+  bg: string;
 }

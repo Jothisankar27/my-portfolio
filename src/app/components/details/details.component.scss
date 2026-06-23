@@ -15,7 +15,7 @@
     right: -8%;
     width: 580px;
     height: 580px;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.14) 0%, rgba(124, 58, 237, 0.06) 40%, transparent 70%);
+    background: radial-gradient(circle, var(--glow-strong) 0%, var(--glow2) 40%, transparent 70%);
     pointer-events: none;
     filter: blur(2px);
   }
@@ -56,7 +56,7 @@
   border-radius: 50%;
   flex-shrink: 0;
   position: relative;
-  box-shadow: 0 0 6px rgba(168, 85, 247, 0.8);
+  box-shadow: 0 0 6px rgba(var(--glow2-rgb), 0.8);
 
   // ── Expanding ripple ring — gives the dot a visible "live" broadcast feel
   &::after {
@@ -86,8 +86,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 6px rgba(168, 85, 247, 0.8); }
-  50%       { box-shadow: 0 0 14px rgba(168, 85, 247, 0.95); }
+  0%, 100% { box-shadow: 0 0 6px rgba(var(--glow2-rgb), 0.8); }
+  50%       { box-shadow: 0 0 14px rgba(var(--glow2-rgb), 0.95); }
 }
 
 /*  Hero name: swipe-toggle container  */
@@ -113,7 +113,7 @@
   // Shared gradient for <em> across all three scripts
   em {
     font-style: italic;
-    background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 60%, #e879f9 100%);
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 60%, var(--em-end) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

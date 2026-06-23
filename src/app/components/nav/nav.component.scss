@@ -6,14 +6,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 2.5rem;
-  background: rgba(8,7,16,0.88);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(168,85,247,0.15);
+  border-bottom: 1px solid rgba(var(--accent-rgb),0.15);
   transition: padding 0.3s, box-shadow 0.3s;
 
   &.scrolled {
     padding: 0.8rem 2.5rem;
-    box-shadow: 0 2px 30px rgba(124,58,237,0.12);
+    box-shadow: 0 2px 30px rgba(var(--accent2-rgb),0.12);
   }
 }
 

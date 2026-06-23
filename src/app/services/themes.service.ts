@@ -5,10 +5,10 @@ import { ThemeMeta, Theme } from '../models/model';
 export class ThemeService {
 
   readonly themes: ThemeMeta[] = [
-    { id: 'purple', label: 'Purple',  swatch: '#a855f7' },
-    { id: 'teal',   label: 'Teal',    swatch: '#2dd4bf' },
-    { id: 'amber',  label: 'Amber',   swatch: '#f59e0b' },
-    { id: 'rose',   label: 'Rose',    swatch: '#f43f5e' },
+    { id: 'purple', label: 'Purple', swatch: '#a855f7', bg: '#080710' },
+    { id: 'teal',   label: 'Teal',   swatch: '#2dd4bf', bg: '#030d0c' },
+    { id: 'amber',  label: 'Amber',  swatch: '#f59e0b', bg: '#0d0900' },
+    // { id: 'rose',   label: 'Rose',   swatch: '#f43f5e', bg: '#0d0306' },
   ];
 
   readonly current = signal<Theme>(this.savedTheme());
@@ -35,9 +35,7 @@ export class ThemeService {
       return;
     }
 
-    const overlay = document.createElement('div');
-    overlay.className = 'theme-reveal-overlay';
-    overlay.setAttribute('data-theme', theme);
+    const meta = this.themes.find(t => t.id === theme)!;
 
     // Max radius needed to cover the entire viewport from the click point
     const maxRadius = Math.hypot(
@@ -45,19 +43,21 @@ export class ThemeService {
       Math.max(originY, window.innerHeight - originY)
     );
 
+    const overlay = document.createElement('div');
+    overlay.className = 'theme-reveal-overlay';
+    overlay.setAttribute('data-theme', theme);  // overlay renders with new theme tokens
     overlay.style.cssText = `
       position: fixed;
       inset: 0;
       z-index: 99998;
       pointer-events: none;
+      background: ${meta.bg};
       clip-path: circle(0px at ${originX}px ${originY}px);
-      transition: clip-path 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      transition: clip-path 620ms cubic-bezier(0.4, 0, 0.2, 1);
     `;
 
     document.body.appendChild(overlay);
-
-    // Force reflow so the transition picks up the starting state
-    overlay.getBoundingClientRect();
+    overlay.getBoundingClientRect(); // force reflow
 
     overlay.style.clipPath = `circle(${maxRadius}px at ${originX}px ${originY}px)`;
 
@@ -69,7 +69,12 @@ export class ThemeService {
 
   private savedTheme(): Theme {
     const saved = localStorage.getItem('portfolio-theme') as Theme | null;
-    const valid: Theme[] = ['purple', 'teal', 'amber', 'rose'];
+    const valid: Theme[] = [
+      'purple', 
+      'teal', 
+      'amber', 
+      // 'rose'
+    ];
     return saved && valid.includes(saved) ? saved : 'purple';
   }
 }

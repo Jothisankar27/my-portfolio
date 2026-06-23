@@ -31,7 +31,7 @@
     grid-template-columns: 200px 1fr;
     gap: 0;
     align-items: start;
-    border: 1px solid rgba(168, 85, 247, 0.14);
+    border: 1px solid rgba(var(--accent-rgb), 0.14);
     border-radius: 14px;
     overflow: hidden;
     background: var(--surface);
@@ -43,7 +43,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid rgba(168, 85, 247, 0.13);
+    border-right: 1px solid rgba(var(--accent-rgb), 0.13);
     background: rgba(0, 0, 0, 0.18);
     height: fit-content;
     align-self: start;
@@ -58,8 +58,8 @@
     width: 2px;
     background: linear-gradient(180deg,
             transparent 0%,
-            rgba(168, 85, 247, 0.25) 20%,
-            rgba(168, 85, 247, 0.25) 80%,
+            rgba(var(--accent-rgb), 0.25) 20%,
+            rgba(var(--accent-rgb), 0.25) 80%,
             transparent 100%);
     pointer-events: none;
 }
@@ -73,7 +73,7 @@
     padding: 1.4rem 1.2rem 1.4rem 1.4rem;
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+    border-bottom: 1px solid rgba(var(--accent-rgb), 0.1);
     cursor: pointer;
     text-align: left;
     transition: background 0.2s ease;
@@ -84,7 +84,7 @@
     }
 
     &:hover {
-        background: rgba(168, 85, 247, 0.06);
+        background: rgba(var(--accent-rgb), 0.06);
     }
 
     // Inset ring — the button has overflow:hidden so an outset outline would be clipped.
@@ -95,7 +95,7 @@
     }
 
     &.active {
-        background: rgba(168, 85, 247, 0.09);
+        background: rgba(var(--accent-rgb), 0.09);
 
         .tab-index {
             color: var(--accent3);
@@ -284,8 +284,8 @@
     font-size: 0.63rem;
     letter-spacing: 0.05em;
     color: var(--accent3);
-    background: rgba(168, 85, 247, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.18);
+    background: rgba(var(--accent-rgb), 0.08);
+    border: 1px solid rgba(var(--accent-rgb), 0.18);
     border-radius: 4px;
     padding: 0.18em 0.55em;
 }
@@ -330,7 +330,7 @@
 .project-footer {
     margin-top: auto;
     padding-top: 1rem;
-    border-top: 1px solid rgba(168, 85, 247, 0.12);
+    border-top: 1px solid rgba(var(--accent-rgb), 0.12);
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -360,8 +360,8 @@
     font-size: 0.58rem;
     letter-spacing: 0.08em;
     color: var(--accent3);
-    background: rgba(168, 85, 247, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.18);
+    background: rgba(var(--accent-rgb), 0.08);
+    border: 1px solid rgba(var(--accent-rgb), 0.18);
     border-radius: 4px;
     padding: 0.1em 0.4em;
     white-space: nowrap;
@@ -393,7 +393,7 @@
     .tab-strip {
         flex-direction: row;
         border-right: none;
-        border-bottom: 1px solid rgba(168, 85, 247, 0.13);
+        border-bottom: 1px solid rgba(var(--accent-rgb), 0.13);
         background: rgba(0, 0, 0, 0.18);
         overflow-x: auto;
         height: auto;
@@ -407,7 +407,7 @@
     .tab-btn {
         flex: 1;
         border-bottom: none;
-        border-right: 1px solid rgba(168, 85, 247, 0.1);
+        border-right: 1px solid rgba(var(--accent-rgb), 0.1);
         padding: 0.9rem 1rem;
         min-width: 120px;
 
