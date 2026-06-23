@@ -1,19 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4c1d95"/>
-      <stop offset="100%" stop-color="#9333ea"/>
+    <linearGradient id="gh-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="var(--accent2)"/>
+      <stop offset="100%" stop-color="var(--accent)"/>
     </linearGradient>
-    <filter id="glow2" x="-25%" y="-25%" width="150%" height="150%">
-      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#6d28d9" flood-opacity="0.55"/>
+    <filter id="gh-glow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="var(--accent2)" flood-opacity="0.55"/>
     </filter>
     <clipPath id="circle-clip">
       <circle cx="32" cy="32" r="18"/>
     </clipPath>
   </defs>
-  <rect x="2" y="2" width="60" height="60" rx="13" fill="url(#bg2)" filter="url(#glow2)"/>
+  <rect x="2" y="2" width="60" height="60" rx="13" fill="url(#gh-bg)" filter="url(#gh-glow)"/>
   <rect x="2" y="2" width="60" height="26" rx="13" fill="white" fill-opacity="0.07"/>
-  <!-- GitHub Octocat path (simplified clean version) -->
   <path fill="white" d="
     M32 12
     C21.5 12 13 20.5 13 31
