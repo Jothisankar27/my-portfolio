@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WorkPanelService } from '../../services/workpanel.service';
 import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
@@ -11,7 +10,6 @@ import { AnalyticsService } from '../../services/analytics.service';
   styleUrl: './details.component.scss'
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  public workPanel = inject(WorkPanelService);
   private analytics = inject(AnalyticsService);
 
   visible = false;
