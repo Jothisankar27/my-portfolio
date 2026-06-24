@@ -6,9 +6,6 @@ export class ThemeService {
 
   readonly themes: ThemeMeta[] = [
     { id: 'purple',    label: 'Purple',    swatch: '#a855f7', bg: '#080710' },
-    // { id: 'teal',      label: 'Teal',      swatch: '#2dd4bf', bg: '#030d0c' },
-    // { id: 'matrix',    label: 'Matrix',    swatch: '#00ff41', bg: '#000000' },
-    // { id: 'retro',     label: 'Mono',      swatch: '#ffffff', bg: '#0a0a0a' },
     { id: 'synthwave', label: 'Synthwave', swatch: '#ff2d78', bg: '#06000f' },
     { id: 'newspaper', label: 'Newspaper', swatch: '#d4c9b0', bg: '#0e0d0b' },
     { id: 'graphite',  label: 'Graphite',  swatch: '#a8b8cc', bg: '#080a0d' },
@@ -74,9 +71,6 @@ export class ThemeService {
     const saved = localStorage.getItem('portfolio-theme') as Theme | null;
     const valid: Theme[] = [
       'purple',
-      //'teal',
-      // 'matrix',
-      // 'retro',
       'synthwave',
       'newspaper',
       'graphite'
