@@ -203,7 +203,7 @@
   width: 100%;
   padding: .9rem 1.5rem;
   background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 100%);
-  color: #fff;
+  color: var(--btn-text, #ffffff);
   font-size: .95rem;
   font-weight: 700;
   font-family: var(--font-mono);
@@ -231,8 +231,8 @@
   display: inline-block;
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(255, 255, 255, .4);
-  border-top-color: #fff;
+  border: 2px solid rgba(var(--accent-rgb), .4);
+  border-top-color: var(--btn-text, #ffffff);
   border-radius: 50%;
   animation: spin .7s linear infinite;
 }

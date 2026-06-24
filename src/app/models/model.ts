@@ -30,7 +30,14 @@ export interface TimelineEvent {
   current?: boolean;               // adds the live pulse to the active item
 }
 
-export type Theme = 'purple' | 'teal' | 'amber' | 'rose';
+export type Theme = 
+  'purple'    |
+  // 'teal'      |
+  // 'matrix'    |
+  // 'retro'     |
+  'synthwave' |
+  'newspaper' |
+  'graphite';
 export interface ThemeMeta {
   id: Theme;
   label: string;
