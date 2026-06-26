@@ -1,4 +1,15 @@
 <footer class="footer">
-  <span>© 2026 Jothi Sankar G.</span>
-  <span>Crafted with a bit of Aim and a touch of AI.</span>
+
+  <div class="footer-left">
+    @if (!loading()) {
+    <span class="footer-update">
+      <span class="update-dot" aria-hidden="true"></span>
+      Site got Updated {{ timeAgo() }}.
+      <!-- <span class="update-msg">{{ commitMsg() }}</span> -->
+    </span>
+    }
+  </div>
+
+  <span class="footer-craft">© 2026 Jothi Sankar G.</span>
+
 </footer>
