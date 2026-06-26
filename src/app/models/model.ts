@@ -1,3 +1,5 @@
+import { signal } from '@angular/core';
+
 export interface Project {
   tag: string;
   stack: string;
@@ -40,4 +42,25 @@ export interface ThemeMeta {
   label: string;
   swatch: string;   
   bg: string;
+}
+export interface Tier {
+  key:    'expert' | 'proficient' | 'familiar';
+  label:  string;
+  desc:   string;
+  skills: string[];
+}
+
+export interface Stat {
+  num:     number;
+  label:   string;
+  display: ReturnType<typeof signal<number>>;
+}
+
+export interface ghCommit {
+  commit: {
+    message: string;
+    author: { 
+      date: string 
+    };
+  };
 }

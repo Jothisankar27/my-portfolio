@@ -1,6 +1,6 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, NgZone, OnDestroy, inject } from '@angular/core';
+import { Component, signal, inject, ElementRef, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Stat } from '../../models/model';
 @Component({
   selector: "app-about",
   standalone: true,
@@ -8,45 +8,48 @@ import { CommonModule } from '@angular/common';
   templateUrl: "./about.component.html",
   styleUrl: "./about.component.scss",
 })
-export class AboutComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('statsSection') statsSection!: ElementRef;
+export class AboutComponent {
 
-  stats = [
-    { num: 4, label: "Years experience",           display: 0 },
-    { num: 3, label: "Angular version migrations", display: 0 },
-    { num: 2, label: "Enterprise platforms",       display: 0 },
+  private host = inject(ElementRef);
+
+  readonly stats: Stat[] = [
+    { 
+      num: 4, 
+      label: 'Years experience',
+      display: signal(0) 
+    },
+    { 
+      num: 3, 
+      label: 'Angular version migrations', 
+      display: signal(0)
+    },
+    { 
+      num: 2, 
+      label: 'Enterprise platforms',       
+      display: signal(0)
+    },
   ];
 
-  private counted = false;
-  private observer!: IntersectionObserver;
+  constructor() {
+    afterNextRender(() => {
+      const statsEl = this.host.nativeElement.querySelector('.about-stats') as HTMLElement;
+      if (!statsEl) return;
 
-  private ngZone = inject(NgZone);
+      let counted = false;
 
-  ngAfterViewInit(): void {
-    const el = this.statsSection.nativeElement as HTMLElement;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && !counted) {
+            counted = true;
+            observer.disconnect();
+            this.animateCounters();
+          }
+        },
+        { threshold: 0.1 }
+      );
 
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !this.counted) {
-          this.counted = true;
-          this.ngZone.run(() => this.animateCounters());
-          // No need to keep observing once triggered
-          this.observer.disconnect();
-        }
-      },
-      {
-        // Fire when at least 10% of the stats container is visible.
-        // Lowering this to 0 would fire the moment even 1px enters the
-        // viewport — useful on small screens where the section is tall.
-        threshold: 0.1,
-      }
-    );
-
-    this.observer.observe(el);
-  }
-
-  ngOnDestroy(): void {
-    this.observer?.disconnect();
+      observer.observe(statsEl);
+    });
   }
 
   private animateCounters(): void {
@@ -60,9 +63,9 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
         const tick = (now: number) => {
           const progress = Math.min((now - start) / DURATION, 1);
-          stat.display   = Math.round(easeOut(progress) * stat.num);
+          stat.display.set(Math.round(easeOut(progress) * stat.num));
           if (progress < 1) requestAnimationFrame(tick);
-          else stat.display = stat.num;
+          else stat.display.set(stat.num);
         };
 
         requestAnimationFrame(tick);

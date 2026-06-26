@@ -20,18 +20,18 @@
         workflows, and how good UI decisions actually reduce tickets.
       </p>
 
-      <div class="about-award">
+      <!-- <div class="about-award">
         <span class="award-icon">🚧</span>
         <div>
           <strong>Stay tuned !! My Other projects are In-progress and will be available soon..</strong>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="about-stats" #statsSection>
       @for (s of stats; track s.label) {
         <div class="stat">
-          <span class="stat-num">{{ s.display }}</span>
+          <span class="stat-num">{{ s.display() }}</span>
           <span class="stat-label">{{ s.label }}</span>
         </div>
       }
