@@ -1,14 +1,16 @@
-import { Injectable, signal, effect } from '@angular/core';
+import { Injectable, signal, effect, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { ThemeMeta, Theme } from '../models/model';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly themes: ThemeMeta[] = [
-    { id: 'purple',    label: 'Purple',    swatch: '#a855f7', bg: '#080710' },
-    { id: 'synthwave', label: 'Synthwave', swatch: '#ff2d78', bg: '#06000f' },
-    { id: 'newspaper', label: 'Newspaper', swatch: '#d4c9b0', bg: '#0e0d0b' },
-    { id: 'graphite',  label: 'Graphite',  swatch: '#a8b8cc', bg: '#080a0d' },
+    { id: "purple", label: "Purple", swatch: "#a855f7", bg: "#080710" },
+    { id: "synthwave", label: "Synthwave", swatch: "#ff2d78", bg: "#06000f" },
+    { id: "newspaper", label: "Newspaper", swatch: "#d4c9b0", bg: "#0e0d0b" },
+    { id: "graphite", label: "Graphite", swatch: "#a8b8cc", bg: "#080a0d" },
   ];
 
   readonly current = signal<Theme>(this.savedTheme());
@@ -17,8 +19,10 @@ export class ThemeService {
     // Whenever the signal changes, apply it to <html> and persist
     effect(() => {
       const theme = this.current();
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('portfolio-theme', theme);
+      if (this.isBrowser) {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("portfolio-theme", theme);
+      }
     });
   }
 
@@ -28,24 +32,28 @@ export class ThemeService {
    */
   switchTheme(theme: Theme, originX: number, originY: number): void {
     if (theme === this.current()) return;
-
-    // Bail out for users who prefer reduced motion — just swap instantly
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!this.isBrowser) {
       this.current.set(theme);
       return;
     }
 
-    const meta = this.themes.find(t => t.id === theme)!;
+    // Bail out for users who prefer reduced motion — just swap instantly
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      this.current.set(theme);
+      return;
+    }
+
+    const meta = this.themes.find((t) => t.id === theme)!;
 
     // Max radius needed to cover the entire viewport from the click point
     const maxRadius = Math.hypot(
-      Math.max(originX, window.innerWidth  - originX),
-      Math.max(originY, window.innerHeight - originY)
+      Math.max(originX, window.innerWidth - originX),
+      Math.max(originY, window.innerHeight - originY),
     );
 
-    const overlay = document.createElement('div');
-    overlay.className = 'theme-reveal-overlay';
-    overlay.setAttribute('data-theme', theme);  // overlay renders with new theme tokens
+    const overlay = document.createElement("div");
+    overlay.className = "theme-reveal-overlay";
+    overlay.setAttribute("data-theme", theme); // overlay renders with new theme tokens
     overlay.style.cssText = `
       position: fixed;
       inset: 0;
@@ -61,20 +69,25 @@ export class ThemeService {
 
     overlay.style.clipPath = `circle(${maxRadius}px at ${originX}px ${originY}px)`;
 
-    overlay.addEventListener('transitionend', () => {
-      this.current.set(theme);
-      document.body.removeChild(overlay);
-    }, { once: true });
+    overlay.addEventListener(
+      "transitionend",
+      () => {
+        this.current.set(theme);
+        document.body.removeChild(overlay);
+      },
+      { once: true },
+    );
   }
 
   private savedTheme(): Theme {
-    const saved = localStorage.getItem('portfolio-theme') as Theme | null;
     const valid: Theme[] = [
       'purple',
       'synthwave',
       'newspaper',
       'graphite'
     ];
-    return saved && valid.includes(saved) ? saved : 'purple';
+    if (!this.isBrowser) return "purple"; // ← guard first
+    const saved = localStorage.getItem("portfolio-theme") as Theme | null;
+    return saved && valid.includes(saved) ? saved : "purple";
   }
 }
