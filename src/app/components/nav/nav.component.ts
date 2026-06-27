@@ -6,8 +6,9 @@ import {
   inject,
   signal,
   computed,
+  PLATFORM_ID,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { AnalyticsService } from '../../services/analytics.service';
 import { ThemeService } from '../../services/themes.service';
 import { Theme } from 'src/app/models/model';
@@ -28,6 +29,7 @@ export class NavComponent implements OnInit, OnDestroy {
   private observer!: IntersectionObserver;
   private analytics = inject(AnalyticsService);
   readonly themeService = inject(ThemeService);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly sectionOrder = [
     "home",
     "timeline",
@@ -38,6 +40,7 @@ export class NavComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
+    if (!this.isBrowser) return;
     this.observer = new IntersectionObserver(
       (entries) => {
         //  Active section logic (unchanged)
@@ -75,13 +78,14 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // flush any open dwell timers before component tears down
+    if (!this.isBrowser) return;
     this.sectionOrder.forEach((id) => this.analytics.trackSectionExit(id));
     this.observer?.disconnect();
   }
 
   @HostListener('window:scroll')
   onScroll(): void {
+    if (!this.isBrowser) return;
     this.isScrolled = window.scrollY > 60;
   }
 
@@ -118,9 +122,9 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   readonly currentSwatch = computed(() => {
-  const theme = this.themeService.themes.find(
-    t => t.id === this.themeService.current()
-  );
-  return theme?.swatch ?? '#a855f7';
-});
+    const theme = this.themeService.themes.find(
+      t => t.id === this.themeService.current()
+    );
+    return theme?.swatch ?? '#a855f7';
+  });
 }
