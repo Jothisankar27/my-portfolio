@@ -30,8 +30,15 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/styles/styles.scss"],
-            "scripts": []
+            "styles": [
+              "src/styles/styles.scss"
+            ],
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "outputMode": "static",
+            "security": {
+              "allowedHosts": []
+            }
           },
           "configurations": {
             "production": {
