@@ -140,7 +140,7 @@ Services (providedIn: 'root')
 
 ## Theming
 
-7 CSS custom property tokens drive every colour in the app. Switching themes applies a `data-theme` attribute to `<html>` and animates a circular clip-path overlay expanding from the click origin:
+4 CSS custom property tokens drive every colour in the app. Switching themes applies a `data-theme` attribute to `<html>` and animates a circular clip-path overlay expanding from the click origin:
 
 | Theme            | Accent    |
 |------------------|-----------|

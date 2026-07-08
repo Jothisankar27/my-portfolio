@@ -360,12 +360,85 @@
   line-height: 1.8;
   margin-bottom: 2.2rem;
   text-align: justify;
+
+  .summary-highlight {
+    color: var(--accent3);
+    font-weight: 500;
+  }
 }
 
 .hero-actions {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--btn-text, #fff);
+  background: rgba(var(--accent-rgb), 1);
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  padding: 0.55rem 0.85rem;
+  min-width: 46px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 200ms ease, box-shadow 200ms ease, transform 150ms ease, padding 200ms ease;
+
+  .icon {
+    flex-shrink: 0;
+    transition: transform 200ms ease;
+  }
+
+  .btn-label {
+    display: inline-block;
+    width: 0;
+    max-width: 0;
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-left: 0;
+    transition: width 200ms ease, max-width 200ms ease, opacity 200ms ease, margin-left 200ms ease, visibility 0ms linear 200ms;
+  }
+
+  &:hover,
+  &:focus-visible {
+    padding: 0.55rem 1.4rem;
+    background: rgba(var(--accent-rgb), 0.85);
+    box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.4);
+    transform: translateY(-1px) scale(1.02);
+  }
+
+  &:hover .icon,
+  &:focus-visible .icon {
+    transform: scale(1.05);
+  }
+
+  &:hover .btn-label,
+  &:focus-visible .btn-label {
+    width: auto;
+    max-width: 180px;
+    opacity: 1;
+    visibility: visible;
+    margin-left: 0.5rem;
+    transition-delay: 0ms;
+  }
+
+  &:active { transform: translateY(0); }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 3px;
+  }
 }
 
 .btn-ghost {
