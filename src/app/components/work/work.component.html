@@ -49,10 +49,19 @@
               <span class="project-symbol">🏅</span>
               <div class="award-list">
                 @for (award of proj.award; track award.text) {
-                  <div class="award-item">
+                  <button
+                    type="button"
+                    class="award-item"
+                    [class.award-item--clickable]="award.evidence"
+                    (click)="openEvidence(award.evidence)"
+                    [attr.aria-label]="award.evidence ? 'View evidence for ' + award.text : null"
+                  >
                     <span class="award-year">{{ award.year }}</span>
                     <span class="award-text">{{ award.text }}</span>
-                  </div>
+                    @if (award.evidence) {
+                      <span class="award-evidence-icon" aria-hidden="true">🔗</span>
+                    }
+                  </button>
                 }
               </div>
             </div>
@@ -62,4 +71,6 @@
     </div>
 
   </div>
+
+  <app-lightbox [evidence]="activeEvidence()" (closed)="closeEvidence()"></app-lightbox>
 </section>
