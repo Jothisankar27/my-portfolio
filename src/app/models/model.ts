@@ -1,5 +1,12 @@
 import { signal } from '@angular/core';
 
+export interface Evidence {
+  file: string;
+  type: 'image' | 'pdf';
+  label: string;
+  previewImage?: string;
+}
+
 export interface Project {
   tag: string;
   stack: string;
@@ -7,7 +14,14 @@ export interface Project {
   titleLine2: string;
   desc: string;
   bullets: string[];
-  award?: { text: string; year: number }[];
+  award?: { text: string; year: number; evidence?: Evidence }[];
+}
+
+export interface Certification {
+  name: string;
+  issuer: string;
+  year: number;
+  evidence: Evidence;
 }
 
 export interface SkillBar {
@@ -63,4 +77,8 @@ export interface ghCommit {
       date: string 
     };
   };
+}
+export interface QuickFact {
+  label: string;
+  value: string;
 }

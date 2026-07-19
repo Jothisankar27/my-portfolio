@@ -1,0 +1,89 @@
+<section class="hero" id="home">
+  <div class="hero-eyebrow" [class.visible]="visible">
+    <span class="status-dot" aria-hidden="true"></span>
+    <span>Available for new opportunities</span>
+  </div>
+
+  @if (!isMobile()) {
+    <!-- ============ DESKTOP: multilingual swipe ============ -->
+    <h1
+      class="hero-name"
+      [class.visible]="visible"
+      [attr.data-script]="currentScript"
+      [class.slide-left]="slideDir === 'left'"
+      [class.slide-right]="slideDir === 'right'"
+      style="transition-delay:0.15s"
+      (mousedown)="onMouseDown($event)"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd()"
+    >
+      <!-- English -->
+      <span
+        class="name-en"
+        [class.active]="currentScript === 'en'"
+        [attr.aria-hidden]="currentScript !== 'en'"
+      >
+        Jothi Sankar<br/><em>GnanaSambandam</em>
+      </span>
+
+      <!-- Tamil -->
+      <span
+        class="name-tamil"
+        [class.active]="currentScript === 'ta'"
+        [attr.aria-hidden]="currentScript !== 'ta'"
+      >
+        ஜோதி ஷங்கர்<br/><em>ஞானசம்பந்தம்</em>
+      </span>
+
+      <!-- Hindi -->
+      <span
+        class="name-hindi"
+        [class.active]="currentScript === 'hi'"
+        [attr.aria-hidden]="currentScript !== 'hi'"
+      >
+        जोति संकर<br/><em>न्यानासम्बंदम</em>
+      </span>
+
+      <!-- Drag hint — always in DOM to prevent layout shift; visibility driven by signal -->
+      <span
+        class="drag-hint"
+        [class.is-visible]="hintState() !== 'hidden'"
+        [class.is-drag]="hintState() === 'drag'"
+        aria-hidden="true"
+      >
+        <!-- Left arrow -->
+        <svg class="hint-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <!-- Label swaps via CSS, no DOM change -->
+        <span class="hint-label hint-label--click">click &amp; drag</span>
+        <span class="hint-label hint-label--drag">drag to switch</span>
+        <!-- Right arrow -->
+        <svg class="hint-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </h1>
+  } @else {
+    <!-- ============ MOBILE: auto-cycling crossfade EN -> TA -> HI ============ -->
+    <h1 class="hero-name-mobile" [class.visible]="visible" [attr.data-script]="mobileScript()" style="transition-delay:0.15s">
+      <span class="crossfade-line" [class.show]="crossfadeShow()">
+        <span class="name-line name-line--1">{{ NAME_SCRIPTS[mobileScript()].line1 }}</span>
+        <em class="name-line name-line--2">{{ NAME_SCRIPTS[mobileScript()].line2 }}</em>
+      </span>
+    </h1>
+
+    <p class="hero-tagline" [class.visible]="visible" style="transition-delay:0.35s">
+      Angular Developer <span class="tagline-dot">·</span> Micro-frontends <span class="tagline-dot">·</span> Bengaluru
+    </p>
+  }
+
+  <a href="#details" class="scroll-cue" [class.visible]="visible" style="transition-delay:0.9s" aria-label="Scroll down">
+    <span class="scroll-cue-label">Scroll</span>
+    <svg class="scroll-cue-icon" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" stroke-width="1.4"/>
+      <circle class="scroll-cue-dot" cx="8" cy="7" r="2" fill="currentColor"/>
+    </svg>
+  </a>
+</section>

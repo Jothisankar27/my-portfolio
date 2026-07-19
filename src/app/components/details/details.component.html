@@ -1,97 +1,53 @@
-<section class="hero" id="home">
-  <div class="hero-eyebrow" [class.visible]="visible">
-    <span class="status-dot" aria-hidden="true"></span>
-    <span>Available for new opportunities</span>
+<section class="details" id="details">
+  <div class="details-inner">
+
+    <p class="details-summary" [class.visible]="visible" style="transition-delay:0.1s">
+      Angular Developer at Infosys — delivered 2 enterprise applications across 3 version migrations,
+      built cross-micro-frontend communication services, and earned
+      <span class="summary-highlight">2× Rise Insta Awards</span> for shipping critical features and resolving issues under SLA.
+    </p>
+
+    <div class="details-facts" [class.visible]="visible" style="transition-delay:0.25s">
+      @for (fact of quickFacts; track fact.label) {
+        <div class="fact">
+          <span class="fact-label">{{ fact.label }}</span>
+          <span class="fact-value">{{ fact.value }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="details-actions" [class.visible]="visible" style="transition-delay:0.4s">
+      <a href="#work" class="btn-primary" aria-label="View my work">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="16" height="11" rx="2"/><path d="M7 5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/>
+        </svg>
+        <span class="btn-label">View My Work</span>
+      </a>
+      <a href="assets/Jothi Sankar Resume 2026.pdf"
+         class="btn-ghost"
+         target="_blank"
+         aria-label="Download resume"
+         (click)="onResumeDownload()" >
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 3v10M6 9l4 4 4-4"/><path d="M4 16h12"/>
+        </svg>
+        <span class="btn-text btn-label">Resume</span>
+        <!-- <span class="doc-path">My Resume</span> -->
+      </a>
+      <button
+        type="button"
+        class="btn-ghost cert-badge"
+        (click)="openEvidence(certEvidence)"
+        aria-label="View evidence for GH-300 GitHub Actions Certification"
+      >
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="18" height="18" fill="currentColor">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span class="btn-text btn-label">GH-300 Certified</span>
+      </button>
+    </div>
+
   </div>
 
-  <h1
-    class="hero-name"
-    [class.visible]="visible"
-    [attr.data-script]="currentScript"
-    [class.slide-left]="slideDir === 'left'"
-    [class.slide-right]="slideDir === 'right'"
-    style="transition-delay:0.15s"
-    (mousedown)="onMouseDown($event)"
-    (touchstart)="onTouchStart($event)"
-    (touchmove)="onTouchMove($event)"
-    (touchend)="onTouchEnd()"
-  >
-    <!-- English -->
-    <span
-      class="name-en"
-      [class.active]="currentScript === 'en'"
-      [attr.aria-hidden]="currentScript !== 'en'"
-    >
-      Jothi Sankar<br/><em>GnanaSambandam</em>
-    </span>
-
-    <!-- Tamil -->
-    <span
-      class="name-tamil"
-      [class.active]="currentScript === 'ta'"
-      [attr.aria-hidden]="currentScript !== 'ta'"
-    >
-      ஜோதி ஷங்கர்<br/><em>ஞானசம்பந்தம்</em>
-    </span>
-
-    <!-- Hindi -->
-    <span
-      class="name-hindi"
-      [class.active]="currentScript === 'hi'"
-      [attr.aria-hidden]="currentScript !== 'hi'"
-    >
-      जोति संकर<br/><em>न्यानासम्बंदम</em>
-    </span>
-
-    <!-- Drag hint — always in DOM to prevent layout shift; visibility driven by signal -->
-    <span
-      class="drag-hint"
-      [class.is-visible]="hintState() !== 'hidden'"
-      [class.is-drag]="hintState() === 'drag'"
-      aria-hidden="true"
-    >
-      <!-- Left arrow -->
-      <svg class="hint-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <!-- Label swaps via CSS, no DOM change -->
-      <span class="hint-label hint-label--click">click &amp; drag</span>
-      <span class="hint-label hint-label--drag">drag to switch</span>
-      <!-- Right arrow -->
-      <svg class="hint-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </span>
-  </h1>
-
-  <div class="hero-meta" [class.visible]="visible" style="transition-delay:0.3s">
-    <p class="hero-role">Angular Based<span class="sep">-</span>Frontend Developer</p>
-    <p class="hero-exp">Bengaluru-KA,India</p>
-  </div>
-
-  <p class="hero-summary" [class.visible]="visible" style="transition-delay:0.45s">
-    Angular Developer at Infosys — delivered 2 Enterprise Applications across 3 version migrations,
-    colloborated in cross micro-frontend communication services, and earned
-    <span class="summary-highlight">2× Rise Insta Awards</span> for shipping critical features and resolving issues under SLA.
-  </p>
-
-  <div class="hero-actions" [class.visible]="visible" style="transition-delay:0.6s">
-    <!-- <a href="#work" class="btn-primary" aria-label="View my work">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="5" width="16" height="11" rx="2"/><path d="M7 5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/>
-      </svg>
-      <span class="btn-label">View My Work</span>
-    </a> -->
-    <a href="assets/Jothi Sankar Resume 2026.pdf" 
-       class="btn-ghost" 
-       target="_blank"
-       aria-label="Download resume"
-       (click)="onResumeDownload()" >
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10 3v10M6 9l4 4 4-4"/><path d="M4 16h12"/>
-      </svg>
-      <span class="btn-text btn-label">View Resume</span>
-      <!-- <span class="doc-path">My Resume</span> -->
-    </a>
-  </div>
+  <app-lightbox [evidence]="activeEvidence()" (closed)="closeEvidence()"></app-lightbox>
 </section>
