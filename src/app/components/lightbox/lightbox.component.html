@@ -1,0 +1,26 @@
+@if (evidence) {
+  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+  <div class="lightbox-backdrop" (click)="onBackdropClick($event)">
+    <div class="lightbox-panel">
+      <button class="lightbox-close" (click)="close()" aria-label="Close evidence viewer">✕</button>
+
+      <div class="lightbox-label">{{ evidence.label }}</div>
+
+      @if (evidence.type === 'image' || evidence.previewImage) {
+        <img
+          class="lightbox-media"
+          [src]="evidence.type === 'image' ? evidence.file : evidence.previewImage"
+          [alt]="evidence.label"
+        />
+      } @else {
+        <p class="lightbox-fallback">
+          Preview unavailable. <a [href]="evidence.file" target="_blank" rel="noopener">Open PDF in a new tab</a>
+        </p>
+      }
+
+      <!-- <a class="lightbox-download" [href]="evidence.file" target="_blank" rel="noopener" download>
+        Open original ↗
+      </a> -->
+    </div>
+  </div>
+}
