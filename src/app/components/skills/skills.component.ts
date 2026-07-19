@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SkillBar } from '../../models/model';
-
+import { Tier } from '../../models/model';
 @Component({
   selector: 'app-skills',
   standalone: true,
@@ -11,20 +10,43 @@ import { SkillBar } from '../../models/model';
 })
 export class SkillsComponent {
 
-  frontendBars: SkillBar[] = [
-    { name: 'Angular (v20)',       level: 70 },
-    { name: 'HTML5 / CSS3 / SCSS', level: 80 },
-    { name: 'TypeScript',          level: 70 },
-    { name: 'JavaScript',          level: 70 },
-    { name: 'RxJS',                level: 65 },
-    { name: 'HttpClient / REST',   level: 65 },
-  ];
-
-  backendBars: SkillBar[] = [
-    { name: 'Git / GitHub', level: 75 },
-    { name: 'PostgreSQL',   level: 60 },
-    { name: 'MS-SQL',       level: 60 },
-    { name: 'Node.js',      level: 50 },
+  tiers: Tier[] = [
+    {
+      key:   'expert',
+      label: 'Expert',
+      desc:  'Production-grade, daily use',
+      skills: [
+        'Angular (v13 → v20)',
+        'TypeScript',
+        'HTML5 / CSS3 / SCSS',
+        'RxJS',
+        'Component Architecture',
+        'Micro-frontends (MFE)',
+      ],
+    },
+    {
+      key:   'proficient',
+      label: 'Proficient',
+      desc:  'Shipped in real projects',
+      skills: [
+        'JavaScript (ES6+)',
+        'HttpClient / REST APIs',
+        'Git / GitHub',
+        'Cross-MFE Communication',
+        'PostgreSQL',
+        'MS-SQL',
+      ],
+    },
+    {
+      key:   'familiar',
+      label: 'Familiar',
+      desc:  'POC / supporting work',
+      skills: [
+        'Node.js',
+        'SonarQube',
+        'Figma (Basic)',
+      ],
+    },
   ];
 
   groups = [
@@ -43,21 +65,23 @@ export class SkillsComponent {
       heading: 'Platforms & Tools',
       items: [
         'VS Code',
+        'Jira / Confluence',
         'SSMS',
-        'Jira',
-        'Confluence',
+        'PGAdmin',
         'SonarQube',
+        'Claude Code',
         'GitHub Copilot',
         'Cursor',
       ],
     },
-    { heading: 'Design', 
+    {
+      heading: 'Design',
       items: [
-        'Canva', 
-        'Figma (Basic)', 
+        'Canva',
+        'Figma (Basic)',
         'Pencil',
         'PowerPoint',
-      ] },
+      ],
+    },
   ];
-
 }

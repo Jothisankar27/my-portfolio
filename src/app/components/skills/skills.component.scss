@@ -1,95 +1,131 @@
-/*  Two-column proficiency bars  */
-.bars-section {
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr;
-  gap: 0 3rem;
+// ── 3-tier proficiency matrix ──────────────────────────────────────────────
+
+.matrix-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   margin-bottom: 3.5rem;
   padding-bottom: 3rem;
   border-bottom: 1px solid rgba(var(--accent-rgb), 0.1);
 }
 
-.bars-divider {
-  background: rgba(var(--accent-rgb), 0.12);
-  margin: 0.5rem 0;
+.matrix-tier {
+  padding: 1.4rem 0;
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.07);
+
+  &:last-child { border-bottom: none; }
+
+  @supports (animation-timeline: view()) {
+    opacity: 0;
+    translate: 0 12px;
+    animation: tier-in linear both;
+    animation-duration: 1ms;
+    animation-timeline: view();
+
+    &:nth-child(1) { animation-range: entry 0%  entry 40%; }
+    &:nth-child(2) { animation-range: entry 8%  entry 48%; }
+    &:nth-child(3) { animation-range: entry 16% entry 56%; }
+
+    @media (prefers-reduced-motion: reduce) {
+      opacity: 1; translate: none; animation: none;
+    }
+  }
 }
 
-.bars-col {
+@keyframes tier-in {
+  from { opacity: 0; translate: 0 12px; }
+  to   { opacity: 1; translate: 0 0;    }
+}
+
+.tier-header {
   display: flex;
-  flex-direction: column;
-  gap: 0;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
 }
 
-.bars-col-heading {
+.tier-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  &[data-tier='expert']    { background: var(--accent3); box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.5); }
+  &[data-tier='proficient']{ background: var(--accent2); }
+  &[data-tier='familiar']  { background: var(--text-dim); }
+}
+
+.tier-label {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent3);
-  margin-bottom: 1.2rem;
-}
-
-.bar-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin-bottom: 1rem;
-
-  &:last-child { margin-bottom: 0; }
-}
-
-.bar-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.bar-name {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-}
-
-.bar-pct {
-  font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-weight: 500;
   color: var(--text-dim);
-  font-variant-numeric: tabular-nums;
 }
 
-.bar-track {
-  height: 2px;
-  background: rgba(var(--accent-rgb), 0.1);
-  border-radius: 2px;
-  overflow: hidden;
+.matrix-tier:nth-child(1) .tier-label { color: var(--accent3); }
+.matrix-tier:nth-child(2) .tier-label { color: var(--accent2); }
+.matrix-tier:nth-child(3) .tier-label { color: var(--text-dim); }
+
+.tier-desc {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+
+  &::before { content: '·'; margin-right: 0.5rem; }
 }
 
-.bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent2) 0%, var(--accent3) 100%);
+.tier-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
 
-  &--backend {
-    background: linear-gradient(90deg, var(--accent2) 0%, rgba(var(--accent-rgb), 0.7) 100%);
+.tier-pill {
+  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid;
+  transition: box-shadow 150ms ease, transform 120ms ease;
+
+  &[data-tier='expert'] {
+    color: var(--accent3);
+    border-color: rgba(var(--accent-rgb), 0.35);
+    background: rgba(var(--accent-rgb), 0.08);
+
+    &:hover {
+      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25);
+      transform: translateY(-1px);
+    }
+  }
+
+  &[data-tier='proficient'] {
+    color: var(--text-muted);
+    border-color: rgba(var(--accent2-rgb), 0.25);
+    background: rgba(var(--accent2-rgb), 0.06);
+
+    &:hover {
+      box-shadow: 0 0 8px rgba(var(--accent2-rgb), 0.2);
+      transform: translateY(-1px);
+    }
+  }
+
+  &[data-tier='familiar'] {
+    color: var(--text-dim);
+    border-color: rgba(var(--accent-rgb), 0.12);
+    background: transparent;
   }
 }
 
-@media (max-width: 680px) {
-  .bars-section {
-    grid-template-columns: 1fr;
-    gap: 2rem 0;
-  }
+// ── Skill pill grid (architecture / tools / design) ────────────────────────
 
-  .bars-divider {
-    display: none;
-  }
-}
-
-/*  Skill pill grid  */
 .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
 }
 
 @keyframes pill-in {
@@ -98,8 +134,6 @@
 }
 
 .skill-group {
-  // Each group enters the viewport at a staggered range so they
-  // don't all animate simultaneously as the section scrolls in.
   @supports (animation-timeline: view()) {
     opacity: 0;
     translate: 0 16px;
@@ -112,9 +146,7 @@
     &:nth-child(3) { animation-range: entry 20% entry 65%; }
 
     @media (prefers-reduced-motion: reduce) {
-      opacity: 1;
-      translate: none;
-      animation: none;
+      opacity: 1; translate: none; animation: none;
     }
   }
 
@@ -129,9 +161,9 @@
 }
 
 .skill-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 
   span {
     font-size: 0.8rem;
@@ -143,10 +175,6 @@
     transition: border-color 0.2s, color 0.2s, background 0.2s,
                 box-shadow 0.2s, transform 0.15s;
 
-    // Each pill fades up with a staggered delay — creates a cascade
-    // effect as pills appear one after another within their group.
-    // animation-fill-mode: both keeps the pill invisible before the
-    // delay fires so there's no flash of visible content.
     @supports (animation-timeline: view()) {
       opacity: 0;
       animation: pill-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
@@ -158,8 +186,7 @@
       }
 
       @media (prefers-reduced-motion: reduce) {
-        opacity: 1;
-        animation: none;
+        opacity: 1; animation: none;
       }
     }
 
@@ -177,6 +204,8 @@
     }
   }
 }
+
+// ── Responsive ─────────────────────────────────────────────────────────────
 
 @media (max-width: 480px) {
   .skills-grid {

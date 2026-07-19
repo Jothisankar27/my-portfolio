@@ -6,41 +6,22 @@
       <h2>Technical Skills & Tools</h2>
     </div>
 
-    <!-- Two-column proficiency bars -->
-    <div class="bars-section">
-
-      <div class="bars-col">
-        <h4 class="bars-col-heading">Frontend</h4>
-        @for (s of frontendBars; track s.name) {
-          <div class="bar-row">
-            <div class="bar-meta">
-              <span class="bar-name">{{ s.name }}</span>
-              <span class="bar-pct">{{ s.level }}%</span>
-            </div>
-            <div class="bar-track">
-              <div class="bar-fill" [style.width.%]="s.level"></div>
-            </div>
+    <!-- 3-tier proficiency matrix -->
+    <div class="matrix-section">
+      @for (tier of tiers; track tier.label) {
+        <div class="matrix-tier">
+          <div class="tier-header">
+            <span class="tier-dot" [attr.data-tier]="tier.key"></span>
+            <span class="tier-label">{{ tier.label }}</span>
+            <span class="tier-desc">{{ tier.desc }}</span>
           </div>
-        }
-      </div>
-
-      <div class="bars-divider"></div>
-
-      <div class="bars-col">
-        <h4 class="bars-col-heading">Backend & DB</h4>
-        @for (s of backendBars; track s.name) {
-          <div class="bar-row">
-            <div class="bar-meta">
-              <span class="bar-name">{{ s.name }}</span>
-              <span class="bar-pct">{{ s.level }}%</span>
-            </div>
-            <div class="bar-track">
-              <div class="bar-fill bar-fill--backend" [style.width.%]="s.level"></div>
-            </div>
+          <div class="tier-pills">
+            @for (skill of tier.skills; track skill) {
+              <span class="tier-pill" [attr.data-tier]="tier.key">{{ skill }}</span>
+            }
           </div>
-        }
-      </div>
-
+        </div>
+      }
     </div>
 
     <!-- Pills — architecture, tools, design -->
