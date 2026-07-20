@@ -20,7 +20,18 @@ import { Evidence } from '../../models/model';
 export class LightboxComponent {
   private platformId = inject(PLATFORM_ID);
 
-  @Input() evidence: Evidence | null = null;
+  private _evidence: Evidence | null = null;
+  imageLoaded = false;
+
+  @Input()
+  set evidence(value: Evidence | null) {
+    this._evidence = value;
+    this.imageLoaded = false; // reset skeleton whenever a new evidence is opened
+  }
+  get evidence(): Evidence | null {
+    return this._evidence;
+  }
+
   @Output() closed = new EventEmitter<void>();
 
   @HostListener('document:keydown.escape')
@@ -28,6 +39,10 @@ export class LightboxComponent {
     if (isPlatformBrowser(this.platformId) && this.evidence) {
       this.close();
     }
+  }
+
+  onImageLoad(): void {
+    this.imageLoaded = true;
   }
 
   close(): void {

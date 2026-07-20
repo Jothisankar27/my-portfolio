@@ -7,11 +7,20 @@
       <div class="lightbox-label">{{ evidence.label }}</div>
 
       @if (evidence.type === 'image' || evidence.previewImage) {
-        <img
-          class="lightbox-media"
-          [src]="evidence.type === 'image' ? evidence.file : evidence.previewImage"
-          [alt]="evidence.label"
-        />
+        <div class="lightbox-media-wrap">
+          @if (!imageLoaded) {
+            <div class="lightbox-skeleton" aria-hidden="true">
+              <span class="lightbox-spinner"></span>
+            </div>
+          }
+          <img
+            class="lightbox-media"
+            [class.lightbox-media--loaded]="imageLoaded"
+            [src]="evidence.type === 'image' ? evidence.file : evidence.previewImage"
+            [alt]="evidence.label"
+            (load)="onImageLoad()"
+          />
+        </div>
       } @else {
         <p class="lightbox-fallback">
           Preview unavailable. <a [href]="evidence.file" target="_blank" rel="noopener">Open PDF in a new tab</a>
