@@ -1,17 +1,16 @@
 import { Component, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { FormModel } from '../../models/model';
-import {AnalyticsService} from '../../services/analytics.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })
@@ -19,37 +18,41 @@ export class ContactComponent {
 
   private readonly http = inject(HttpClient);
   private readonly analytics = inject(AnalyticsService);
+  private readonly fb = inject(FormBuilder);
 
   readonly status = signal<FormStatus>('idle');
-  readonly model = signal<FormModel>({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+
+  readonly form = this.fb.nonNullable.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    email: ['', [Validators.required, Validators.email]],
+    message: ['', [Validators.required, Validators.minLength(10)]],
   });
 
-  // ── Computed derived state (no manual getters needed) 
+  // ── Computed derived state (no manual getters needed)
   readonly isSending = computed(() => this.status() === 'sending');
   readonly isSuccess = computed(() => this.status() === 'success');
   readonly isError   = computed(() => this.status() === 'error');
 
   // ── Form submit handler
-  onSubmit(form: NgForm): void {
-    if (form.invalid || this.isSending()) return;
+  onSubmit(): void {
+    if (this.form.invalid || this.isSending()) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     this.status.set('sending');
 
-    const { name, email, subject, message } = this.model();
+    const { name, email, message } = this.form.getRawValue();
 
     // ── Use FormData instead of JSON
     const formData = new FormData();
-    formData.append('access_key',environment.web3formsKey);
-    formData.append('subject','Portfolio message: ' + subject);
-    formData.append('from_name',name);
-    formData.append('replyto',email);
-    formData.append('name',name);
-    formData.append('email',email);
-    formData.append('message',message);
+    formData.append('access_key', environment.web3formsKey);
+    formData.append('subject', 'New message from portfolio contact form');
+    formData.append('from_name', name);
+    formData.append('replyto', email);
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('message', message);
 
     this.http
       .post<{ success: boolean }>(environment.web3Fromslink, formData)
@@ -58,17 +61,11 @@ export class ContactComponent {
           this.status.set(res.success ? 'success' : 'error');
           if (res.success) {
             this.analytics.trackContactSubmit();
-            form.resetForm();
-            this.model.set({ name: '', email: '', subject: '', message: '' });
+            this.form.reset();
           }
         },
         error: () => this.status.set('error'),
       });
-  }
-
-  // Field updater (keeps model signal immutable pattern) 
-  updateField(field: keyof FormModel, value: string): void {
-    this.model.update(m => ({ ...m, [field]: value }));
   }
 
   reset(): void {

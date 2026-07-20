@@ -30,12 +30,6 @@ export interface SkillBar {
  // animated: number;
 }
 
-export interface FormModel {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
 
 export interface TimelineEvent {
   year:     string;
