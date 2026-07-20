@@ -29,9 +29,9 @@ export class TimelineComponent {
     {
       year: "2020",
       role: "Quality Inspector",
-      place: "Automotive Industry · Hosur, Tamil Nadu, India",
+      place: "Layam Flexi Solutions · Hosur, Tamil Nadu, India",
       desc: "Root-cause analysis, process documentation, tolerance inspection. Built the instincts for precision that now go into every component.",
-      type: "milestone",
+      type: "work",
     },
   ];
 }
