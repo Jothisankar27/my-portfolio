@@ -17,7 +17,7 @@ export class DetailsComponent implements OnInit {
   visible = false;
 
   quickFacts: QuickFact[] = [
-    { label: "Role", value: "IT Analayst, TCS" },
+    { label: "Role", value: "IT Analyst, TCS Limited" },
     { label: "Focus", value: "Angular · Micro-frontends" },
     { label: "Location", value: "Bengaluru, KA · India" },
     { label: "Experience", value: "4.3 Years" },
