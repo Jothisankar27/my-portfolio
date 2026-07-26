@@ -1,0 +1,57 @@
+@if (isOpen()) {
+  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+  <div class="palette-backdrop" (click)="onBackdropClick($event)">
+    <div class="palette-panel" role="dialog" aria-modal="true" aria-label="Command palette">
+
+      <div class="palette-input-row">
+        <svg class="palette-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="9" cy="9" r="6.5"/>
+          <path d="M17 17l-3.8-3.8"/>
+        </svg>
+        <input
+          #searchInput
+          type="text"
+          class="palette-input"
+          placeholder="Type a command or search…"
+          [value]="query()"
+          (input)="onQueryChange($any($event.target).value)"
+          aria-label="Search commands"
+        />
+        <kbd class="palette-esc">Esc</kbd>
+      </div>
+
+      <div class="palette-results">
+        @if (filtered().length === 0) {
+          <p class="palette-empty">No matching commands.</p>
+        }
+
+        @for (bucket of groupedFiltered(); track bucket.group) {
+          <div class="palette-group">
+            <p class="palette-group-label">{{ bucket.group }}</p>
+            @for (cmd of bucket.items; track cmd.id) {
+              <button
+                type="button"
+                class="palette-item"
+                [class.palette-item--active]="isActive(cmd)"
+                (click)="select(cmd)"
+                (mouseenter)="hoverItem(cmd)"
+              >
+                <span class="palette-item-label">{{ cmd.label }}</span>
+                @if (cmd.hint) {
+                  <span class="palette-item-hint">{{ cmd.hint }}</span>
+                }
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="palette-footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span><kbd>Enter</kbd> Select</span>
+        <span><kbd>⌘</kbd><kbd>K</kbd> Toggle</span>
+      </div>
+
+    </div>
+  </div>
+}

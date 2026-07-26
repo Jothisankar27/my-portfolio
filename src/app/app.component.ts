@@ -11,6 +11,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ScrollElement } from './components/scroll-element/scroll-element.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { HeroComponent } from './components/hero/hero.component';
+import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,8 @@ import { HeroComponent } from './components/hero/hero.component';
     FooterComponent,
     ScrollElement,
     TimelineComponent,
-    HeroComponent
+    HeroComponent,
+    CommandPaletteComponent
 ],
   templateUrl: './app.component.html'
 })
