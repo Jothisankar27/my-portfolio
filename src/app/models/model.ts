@@ -76,3 +76,13 @@ export interface QuickFact {
   label: string;
   value: string;
 }
+
+export type CommandGroup = 'Navigate' | 'Connect' | 'Theme';
+export interface PaletteCommand {
+  id: string;
+  label: string;
+  group: CommandGroup;
+  keywords: string;
+  hint?: string;
+  run: () => void;
+}
