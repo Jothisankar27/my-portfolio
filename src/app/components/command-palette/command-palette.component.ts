@@ -103,14 +103,6 @@ export class CommandPaletteComponent {
       keywords: "cv pdf download",
       run: () => this.openUrl("assets/Jothi Sankar Resume 2026.pdf"),
     },
-
-    {
-      id: "theme-purple",
-      group: "Theme",
-      label: "Switch to Purple theme",
-      keywords: "purple color scheme",
-      run: () => this.applyTheme("purple"),
-    },
     {
       id: "theme-synthwave",
       group: "Theme",
