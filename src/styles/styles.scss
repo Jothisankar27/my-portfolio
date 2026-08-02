@@ -7,27 +7,27 @@
 
 /* THEME TOKENS */
 :root,
-[data-theme='purple'] {
-  --bg: #080710;
-  --surface: #0f0d1a;
-  --surface2: #17132b;
-  --text: #ede8ff;
-  --text-muted: #8b80b0;
-  --text-dim: #4a4268;
-  --accent: #a855f7;
-  --accent2: #7c3aed;
-  --accent3: #c084fc;
-  --accent-rgb: 168, 85, 247;
-  --accent2-rgb: 124, 58, 237;
-  --btn-depth: 60, 10, 100;
-  --glow: rgba(168, 85, 247, 0.18);
-  --glow-strong: rgba(168, 85, 247, 0.14);
-  --glow2: rgba(124, 58, 237, 0.08);
-  --glow2-rgb: 124, 58, 237;
-  --border: rgba(160, 120, 255, 0.12);
-  --em-end: #e879f9;
-  --bg-rgb: 8, 7, 16;
-  --btn-text: #ffffff;
+[data-theme='graphite'] {
+  --bg:       #080a0d;
+  --surface:  #0f1318;
+  --surface2: #171c24;
+  --text:       #dde4ee;
+  --text-muted: #6a7a90;
+  --text-dim:   #2e3a4a;
+  --accent:      #a8b8cc;
+  --accent2:     #7a90a8;
+  --accent3:     #ccd8e8;
+  --accent-rgb:  168, 184, 204;
+  --accent2-rgb: 122, 144, 168;
+  --btn-depth:   15, 20, 30;
+  --glow:        rgba(168, 184, 204, 0.14);
+  --glow-strong: rgba(168, 184, 204, 0.10);
+  --glow2:       rgba(122, 144, 168, 0.06);
+  --glow2-rgb:   122, 144, 168;
+  --border:      rgba(168, 184, 204, 0.10);
+  --em-end:      #b8c8dc;
+  --bg-rgb:      8, 10, 13;
+  --btn-text: #0f1318;
 }
 
 [data-theme='synthwave'] {
@@ -74,29 +74,6 @@
   --em-end:      #c8bfa8;
   --bg-rgb:      14, 13, 11;
   --btn-text: #1a1510;
-}
-
-[data-theme='graphite'] {
-  --bg:       #080a0d;
-  --surface:  #0f1318;
-  --surface2: #171c24;
-  --text:       #dde4ee;
-  --text-muted: #6a7a90;
-  --text-dim:   #2e3a4a;
-  --accent:      #a8b8cc;
-  --accent2:     #7a90a8;
-  --accent3:     #ccd8e8;
-  --accent-rgb:  168, 184, 204;
-  --accent2-rgb: 122, 144, 168;
-  --btn-depth:   15, 20, 30;
-  --glow:        rgba(168, 184, 204, 0.14);
-  --glow-strong: rgba(168, 184, 204, 0.10);
-  --glow2:       rgba(122, 144, 168, 0.06);
-  --glow2-rgb:   122, 144, 168;
-  --border:      rgba(168, 184, 204, 0.10);
-  --em-end:      #b8c8dc;
-  --bg-rgb:      8, 10, 13;
-  --btn-text: #0f1318;
 }
 
 /*BASE */

@@ -7,10 +7,9 @@ export class ThemeService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly themes: ThemeMeta[] = [
-    { id: "purple", label: "Purple", swatch: "#a855f7", bg: "#080710" },
+    { id: "graphite", label: "Graphite", swatch: "#a8b8cc", bg: "#080a0d" },
     { id: "synthwave", label: "Synthwave", swatch: "#ff2d78", bg: "#06000f" },
     { id: "newspaper", label: "Newspaper", swatch: "#d4c9b0", bg: "#0e0d0b" },
-    { id: "graphite", label: "Graphite", swatch: "#a8b8cc", bg: "#080a0d" },
   ];
 
   readonly current = signal<Theme>(this.savedTheme());
@@ -81,13 +80,12 @@ export class ThemeService {
 
   private savedTheme(): Theme {
     const valid: Theme[] = [
-      'purple',
+      'graphite',
       'synthwave',
-      'newspaper',
-      'graphite'
+      'newspaper'
     ];
-    if (!this.isBrowser) return "purple"; // ← guard first
+    if (!this.isBrowser) return "graphite"; // ← guard first
     const saved = localStorage.getItem("portfolio-theme") as Theme | null;
-    return saved && valid.includes(saved) ? saved : "purple";
+    return saved && valid.includes(saved) ? saved : "graphite";
   }
 }

@@ -41,7 +41,6 @@ export interface TimelineEvent {
 }
 
 export type Theme = 
-  'purple'    |
   'synthwave' |
   'newspaper' |
   'graphite';
