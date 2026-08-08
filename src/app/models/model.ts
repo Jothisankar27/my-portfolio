@@ -85,3 +85,5 @@ export interface PaletteCommand {
   hint?: string;
   run: () => void;
 }
+
+export type FormStatus = 'idle' | 'sending' | 'success' | 'error';

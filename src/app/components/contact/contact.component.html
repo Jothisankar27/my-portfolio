@@ -11,7 +11,7 @@
         </a>
 
         <a href="https://linkedin.com/in/jothi-sankar-g" target="_blank"
-          aria-label="Visit Jothi Sankar's LinkedIn profile">
+           aria-label="Visit Jothi Sankar's LinkedIn profile">
           <img src="assets/linkedin.svg" alt="" class="contact-icon">
         </a>
 
@@ -30,76 +30,68 @@
 
       <!-- Error banner -->
       @if (isError()) {
-      <div class="banner banner--error" role="alert">
-        Sorry for the inconvenience !!! Please try again or Mail me directly.
-        <button class="banner-close" (click)="reset()">✕</button>
-      </div>
+        <div class="banner banner--error" role="alert">
+          Sorry for the inconvenience !!! Please try again or Mail me directly.
+          <button class="banner-close" (click)="reset()">✕</button>
+        </div>
       }
 
       <!-- Form -->
       @if (!isSuccess()) {
-      <div class="form-wrapper">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-wrapper">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
 
-          <div class="form-row">
+            <div class="form-row">
 
-            <div class="field" [class.field--error]="form.controls.name.invalid && form.controls.name.touched">
-              <label for="cf-name">Name</label>
-              <input id="cf-name" type="text" placeholder="Your Name here Please" formControlName="name"
-                autocomplete="name" />
-              @if (form.controls.name.touched && form.controls.name.errors?.['required']) { <span
-                class="field-hint">Name is
-                required.</span> }
-              @if (form.controls.name.touched && form.controls.name.errors?.['minlength']) { <span class="field-hint">At
-                least 2
-                characters.</span> }
+              <div class="field" [class.field--error]="name.invalid && name.touched">
+                <label for="cf-name">Name</label>
+                <input id="cf-name" type="text" placeholder="Your Name here Please"
+                  formControlName="name" autocomplete="name" />
+                @if (name.touched && name.errors?.['required'])  { <span class="field-hint">Name is required.</span> }
+                @if (name.touched && name.errors?.['minlength']) { <span class="field-hint">At least 2 characters.</span> }
+                @if (name.touched && name.errors?.['notBlank'])  { <span class="field-hint">Name can't be just spaces.</span> }
+              </div>
+
+              <div class="field" [class.field--error]="email.invalid && email.touched">
+                <label for="cf-email">Email</label>
+                <input id="cf-email" type="email" placeholder="you@example.com"
+                  formControlName="email" autocomplete="email" />
+                @if (email.touched && email.errors?.['required']) { <span class="field-hint">Email is required.</span> }
+                @if (email.touched && email.errors?.['email'])    { <span class="field-hint">Enter a valid email.</span> }
+              </div>
             </div>
 
-            <div class="field" [class.field--error]="form.controls.email.invalid && form.controls.email.touched">
-              <label for="cf-email">Email</label>
-              <input id="cf-email" type="email" placeholder="you@example.com" formControlName="email"
-                autocomplete="email" />
-              @if (form.controls.email.touched && form.controls.email.errors?.['required']) { <span
-                class="field-hint">Email is
-                required.</span> }
-              @if (form.controls.email.touched && form.controls.email.errors?.['email']) { <span
-                class="field-hint">Enter a valid
-                email.</span> }
+            <div class="field" [class.field--error]="message.invalid && message.touched">
+              <label for="cf-message">Message</label>
+              <textarea id="cf-message" placeholder="Detailed Description" rows="5"
+                formControlName="message"></textarea>
+              @if (message.touched && message.errors?.['required'])  { <span class="field-hint">Message is required.</span> }
+              @if (message.touched && message.errors?.['minlength']) { <span class="field-hint">At least 10 characters.</span> }
+              @if (message.touched && message.errors?.['notBlank'])  { <span class="field-hint">Message can't be just spaces.</span> }
             </div>
 
-          </div>
+            <button class="submit-btn" type="submit" [disabled]="isSending()">
+              @if (!isSending()) {
+                <span>Send Message →</span>
+              } @else {
+                <span class="spinner-wrap">
+                  <span class="spinner" aria-hidden="true"></span> Sending…
+                </span>
+              }
+            </button>
 
-          <div class="field" [class.field--error]="form.controls.message.invalid && form.controls.message.touched">
-            <label for="cf-message">Message</label>
-            <textarea id="cf-message" placeholder="Detailed Description" rows="5" formControlName="message"></textarea>
-            @if (form.controls.message.touched && form.controls.message.errors?.['required']) { <span
-              class="field-hint">Message is required.</span> }
-            @if (form.controls.message.touched && form.controls.message.errors?.['minlength']) { <span
-              class="field-hint">At least 10 characters.</span> }
-          </div>
-
-          <button class="submit-btn" type="submit" [disabled]="isSending()">
-            @if (!isSending()) {
-            <span>Send Message →</span>
-            } @else {
-            <span class="spinner-wrap">
-              <span class="spinner" aria-hidden="true"></span> Sending…
-            </span>
-            }
-          </button>
-
-        </form>
-      </div>
+          </form>
+        </div>
       }
 
       <!-- Success state -->
       @if (isSuccess()) {
-      <div class="success-card" role="status">
-        <img src="assets/success-check.svg" alt="Message sent successfully" width="110" height="110">
-        <p class="success-title">Message sent ✓</p>
-        <p class="success-sub">Kindly check your inbox for my reply.</p>
-        <button class="banner-reset" (click)="reset()">Send another</button>
-      </div>
+        <div class="success-card" role="status">
+          <img src="assets/success-check.svg" alt="Message sent successfully" width="110" height="110">
+          <p class="success-title">Message sent!</p>
+          <p class="success-sub">I'll get back to you soon.</p>
+          <button class="banner-reset" (click)="reset()">Send another</button>
+        </div>
       }
 
     </div>

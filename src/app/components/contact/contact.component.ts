@@ -4,8 +4,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AnalyticsService } from '../../services/analytics.service';
-
-type FormStatus = 'idle' | 'sending' | 'success' | 'error';
+import { CustomValidators } from '../../validators/custom-validator';
+import { FormStatus } from 'src/app/models/model';
 
 @Component({
   selector: 'app-contact',
@@ -20,13 +20,37 @@ export class ContactComponent {
   private readonly analytics = inject(AnalyticsService);
   private readonly fb = inject(FormBuilder);
 
-  readonly status = signal<FormStatus>('idle');
-
-  readonly form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    message: ['', [Validators.required, Validators.minLength(10)]],
+  readonly contactForm = this.fb.nonNullable.group({
+    name: [
+      "",
+      [
+        Validators.required,
+        Validators.minLength(2),
+        CustomValidators.notBlank(),
+      ],
+    ],
+    email: ["", [Validators.required, Validators.email]],
+    message: [
+      "",
+      [
+        Validators.required,
+        Validators.minLength(10),
+        CustomValidators.notBlank(),
+      ],
+    ],
   });
+
+  get name() {
+    return this.contactForm.controls.name;
+  }
+  get email() {
+    return this.contactForm.controls.email;
+  }
+  get message() {
+    return this.contactForm.controls.message;
+  }
+
+  readonly status = signal<FormStatus>("idle");
 
   // ── Computed derived state (no manual getters needed)
   readonly isSending = computed(() => this.status() === 'sending');
@@ -35,19 +59,18 @@ export class ContactComponent {
 
   // ── Form submit handler
   onSubmit(): void {
-    if (this.form.invalid || this.isSending()) {
-      this.form.markAllAsTouched();
+    if (this.contactForm.invalid || this.isSending()) {
+      this.contactForm.markAllAsTouched();
       return;
     }
 
     this.status.set('sending');
 
-    const { name, email, message } = this.form.getRawValue();
+    const { name, email, message } = this.contactForm.getRawValue();
 
     // ── Use FormData instead of JSON
     const formData = new FormData();
     formData.append('access_key', environment.web3formsKey);
-    formData.append('subject', 'New message from portfolio contact form');
     formData.append('from_name', name);
     formData.append('replyto', email);
     formData.append('name', name);
@@ -61,7 +84,7 @@ export class ContactComponent {
           this.status.set(res.success ? 'success' : 'error');
           if (res.success) {
             this.analytics.trackContactSubmit();
-            this.form.reset();
+            this.contactForm.reset();
           }
         },
         error: () => this.status.set('error'),
