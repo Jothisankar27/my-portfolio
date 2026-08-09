@@ -1,5 +1,5 @@
 .details {
-  padding: 6rem 2.5rem;
+  padding: 0rem 2.5rem 6rem;
   max-width: var(--max);
   margin: 0 auto;
 }
@@ -8,7 +8,6 @@
   width: 100%;
 }
 
-.details-summary,
 .details-facts,
 .details-actions {
   opacity: 0;
@@ -18,19 +17,6 @@
   &.visible {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-.details-summary {
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 2.6rem;
-  text-align: left;
-
-  .summary-highlight {
-    color: var(--accent3);
-    font-weight: 500;
   }
 }
 
@@ -204,11 +190,7 @@
   }
 
   .details {
-    padding: 4rem 1.5rem;
-  }
-
-  .details-summary {
-    text-align: justify;
+    padding: 1.5rem 1.5rem 4rem;
   }
 
   .details-facts {

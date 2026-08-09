@@ -1,14 +1,8 @@
 <section class="details" id="details">
   <div class="details-inner">
 
-    <p class="details-summary" [class.visible]="visible" style="transition-delay:0.1s">
-      Angular Developer at Infosys — delivered 2 enterprise applications across 3 version migrations,
-      built cross-micro-frontend communication services, and earned
-      <span class="summary-highlight">2× Rise Insta Awards</span> for shipping critical features and resolving issues under SLA.
-    </p>
-
-    <div class="details-facts" [class.visible]="visible" style="transition-delay:0.25s">
-      @for (fact of quickFacts; track fact.label) {
+    <div class="details-facts" [class.visible]="visible()" style="transition-delay:0.25s">
+      @for (fact of quickFacts(); track fact.label) {
         <div class="fact">
           <span class="fact-label">{{ fact.label }}</span>
           <span class="fact-value">{{ fact.value }}</span>
@@ -16,7 +10,7 @@
       }
     </div>
 
-    <div class="details-actions" [class.visible]="visible" style="transition-delay:0.4s">
+    <div class="details-actions" [class.visible]="visible()" style="transition-delay:0.4s">
       <a href="#work" class="btn-primary" aria-label="View my work">
         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="5" width="16" height="11" rx="2"/><path d="M7 5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/>
