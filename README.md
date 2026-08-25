@@ -42,7 +42,6 @@ src/
 │       ├── nav/                      # Sticky nav, active-section highlight, theme palette, hamburger menu
 │       ├── scroll-element/           # Spider-Man scroll progress indicator (opt-in)
 │       ├── skills/                   # 3-tier proficiency matrix (Expert / Proficient / Familiar) + skill grid
-│       ├── ticker/                   # Infinite seamless marquee with edge-fade mask
 │       ├── timeline/                 # Vertical career timeline with live-pulse on current role
 │       └── work/                     # Tabbed project cards with flicker-free enter/exit animations
 ├── assets/                           # SVG icons, images, resume PDF
@@ -70,8 +69,6 @@ AppComponent (root)
 │   ├── Multilingual swipe (EN / TA / HI) via mouse + touch HostListeners
 │   └── Injects AnalyticsService
 │
-├── TickerComponent         — infinite CSS marquee
-│
 ├── TimelineComponent       — career journey, vertical layout
 │
 ├── WorkComponent           — signal(activeIndex), flicker-free card transitions
@@ -89,7 +86,7 @@ AppComponent (root)
 
 Services (providedIn: 'root')
 ├── AnalyticsService        — GA4 event wrapper, section dwell timers via performance.now()
-└── ThemeService            — signal(current), 4-theme system, localStorage + isPlatformBrowser guards
+└── ThemeService            — signal(current), 3-theme system, localStorage + isPlatformBrowser guards
 ```
 
 ---
@@ -102,12 +99,11 @@ Services (providedIn: 'root')
 | Hero entrance animations    | `details` | CSS keyframes, staggered reveal, hint state signal                                               |
 | Sticky nav + shrink         | `nav`     | `@HostListener` scroll, height transition at 60 px                                               |
 | Active section highlight    | `nav`     | `IntersectionObserver` across all section IDs, `rootMargin` tuned to nav height                  |
-| Theme switcher              | `nav`     | 4 themes (Purple / Synthwave / Newspaper / Graphite), circular clip-path reveal from click origin|
+| Theme switcher              | `nav`     | 3 themes (Graphite / Synthwave / Newspaper), circular clip-path reveal from click origin|
 | Section dwell tracking      | `nav`     | `performance.now()` timers in `AnalyticsService`                                                 |
 | Career timeline             | `timeline`| Vertical layout, work / milestone dot types, live pulse on current role                          |
 | Animated stat counters      | `about`   | RAF cubic ease-out, 120 ms stagger, `afterNextRender()` + single-fire `IntersectionObserver`     |
 | 3-tier skills matrix        | `skills`  | Expert / Proficient / Familiar tiers + categorised skill grid                                    |
-| Infinite ticker             | `ticker`  | Gap-based spacing, `translateX(-50%)`, edge `mask-image` fade                                    |
 | Tabbed project cards        | `work`    | Enter/exit animations with `data-state` attribute transitions                                    |
 | Contact form                | `contact` | Signal state machine: `idle → sending → success / error`                                         |
 | CSS scroll progress bar     | `app`     | Pure CSS `animation-timeline: scroll()` with `@supports` fallback                                |
@@ -130,7 +126,7 @@ Services (providedIn: 'root')
 | **`requestAnimationFrame` + `performance.now()`** | Cubic ease-out stat counters |
 | **`@HostListener`** | `window:scroll`, `document:keydown.escape`, `document:click`, touch events |
 | **`OnDestroy` cleanup** | `IntersectionObserver.disconnect()` and dwell timer flush in `nav` |
-| **SCSS + CSS custom properties** | 4-theme system via `data-theme` attribute on `<html>`, component-scoped styles |
+| **SCSS + CSS custom properties** | 3-theme system via `data-theme` attribute on `<html>`, component-scoped styles |
 | **`prefers-reduced-motion`** | Guards on all CSS keyframe animations and JS-driven transitions |
 | **CSS `animation-timeline: view()`** | Scroll-driven animations with `@supports` progressive enhancement |
 | **`HttpClient` + `FormData`** | Native multipart submission to Web3Forms |
@@ -142,12 +138,11 @@ Services (providedIn: 'root')
 
 4 CSS custom property tokens drive every colour in the app. Switching themes applies a `data-theme` attribute to `<html>` and animates a circular clip-path overlay expanding from the click origin:
 
-| Theme            | Accent    |
-|------------------|-----------|
-| Purple (default) | `#a855f7` |
-| Synthwave        | `#ff2d78` |
-| Newspaper        | `#d4c9b0` |
-| Graphite         | `#a8b8cc` |
+| Theme              | Accent    |
+|--------------------|-----------|
+| Graphite (default) | `#a8b8cc` |
+| Synthwave          | `#ff2d78` |
+| Newspaper          | `#d4c9b0` |
 
 Theme preference is persisted to `localStorage` and restored on next visit.
 
