@@ -13,7 +13,7 @@ export class TimelineComponent {
   events: TimelineEvent[] = [
     {
       year: "2026",
-      role: "Web Development Engineer",
+      role: "Web Application Engineer",
       place: "Tata Consultancy Services · Bengaluru, Karnataka, India",
       desc: "Angular Development, micro-frontend [Module Federation], UI/UX, Agentic AI, LLM integration",
       type: "work",
