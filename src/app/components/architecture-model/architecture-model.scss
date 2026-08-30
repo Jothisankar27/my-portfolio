@@ -1,0 +1,323 @@
+.arch-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(var(--bg-rgb), 0.86);
+  backdrop-filter: blur(6px);
+  animation: arch-fade 0.18s ease-out;
+}
+
+@keyframes arch-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.arch-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(420px, 92vw);
+  max-height: 85vh;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: auto;
+}
+
+.arch-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.arch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arch-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arch-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--surface2);
+    color: var(--text);
+  }
+}
+
+.arch-close {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--accent);
+    color: var(--btn-text);
+  }
+}
+
+.arch-body {
+  display: flex;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+}
+
+// --- Narrative diagram animation ---
+// The spine "draws" downward, each step fades/slides in after it,
+// and the loop line marches continuously to read as an ongoing cycle
+// rather than a static arrow.
+
+.arch-spine {
+  stroke-dasharray: 480;
+  stroke-dashoffset: 480;
+  animation: arch-draw-spine 1.1s ease-out forwards;
+}
+
+@keyframes arch-draw-spine {
+  to { stroke-dashoffset: 0; }
+}
+
+.arch-step {
+  opacity: 0;
+  transform: translateX(-6px);
+  animation: arch-step-in 0.4s ease-out forwards;
+
+  @for $i from 1 through 7 {
+    &:nth-of-type(#{$i}) {
+      animation-delay: #{0.15 * $i}s;
+    }
+  }
+}
+
+@keyframes arch-step-in {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.arch-loop {
+  animation: arch-loop-march 0.8s linear infinite;
+}
+
+@keyframes arch-loop-march {
+  to { stroke-dashoffset: -8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arch-spine,
+  .arch-step,
+  .arch-loop {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+// --- Features list ---
+
+.arch-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.arch-feature-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.arch-feature-heading {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.arch-feature-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.arch-feature-group li {a.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.5rem;
+  border-top: 1px solid rgba(var(--accent-rgb), 0.12);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+
+  a {
+    color: var(--accent3);
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover { color: var(--text); }
+  }
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.footer-update {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.update-dot {
+  width: 6px;
+  height: 6px;
+  margin-bottom: 0.1rem;
+  border-radius: 50%;
+  background: var(--accent3);
+  flex-shrink: 0;
+  box-shadow: 0 0 5px rgba(var(--accent-rgb), 0.5);
+  animation: dot-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
+.update-msg {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+  opacity: 0.55;
+}
+
+.footer-craft {
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.footer-arch-trigger {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-left: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--accent3);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.6rem;
+    padding: 1.2rem 1.5rem;
+  }
+
+  .footer-left {
+    justify-content: center; 
+  }
+
+  .footer-craft{
+    margin-left: 0; 
+  }
+
+  .update-msg  {
+    display: none; 
+  }
+
+  .footer-arch-trigger {
+    margin-left: 0;
+    margin-top: 0.2rem;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    text-decoration: none;
+
+    &:hover {
+      border-color: var(--accent3);
+    }
+  }
+
+}
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  padding-left: 14px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent2);
+  }
+}

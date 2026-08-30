@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from './components/nav/nav.component';
 import { DetailsComponent } from "./components/details/details.component";
-import { TickerComponent } from './components/ticker/ticker.component';
 import { WorkComponent } from './components/work/work.component';
 import { SkillsComponent } from './components/skills/skills.component';
 import { AboutComponent } from './components/about/about.component';
@@ -12,6 +11,7 @@ import { ScrollElement } from './components/scroll-element/scroll-element.compon
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
+import { ArchitectureModel } from './components/architecture-model/architecture-model';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ import { CommandPaletteComponent } from './components/command-palette/command-pa
     CommonModule,
     NavComponent,
     DetailsComponent,
-    TickerComponent,
+    ArchitectureModel,
     WorkComponent,
     SkillsComponent,
     AboutComponent,

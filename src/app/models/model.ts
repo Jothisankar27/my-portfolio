@@ -87,3 +87,13 @@ export interface PaletteCommand {
 }
 
 export type FormStatus = 'idle' | 'sending' | 'success' | 'error';
+
+export interface TechIcon {
+  path: string;
+  title: string;
+  hex: string;        // official brand color, no leading '#'
+  viewBox?: string;
+  generic?: boolean;
+}
+
+export type ArchView = 'narrative' | 'features';

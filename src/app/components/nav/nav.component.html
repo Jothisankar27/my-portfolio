@@ -8,6 +8,7 @@
     <li><a href="#skills"    (click)="closeMenu()" [class.active]="activeSection() === 'skills'">Skills</a></li>
     <li><a href="#about"     (click)="closeMenu()" [class.active]="activeSection() === 'about'">About</a></li>
     <li><a href="#contact"   (click)="closeMenu()" [class.active]="activeSection() === 'contact'">Connect</a></li>
+    <li><button class="nav-arch-trigger" (click)="openArchitecture()">Peek under the hood</button></li>
   </ul>
 
   <!-- Theme switcher -->
@@ -23,7 +24,7 @@
 
     </button>
 
-    <div class="theme-palette" role="listbox" aria-label="Theme options">
+    <div class="theme-palette" role="listbox" aria-label="Theme options" [attr.inert]="paletteOpen() ? null : ''">
       @for (theme of themeService.themes; track theme.id) {
         <button
           class="swatch"

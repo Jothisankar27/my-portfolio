@@ -7,18 +7,20 @@ import {
   signal,
   computed,
   PLATFORM_ID,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { AnalyticsService } from '../../services/analytics.service';
 import { ThemeService } from '../../services/themes.service';
+import { ArchitectureModelService } from '../../services/architecture-model.service';
 import { Theme } from 'src/app/models/model';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './nav.component.html',
-  styleUrl: './nav.component.scss'
+  styleUrl: './nav.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavComponent implements OnInit, OnDestroy {
   isScrolled = false;
@@ -29,6 +31,7 @@ export class NavComponent implements OnInit, OnDestroy {
   private observer!: IntersectionObserver;
   private analytics = inject(AnalyticsService);
   readonly themeService = inject(ThemeService);
+  private readonly architectureModel = inject(ArchitectureModelService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly sectionOrder = [
     "home",
@@ -109,6 +112,11 @@ export class NavComponent implements OnInit, OnDestroy {
 
   closeMenu(): void {
     this.menuOpen = false;
+  }
+
+  openArchitecture(): void {
+    this.architectureModel.open();
+    this.closeMenu();
   }
 
   togglePalette(): void {

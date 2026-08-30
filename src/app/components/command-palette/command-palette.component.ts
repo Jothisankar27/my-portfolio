@@ -12,6 +12,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ThemeService } from '../../services/themes.service';
 import { Theme } from '../../models/model';
 import { PaletteCommand, CommandGroup } from '../../models/model';
+import { ArchitectureModelService } from "../../services/architecture-model.service";
 
 @Component({
   selector: "app-command-palette",
@@ -23,6 +24,7 @@ import { PaletteCommand, CommandGroup } from '../../models/model';
 export class CommandPaletteComponent {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly themeService = inject(ThemeService);
+  private readonly architectureModel = inject(ArchitectureModelService);
 
   @ViewChild("searchInput") searchInput?: ElementRef<HTMLInputElement>;
 
@@ -124,6 +126,13 @@ export class CommandPaletteComponent {
       keywords: "graphite gray color scheme",
       run: () => this.applyTheme("graphite"),
     },
+    {
+      id: "view-architecture",
+      group: "Connect",
+      label: "View site architecture",
+      keywords: "diagram schematic angular structure flow",
+      run: () => this.architectureModel.open(),
+    }
   ];
 
   readonly filtered = computed(() => {

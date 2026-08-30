@@ -1,0 +1,140 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+@if (isOpen()) {
+<div class="arch-backdrop" (click)="onBackdropClick($event)">
+  <div class="arch-panel" role="dialog" aria-modal="true" aria-label="How this app works">
+
+    <div class="arch-header">
+      <span class="arch-title">
+        {{ view() === 'narrative' ? 'Guess How The Portfolio Works !' : 'What this app can do' }}
+      </span>
+      <div class="arch-header-actions">
+        <button class="arch-toggle" (click)="toggleView()">
+          {{ view() === 'narrative' ? 'Features' : 'How it works' }}
+        </button>
+        <button class="arch-close" aria-label="Close" (click)="close()">&times;</button>
+      </div>
+    </div>
+
+    <div class="arch-body">
+      @if (view() === 'narrative') {
+      <svg viewBox="0 0 380 610" role="img" aria-label="How the app works, step by step, from page load to redeploy">
+        <title>Portfolio architecture narrative</title>
+
+        <line class="arch-spine" x1="60" y1="60" x2="60" y2="540" stroke="var(--border)" stroke-width="1.5" />
+
+        <g class="arch-step">
+          <circle cx="60" cy="60" r="8" fill="var(--surface2)" stroke="var(--accent2)" stroke-width="0.5" />
+          <line x1="60" y1="60" x2="88" y2="60" stroke="var(--accent2)" stroke-width="1" />
+          <rect x="90" y="32" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent2)"
+            stroke-width="0.5" />
+          <text x="100" y="52" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">Visitor
+            loads the URL</text>
+          <text x="100" y="72" dominant-baseline="central" fill="var(--text-muted)" font-size="12">Prerendered static
+            HTML</text>
+        </g>
+
+        <g class="arch-step">
+          <circle cx="60" cy="140" r="8" fill="var(--surface2)" stroke="var(--accent2)" stroke-width="0.5" />
+          <line x1="60" y1="140" x2="88" y2="140" stroke="var(--accent2)" stroke-width="1" />
+          <rect x="90" y="112" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent2)"
+            stroke-width="0.5" />
+          <text x="100" y="132" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">Angular
+            Boots</text>
+          <text x="100" y="152" dominant-baseline="central" fill="var(--text-muted)" font-size="12">Zoneless
+            hydration</text>
+        </g>
+
+        <g class="arch-step">
+          <circle cx="60" cy="220" r="8" fill="var(--surface2)" stroke="var(--accent2)" stroke-width="0.5" />
+          <line x1="60" y1="220" x2="88" y2="220" stroke="var(--accent2)" stroke-width="1" />
+          <rect x="90" y="192" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent2)"
+            stroke-width="0.5" />
+          <text x="100" y="212" dominant-baseline="central" fill="var(--text)" font-size="14"
+            font-weight="500">Components render</text>
+          <text x="100" y="232" dominant-baseline="central" fill="var(--text-muted)" font-size="12">13 standalone, no
+            NgModules</text>
+        </g>
+
+        <g class="arch-step">
+          <circle cx="60" cy="300" r="8" fill="var(--surface2)" stroke="var(--accent3)" stroke-width="0.5" />
+          <line x1="60" y1="300" x2="88" y2="300" stroke="var(--accent3)" stroke-width="1" />
+          <rect x="90" y="272" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent3)"
+            stroke-width="0.5" />
+          <text x="100" y="292" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">User
+            interacts</text>
+          <text x="100" y="312" dominant-baseline="central" fill="var(--text-muted)" font-size="12">e.g. clicks a
+            project card</text>
+        </g>
+
+        <g class="arch-step">
+          <circle cx="60" cy="380" r="8" fill="var(--surface2)" stroke="var(--accent3)" stroke-width="0.5" />
+          <line x1="60" y1="380" x2="88" y2="380" stroke="var(--accent3)" stroke-width="1" />
+          <rect x="90" y="352" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent3)"
+            stroke-width="0.5" />
+          <text x="100" y="372" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">Signal
+            updates</text>
+          <text x="100" y="392" dominant-baseline="central" fill="var(--text-muted)"
+            font-size="12">activeIndex.set(index)</text>
+        </g>
+
+        <g class="arch-step">
+          <circle cx="60" cy="460" r="8" fill="var(--surface2)" stroke="var(--accent3)" stroke-width="0.5" />
+          <line x1="60" y1="460" x2="88" y2="460" stroke="var(--accent3)" stroke-width="1" />
+          <rect x="90" y="432" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent3)"
+            stroke-width="0.5" />
+          <text x="100" y="452" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">Only
+            that view re-renders</text>
+          <text x="100" y="472" dominant-baseline="central" fill="var(--text-muted)" font-size="12">OnPush skips the
+            rest</text>
+        </g>
+
+        <g class="arch-step">
+          <circle cx="60" cy="540" r="8" fill="var(--surface2)" stroke="var(--accent)" stroke-width="0.5" />
+          <line x1="60" y1="540" x2="88" y2="540" stroke="var(--accent)" stroke-width="1" />
+          <rect x="90" y="512" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent)"
+            stroke-width="0.5" />
+          <text x="100" y="532" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">Contact
+            form [Web3Forms]</text>
+          <text x="100" y="552" dominant-baseline="central" fill="var(--text-muted)" font-size="12">API-driven reactive
+            forms</text>
+        </g>
+
+        <defs>
+          <marker id="arch-loop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="var(--accent3)" stroke-width="1.5" />
+          </marker>
+        </defs>
+        <path class="arch-loop" d="M 330 460 Q 350 460 350 300 L 332 300" fill="none" stroke="var(--accent3)"
+          stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arch-loop-arrow)" />
+      </svg>
+      } @else {
+      <div class="arch-features">
+        <div class="arch-feature-group">
+          <h3 class="arch-feature-heading">User-facing</h3>
+          <ul>
+            <li>Multilingual — EN / TA / HI, drag to switch</li>
+            <li>Theme switcher — Graphite, Synthwave, Newspaper</li>
+            <li>Cardbox to Display Docs and Certs. click to expand</li>
+            <li>Reactive contact form with Web3Forms</li>
+            <li>Last updated pulled from GitHub</li>
+          </ul>
+        </div>
+        <div class="arch-feature-group">
+          <h3 class="arch-feature-heading">Technical</h3>
+          <ul>
+            <li>Zoneless change detection, no zone.js</li>
+            <li>Full SSR prerendering for every route</li>
+            <li>Signal-based state, no NgRx</li>
+            <li>Standalone components, zero NgModules</li>
+            <li>OnPush declared on every component</li>
+          </ul>
+        </div>
+      </div>
+      }
+    </div>
+
+  </div>
+</div>
+}
