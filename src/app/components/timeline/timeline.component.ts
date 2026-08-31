@@ -15,15 +15,15 @@ export class TimelineComponent {
       year: "2026",
       role: "Web Application Engineer",
       place: "Tata Consultancy Services · Bengaluru, Karnataka, India",
-      desc: "Angular Development, micro-frontend [Module Federation], UI/UX, Agentic AI, LLM integration",
+      desc: "Angular Development, Micro-Frontend [Module Federation], UI/UX, Agentic AI, LLM integration",
       type: "work",
       current: true,
     },
     {
       year: "2022",
-      role: "Frontend Developer",
+      role: "UI Developer",
       place: "Infosys Limited · Bengaluru, Karnataka, India",
-      desc: "Angular v20 migration, micro-frontend architecture, cross-MFE communication, stakeholder delivery. Rise Insta Award recipient.",
+      desc: "Angular v20 migration, Micro-Frontend architecture, Cross-MFE communication, stakeholder delivery. Rise Insta Award recipient.",
       type: "work",
     },
     {
