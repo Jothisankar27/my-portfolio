@@ -1,11 +1,11 @@
 import {
   Component,
-  OnInit,
   OnDestroy,
   HostListener,
   signal,
   inject,
   PLATFORM_ID,
+  afterNextRender,
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 
@@ -16,8 +16,22 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
   templateUrl: "./hero.component.html",
   styleUrl: "./hero.component.scss",
 })
-export class HeroComponent implements OnInit, OnDestroy {
+export class HeroComponent implements OnDestroy {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
+   constructor() {
+    afterNextRender(() => {
+      setTimeout(() => (this.visible = true), 100);
+      setTimeout(() => this.hintState.set("click"), 1050);
+
+      if (this.isBrowser) {
+        this.mediaQuery = window.matchMedia("(max-width: 768px)");
+        this.isMobile.set(this.mediaQuery.matches);
+        this.mediaQuery.addEventListener("change", this.onMediaChange);
+        if (this.isMobile()) this.startCrossfade();
+      }
+    });
+  }
 
   visible = false;
   scriptIndex = 0; // 0 = English , 1 = Tamil , 2 = Hindi
@@ -65,19 +79,19 @@ export class HeroComponent implements OnInit, OnDestroy {
     return this.SCRIPTS[this.scriptIndex];
   }
 
-  ngOnInit(): void {
-    setTimeout(() => (this.visible = true), 100);
-    // Reveal hint after hero-name entrance animation finishes:
-    // 100ms (visible delay) + 150ms (transition-delay on name) + 700ms (transition) + 100ms buffer
-    setTimeout(() => this.hintState.set("click"), 1050);
+  // ngOnInit(): void {
+  //   setTimeout(() => (this.visible = true), 100);
+  //   // Reveal hint after hero-name entrance animation finishes:
+  //   // 100ms (visible delay) + 150ms (transition-delay on name) + 700ms (transition) + 100ms buffer
+  //   setTimeout(() => this.hintState.set("click"), 1050);
 
-    if (this.isBrowser) {
-      this.mediaQuery = window.matchMedia("(max-width: 768px)");
-      this.isMobile.set(this.mediaQuery.matches);
-      this.mediaQuery.addEventListener("change", this.onMediaChange);
-      if (this.isMobile()) this.startCrossfade();
-    }
-  }
+  //   if (this.isBrowser) {
+  //     this.mediaQuery = window.matchMedia("(max-width: 768px)");
+  //     this.isMobile.set(this.mediaQuery.matches);
+  //     this.mediaQuery.addEventListener("change", this.onMediaChange);
+  //     if (this.isMobile()) this.startCrossfade();
+  //   }
+  // }
 
   ngOnDestroy(): void {
     if (this.pendingTimer) clearTimeout(this.pendingTimer);
