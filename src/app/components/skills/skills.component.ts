@@ -44,6 +44,8 @@ export class SkillsComponent {
       skills: [
         'Node.js',
         'SonarQube',
+        'Agentic AI',
+        'LLM Integration',
         'Figma (Basic)',
       ],
     },
