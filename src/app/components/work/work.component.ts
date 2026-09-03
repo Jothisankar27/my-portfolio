@@ -34,7 +34,18 @@ export class WorkComponent {
     this.activeEvidence.set(null);
   }
 
-  projects: Project[] = [
+   projects: Project[] = [
+    {
+      tag: "TCS BAnCS · AI-driven Banking Platform",
+      stack: "Angular · Micro-frontend [Module Federation] · LLM Integration · MCP",
+      title: "AI Compass",
+      titleLine2: "July 2026 - Present",
+      desc: "Collaborating on a micro-frontend banking platform with integrated LLM capabilities, covering real-time transaction monitoring and AI-driven customer support.",
+      bullets: [
+        "Migrated the Angular micro-frontend application to the latest version, modernizing code patterns to current Angular standards",
+        "Prototyped a Figma-to-code workflow using GitHub Copilot via MCP, building custom Figma plugins backed by Python scripts and a Node.js server",
+      ],
+    },
     {
       tag: "Infosys · Enterprise Scale Application",
       stack: "Angular [Micro-frontends] · Java [Spring Boot] · MS-SQL",
