@@ -40,7 +40,6 @@ src/
 │       ├── details/                  # Hero — multilingual name swipe (EN / TA / HI), entrance animations
 │       ├── footer/                   # Minimal footer
 │       ├── nav/                      # Sticky nav, active-section highlight, theme palette, hamburger menu
-│       ├── scroll-element/           # Spider-Man scroll progress indicator (opt-in)
 │       ├── skills/                   # 3-tier proficiency matrix (Expert / Proficient / Familiar) + skill grid
 │       ├── timeline/                 # Vertical career timeline with live-pulse on current role
 │       └── work/                     # Tabbed project cards with flicker-free enter/exit animations
@@ -79,10 +78,8 @@ AppComponent (root)
 │   └── afterNextRender() → IntersectionObserver → RAF cubic ease-out stat counters
 │
 ├── ContactComponent        — signal state machine: idle → sending → success/error
-│
-├── FooterComponent
-│
-└── ScrollElement           — Spider-Man SVG scroll indicator (opt-in)
+│ 
+└── FooterComponent 
 
 Services (providedIn: 'root')
 ├── AnalyticsService        — GA4 event wrapper, section dwell timers via performance.now()
