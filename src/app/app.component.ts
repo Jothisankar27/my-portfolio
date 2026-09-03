@@ -7,7 +7,6 @@ import { SkillsComponent } from './components/skills/skills.component';
 import { AboutComponent } from './components/about/about.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ScrollElement } from './components/scroll-element/scroll-element.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
@@ -26,7 +25,6 @@ import { ArchitectureModel } from './components/architecture-model/architecture-
     AboutComponent,
     ContactComponent,
     FooterComponent,
-    ScrollElement,
     TimelineComponent,
     HeroComponent,
     CommandPaletteComponent
