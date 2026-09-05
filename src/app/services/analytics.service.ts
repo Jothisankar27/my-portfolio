@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 declare const gtag: (...args: unknown[]) => void;
 
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
 
+  private readonly http = inject(HttpClient);
   private dwellTimers = new Map<string, number>();
 
   trackEvent(eventName: string, params?: Record<string, unknown>): void {
@@ -17,6 +21,24 @@ export class AnalyticsService {
       event_category: 'engagement',
       event_label: 'PDF Resume'
     });
+    this.notifyResumeAccess();
+  }
+
+  private notifyResumeAccess(): void {
+    const referrer = document.referrer || 'direct / unknown';
+    const ref = new URLSearchParams(window.location.search).get('ref') || 'none';
+
+    const formData = new FormData();
+    formData.append('access_key', environment.web3formsKey);
+    formData.append('subject', 'Resume viewed/downloaded on portfolio');
+    formData.append(
+      'message',
+      `Someone opened your resume at ${new Date().toLocaleString()}.\n` +
+      `Referrer: ${referrer}\n` +
+      `Tagged link (?ref=): ${ref}`
+    );
+
+    this.http.post(environment.web3Fromslink, formData).subscribe({ error: () => {} });
   }
 
   trackContactSubmit(): void {

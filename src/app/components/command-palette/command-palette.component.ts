@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ThemeService } from '../../services/themes.service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { Theme } from '../../models/model';
 import { PaletteCommand, CommandGroup } from '../../models/model';
 import { ArchitectureModelService } from "../../services/architecture-model.service";
@@ -24,6 +25,7 @@ import { ArchitectureModelService } from "../../services/architecture-model.serv
 export class CommandPaletteComponent {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly themeService = inject(ThemeService);
+  private readonly analytics = inject(AnalyticsService);
   private readonly architectureModel = inject(ArchitectureModelService);
 
   @ViewChild("searchInput") searchInput?: ElementRef<HTMLInputElement>;
@@ -103,7 +105,10 @@ export class CommandPaletteComponent {
       group: "Connect",
       label: "Download Resume",
       keywords: "cv pdf download",
-      run: () => this.openUrl("assets/Jothi Sankar Resume 2026.pdf"),
+      run: () => {
+        this.analytics.trackResumeDownload();
+        this.openUrl("assets/Jothi Sankar Resume 2026.pdf");
+      },
     },
     {
       id: "theme-synthwave",
