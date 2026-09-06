@@ -55,9 +55,6 @@ export class SkillsComponent {
     {
       heading: 'Architecture',
       items: [
-        'Micro-frontends',
-        'MFE Communication',
-        'Component Architecture',
         'Change Detection',
         'Git Workflow',
         'Agile / Scrum',
@@ -70,7 +67,6 @@ export class SkillsComponent {
         'Jira / Confluence',
         'SSMS',
         'PGAdmin',
-        'SonarQube',
         'Claude Code',
         'GitHub Copilot',
         'Cursor',
@@ -80,7 +76,6 @@ export class SkillsComponent {
       heading: 'Design',
       items: [
         'Canva',
-        'Figma (Basic)',
         'Pencil',
         'PowerPoint',
       ],

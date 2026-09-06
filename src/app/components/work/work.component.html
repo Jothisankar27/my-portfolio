@@ -15,7 +15,6 @@
           <span class="tab-bar"></span>
           <span class="tab-index">0{{ i + 1 }}</span>
           <span class="tab-title">{{ proj.title }}</span>
-          <span class="tab-period">{{ proj.tag }}</span>
         </button>
       }
 
@@ -28,6 +27,7 @@
       @for (proj of projects; track proj.title; let i = $index) {
         <article class="project-card" [attr.data-state]="cardState(i)">
           <div class="project-top">
+            <span class="project-tag">{{ proj.tag }}</span>
             <div class="stack-row">
               @for (s of proj.stack.split(' · '); track s) {
                 <span class="stack-pill">{{ s }}</span>
