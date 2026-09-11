@@ -197,6 +197,17 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem 1rem;
   }
+
+  .details-actions {
+    flex-wrap: nowrap;
+    gap: 0.6rem;
+    width: 100%;
+  }
+  .cert-badge {
+    font-size: 0.75rem;
+    padding: 0.85rem 0.85rem;
+    letter-spacing: 0.05em;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
