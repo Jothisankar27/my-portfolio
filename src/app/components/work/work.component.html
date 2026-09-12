@@ -4,72 +4,66 @@
     <h2>Work Experience</h2>
   </div>
 
-  <!-- deck-wrap: tab strip LEFT + card deck RIGHT -->
-  <div class="deck-wrap reveal">
+  <!-- Dot markers double as direct jump-to-section links -->
+  <div class="snap-dots">
+    @for (proj of projects; track proj.title; let i = $index) {
+      <button
+        class="snap-dot"
+        [class.active]="i === activeIndex()"
+        (click)="scrollTo(i)"
+        [attr.aria-label]="'Jump to ' + proj.title"></button>
+    }
+  </div>
 
-    <!--  Left tab strip  -->
-    <div class="tab-strip">
-      @for (proj of projects; track proj.title; let i = $index) {
-        <button class="tab-btn" [class.active]="i === activeIndex()"
-          (click)="selectProject(i)" [attr.aria-label]="'View ' + proj.title">
-          <span class="tab-bar"></span>
-          <span class="tab-index">0{{ i + 1 }}</span>
-          <span class="tab-title">{{ proj.title }}</span>
-        </button>
-      }
-
-      <!-- vertical connector line between tabs -->
-      <div class="tab-line"></div>
-    </div>
-
-    <!-- Card deck  -->
-    <div class="deck deck--open" [attr.data-enter]="enterDir">
-      @for (proj of projects; track proj.title; let i = $index) {
-        <article class="project-card" [attr.data-state]="cardState(i)">
-          <div class="project-top">
+  <div class="deck" #deck>
+    @for (proj of projects; track proj.title; let i = $index) {
+      <article class="project-card">
+        <div class="project-top">
+          <div class="tag-stack-row">
             <span class="project-tag">{{ proj.tag }}</span>
-            <div class="stack-row">
+            <div class="stack-pills">
               @for (s of proj.stack.split(' · '); track s) {
                 <span class="stack-pill">{{ s }}</span>
               }
             </div>
-            <span class="project-period">{{ proj.titleLine2 }}</span>
           </div>
+          
+          <span class="project-period">{{ proj.titleLine2 }}</span>
+        </div>
 
-          <p class="project-desc">{{ proj.desc }}</p>
+        <h3 class="project-title">{{ proj.title }}</h3>
+        <p class="project-desc">{{ proj.desc }}</p>
 
-          <ul class="project-bullets">
-            @for (b of proj.bullets; track b) {
-              <li>{{ b }}</li>
-            }
-          </ul>
-
-          @if (proj.award) {
-            <div class="project-footer">
-              <span class="project-symbol">🏅</span>
-              <div class="award-list">
-                @for (award of proj.award; track award.text) {
-                  <button
-                    type="button"
-                    class="award-item"
-                    [class.award-item--clickable]="award.evidence"
-                    (click)="openEvidence(award.evidence)"
-                    [attr.aria-label]="award.evidence ? 'View evidence for ' + award.text : null"
-                  >
-                    <span class="award-year">{{ award.year }}</span>
-                    <span class="award-text">{{ award.text }}</span>
-                    @if (award.evidence) {
-                      <span class="award-evidence-icon" aria-hidden="true">🔗</span>
-                    }
-                  </button>
-                }
-              </div>
-            </div>
+        <ul class="project-bullets">
+          @for (b of proj.bullets; track b) {
+            <li>{{ b }}</li>
           }
-        </article>
-      }
-    </div>
+        </ul>
 
+        @if (proj.award) {
+          <div class="project-footer">
+            <span class="project-symbol">🏅</span>
+            <div class="award-list">
+              @for (award of proj.award; track award.text) {
+                <button
+                  type="button"
+                  class="award-item"
+                  [class.award-item--clickable]="award.evidence"
+                  (click)="openEvidence(award.evidence)"
+                  [attr.aria-label]="award.evidence ? 'View evidence for ' + award.text : null"
+                >
+                  <span class="award-year">{{ award.year }}</span>
+                  <span class="award-text">{{ award.text }}</span>
+                  @if (award.evidence) {
+                    <span class="award-evidence-icon" aria-hidden="true">🔗</span>
+                  }
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </article>
+    }
   </div>
 
   <app-lightbox [evidence]="activeEvidence()" (closed)="closeEvidence()"></app-lightbox>

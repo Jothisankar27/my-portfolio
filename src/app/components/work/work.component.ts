@@ -1,10 +1,15 @@
 import {
   Component,
   signal,
-  ChangeDetectorRef,
   inject,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+  PLATFORM_ID,
+  ChangeDetectionStrategy,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { Project, Evidence } from "../../models/model";
 import { LightboxComponent } from "../lightbox/lightbox.component";
 
@@ -14,15 +19,19 @@ import { LightboxComponent } from "../lightbox/lightbox.component";
   imports: [CommonModule, LightboxComponent],
   templateUrl: "./work.component.html",
   styleUrl: "./work.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkComponent {
+export class WorkComponent implements AfterViewInit, OnDestroy {
 
-  private cdr = inject(ChangeDetectorRef);
+  private platformId = inject(PLATFORM_ID);
+  private observer?: IntersectionObserver;
 
+  @ViewChild('deck') deckRef!: ElementRef<HTMLElement>;
+
+  // Which card is currently snapped into view — driven by IntersectionObserver,
+  // the same pattern NavComponent already uses for active-section tracking.
+  // No click-to-switch state at all: scrolling IS the navigation.
   activeIndex = signal(0);
-  outgoingIndex: number | null = null;
-  enterDir: "up" | "down" = "down";
-  private animating = false;
 
   activeEvidence = signal<Evidence | null>(null);
 
@@ -94,32 +103,37 @@ export class WorkComponent {
     },
   ];
 
-  selectProject(index: number): void {
-    if (this.animating || index === this.activeIndex()) return;
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
 
-    this.animating = true;
-    this.outgoingIndex = this.activeIndex();
-    this.enterDir = index > this.activeIndex() ? "down" : "up";
+    const cards = Array.from(
+      this.deckRef.nativeElement.querySelectorAll<HTMLElement>('.project-card')
+    );
 
-    // Step 1 — flush enterDir + outgoingIndex to the DOM first
-    this.cdr.detectChanges();
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
 
-    // Step 2 — wait one rAF so the browser has painted the new data-enter
-    requestAnimationFrame(() => {
-      this.activeIndex.set(index);
-      this.cdr.detectChanges(); // paint the new active card immediately
+        if (mostVisible) {
+          const index = cards.indexOf(mostVisible.target as HTMLElement);
+          if (index !== -1) this.activeIndex.set(index);
+        }
+      },
+      { root: this.deckRef.nativeElement, threshold: 0.4 }
+    );
 
-      setTimeout(() => {
-        this.outgoingIndex = null;
-        this.animating = false;
-        this.cdr.detectChanges();
-      }, 260); // slightly longer than the 0.24s exit
-    });
+    cards.forEach((card) => this.observer!.observe(card));
   }
 
-  cardState(i: number): "active" | "exiting" | "hidden" {
-    if (i === this.activeIndex()) return "active";
-    if (i === this.outgoingIndex) return "exiting";
-    return "hidden";
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+  }
+
+  scrollTo(index: number): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const cards = this.deckRef.nativeElement.querySelectorAll<HTMLElement>('.project-card');
+    cards[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
