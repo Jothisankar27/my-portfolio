@@ -6,6 +6,7 @@ import {
   inject,
   PLATFORM_ID,
   afterNextRender,
+  ChangeDetectionStrategy,
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 
@@ -15,13 +16,14 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
   imports: [CommonModule],
   templateUrl: "./hero.component.html",
   styleUrl: "./hero.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroComponent implements OnDestroy {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
    constructor() {
     afterNextRender(() => {
-      setTimeout(() => (this.visible = true), 100);
+      setTimeout(() => this.visible.set(true), 100);
       setTimeout(() => this.hintState.set("click"), 1050);
 
       if (this.isBrowser) {
@@ -33,10 +35,10 @@ export class HeroComponent implements OnDestroy {
     });
   }
 
-  visible = false;
-  scriptIndex = 0; // 0 = English , 1 = Tamil , 2 = Hindi
+  readonly visible = signal(false);
+  readonly scriptIndex = signal(0); // 0 = English , 1 = Tamil , 2 = Hindi
   readonly SCRIPTS = ["en", "ta", "hi"] as const;
-  slideDir: "left" | "right" | null = null;
+  readonly slideDir = signal<"left" | "right" | null>(null);
 
   // Language swap is a web-only flourish. Mobile instead auto-cycles through
   // the same three scripts with a whole-string crossfade+rise, rather than
@@ -76,22 +78,8 @@ export class HeroComponent implements OnDestroy {
   private pendingTimer: ReturnType<typeof setTimeout> | null = null;
 
   get currentScript() {
-    return this.SCRIPTS[this.scriptIndex];
+    return this.SCRIPTS[this.scriptIndex()];
   }
-
-  // ngOnInit(): void {
-  //   setTimeout(() => (this.visible = true), 100);
-  //   // Reveal hint after hero-name entrance animation finishes:
-  //   // 100ms (visible delay) + 150ms (transition-delay on name) + 700ms (transition) + 100ms buffer
-  //   setTimeout(() => this.hintState.set("click"), 1050);
-
-  //   if (this.isBrowser) {
-  //     this.mediaQuery = window.matchMedia("(max-width: 768px)");
-  //     this.isMobile.set(this.mediaQuery.matches);
-  //     this.mediaQuery.addEventListener("change", this.onMediaChange);
-  //     if (this.isMobile()) this.startCrossfade();
-  //   }
-  // }
 
   ngOnDestroy(): void {
     if (this.pendingTimer) clearTimeout(this.pendingTimer);
@@ -153,13 +141,14 @@ export class HeroComponent implements OnDestroy {
     this.hintState.set("hidden");
 
     this.animating = true;
-    this.slideDir = delta < 0 ? "left" : "right";
+    this.slideDir.set(delta < 0 ? "left" : "right");
     const step = delta < 0 ? 1 : -1;
 
     this.pendingTimer = setTimeout(() => {
-      this.scriptIndex =
-        (this.scriptIndex + step + this.SCRIPTS.length) % this.SCRIPTS.length;
-      this.slideDir = null;
+      this.scriptIndex.set(
+        (this.scriptIndex() + step + this.SCRIPTS.length) % this.SCRIPTS.length
+      );
+      this.slideDir.set(null);
       requestAnimationFrame(() => {
         this.animating = false;
         this.pendingTimer = null;

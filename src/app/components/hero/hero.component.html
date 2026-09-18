@@ -1,5 +1,5 @@
 <section class="hero" id="home">
-  <div class="hero-eyebrow" [class.visible]="visible">
+  <div class="hero-eyebrow" [class.visible]="visible()">
     <span class="status-dot" aria-hidden="true"></span>
     <span>Available for new opportunities</span>
   </div>
@@ -8,10 +8,10 @@
     <!-- ============ DESKTOP: multilingual swipe ============ -->
     <h1
       class="hero-name"
-      [class.visible]="visible"
+      [class.visible]="visible()"
       [attr.data-script]="currentScript"
-      [class.slide-left]="slideDir === 'left'"
-      [class.slide-right]="slideDir === 'right'"
+      [class.slide-left]="slideDir() === 'left'"
+      [class.slide-right]="slideDir() === 'right'"
       style="transition-delay:0.15s"
       (mousedown)="onMouseDown($event)"
       (touchstart)="onTouchStart($event)"
@@ -67,19 +67,19 @@
     </h1>
   } @else {
     <!-- ============ MOBILE: auto-cycling crossfade EN -> TA -> HI ============ -->
-    <h1 class="hero-name-mobile" [class.visible]="visible" [attr.data-script]="mobileScript()" style="transition-delay:0.15s">
+    <h1 class="hero-name-mobile" [class.visible]="visible()" [attr.data-script]="mobileScript()" style="transition-delay:0.15s">
       <span class="crossfade-line" [class.show]="crossfadeShow()">
         <span class="name-line name-line--1">{{ NAME_SCRIPTS[mobileScript()].line1 }}</span>
         <em class="name-line name-line--2">{{ NAME_SCRIPTS[mobileScript()].line2 }}</em>
       </span>
     </h1>
 
-    <p class="hero-tagline" [class.visible]="visible" style="transition-delay:0.35s">
+    <p class="hero-tagline" [class.visible]="visible()" style="transition-delay:0.35s">
       Angular Developer <span class="tagline-dot">·</span> Micro-frontends
     </p>
   }
 
-  <a href="#details" class="scroll-cue" [class.visible]="visible" style="transition-delay:0.9s" aria-label="Scroll down">
+  <a href="#details" class="scroll-cue" [class.visible]="visible()" style="transition-delay:0.9s" aria-label="Scroll down">
     <span class="scroll-cue-label">Scroll</span>
     <svg class="scroll-cue-icon" viewBox="0 0 16 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" stroke-width="1.4"/>
