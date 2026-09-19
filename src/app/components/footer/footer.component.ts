@@ -50,15 +50,19 @@ export class FooterComponent {
     if (s < 60)
       return 'just now';
     if (s < 3600)
-      return `${Math.floor(s / 60)}m ago`;
+      return this.formatUnit(Math.floor(s / 60), 'min');
     if (s < 86400)
-      return `${Math.floor(s / 3600)}h ago`;
+      return this.formatUnit(Math.floor(s / 3600), 'hr');
     if (s < 86400 * 2)
       return 'yesterday';
     if (s < 86400 * 7)
-      return `${Math.floor(s / 86400)}d ago`;
+      return this.formatUnit(Math.floor(s / 86400), 'day');
     if (s < 86400 * 30)
-      return `${Math.floor(s / 604800)}w ago`;
+      return this.formatUnit(Math.floor(s / 604800), 'week');
     return date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' });
+  }
+
+  private formatUnit(value: number, unit: 'min' | 'hr' | 'day' | 'week'): string {
+    return `${value} ${unit}${value === 1 ? '' : 's'} ago`;
   }
 }
