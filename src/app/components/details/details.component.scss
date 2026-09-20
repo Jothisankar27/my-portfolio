@@ -1,5 +1,9 @@
 .details {
-  padding: 0rem 2.5rem 6rem;
+  // Bottom padding was sized to also clear the old Resume/GH-300 action row.
+  // That row is gone now (moved to a floating button + the skills section),
+  // so this only needs to close out the facts row — the actual section-to-
+  // section gap comes from Timeline's own .section-wrap top padding.
+  padding: 0rem 2.5rem 1.5rem;
   max-width: var(--max);
   margin: 0 auto;
 }
@@ -8,8 +12,7 @@
   width: 100%;
 }
 
-.details-facts,
-.details-actions {
+.details-facts {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 0.7s ease, transform 0.7s ease;
@@ -51,167 +54,13 @@
   font-weight: 500;
 }
 
-.details-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.cert-badge .icon {
-  display: inline-block;
-  vertical-align: middle;
-  height: 18px;
-  width: 18px;
-  margin-right: 0.4rem;
-}
-
-.btn-primary {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: var(--btn-text, #fff);
-  background: rgba(var(--accent-rgb), 1);
-  border: 1.5px solid transparent;
-  border-radius: 8px;
-  padding: 0.55rem 0.85rem;
-  min-width: 46px;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.06em;
-  font-weight: 500;
-  cursor: pointer;
-  overflow: hidden;
-  transition: background 200ms ease, box-shadow 200ms ease, transform 150ms ease, padding 200ms ease;
-
-  .icon {
-    flex-shrink: 0;
-    transition: transform 200ms ease;
-  }
-
-  .btn-label {
-    display: inline-block;
-    width: 0;
-    max-width: 0;
-    opacity: 0;
-    visibility: hidden;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-left: 0;
-    transition: width 200ms ease, max-width 200ms ease, opacity 200ms ease, margin-left 200ms ease, visibility 0ms linear 200ms;
-  }
-
-  &:hover,
-  &:focus-visible {
-    padding: 0.55rem 1.4rem;
-    background: rgba(var(--accent-rgb), 0.85);
-    box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.4);
-    transform: translateY(-1px) scale(1.02);
-  }
-
-  &:hover .icon,
-  &:focus-visible .icon {
-    transform: scale(1.05);
-  }
-
-  &:hover .btn-label,
-  &:focus-visible .btn-label {
-    width: auto;
-    max-width: 180px;
-    opacity: 1;
-    visibility: visible;
-    margin-left: 0.5rem;
-    transition-delay: 0ms;
-  }
-
-  &:active { transform: translateY(0); }
-
-  &:focus-visible {
-    outline: 2px solid var(--accent3);
-    outline-offset: 3px;
-  }
-}
-
-.btn-ghost {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: inherit;
-}
-
-.btn-ghost .icon {
-  display: inline-block;
-  vertical-align: middle;
-  height: 20px;
-  width: 20px;
-  object-fit: contain;
-  margin-right: 0.4rem;
-}
-
-.btn-ghost .doc-path {
-  position: absolute;
-  top: 50%;
-  left: calc(100% + 10px);
-  transform: translateY(-50%) translateX(6px);
-  background: rgba(20, 20, 20, 0.92);
-  color: #fff;
-  font-size: 0.75rem;
-  padding: 6px 8px;
-  border-radius: 6px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 150ms ease, transform 150ms ease;
-  z-index: 30;
-}
-
-.btn-ghost:hover .doc-path,
-.btn-ghost:focus .doc-path {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
-  pointer-events: auto;
-}
-
 @media (max-width: 480px) {
-  .btn-ghost .doc-path {
-    top: auto;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%) translateY(6px);
-  }
-
-  .btn-ghost:hover .doc-path,
-  .btn-ghost:focus .doc-path {
-    transform: translateX(-50%) translateY(0);
-  }
-
   .details {
-    padding: 1.5rem 1.5rem 4rem;
+    padding: 1.5rem 1.5rem 2rem;
   }
 
   .details-facts {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem 1rem;
-  }
-
-  .details-actions {
-    flex-wrap: nowrap;
-    gap: 0.6rem;
-    width: 100%;
-  }
-  .cert-badge {
-    font-size: 0.75rem;
-    padding: 0.85rem 0.85rem;
-    letter-spacing: 0.05em;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .btn-ghost .doc-path {
-    transition: none;
   }
 }

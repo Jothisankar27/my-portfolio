@@ -1,0 +1,84 @@
+.floating-resume {
+    position: fixed;
+    right: clamp(16px, 4vw, 32px);
+    // Offset up from the true bottom edge — clears mobile browser chrome /
+    // thumb-reach zone and avoids sitting flush against the viewport corner.
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 48px);
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    color: var(--btn-text, #fff);
+    background: rgba(var(--accent-rgb), 1);
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    padding: 0.75rem;
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    box-shadow: 0 4px 18px rgba(var(--btn-depth, 0, 0, 0), 0.35);
+    cursor: pointer;
+    overflow: hidden;
+    transition: padding 200ms ease, background 200ms ease, box-shadow 200ms ease, transform 150ms ease;
+}
+
+.floating-resume .icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    transition: transform 200ms ease;
+}
+
+.floating-resume-label {
+    display: inline-block;
+    width: 0;
+    max-width: 0;
+    opacity: 0;
+    visibility: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-left: 0;
+    transition: width 200ms ease, max-width 200ms ease, opacity 200ms ease, margin-left 200ms ease, visibility 0ms linear 200ms;
+}
+
+.floating-resume:hover,
+.floating-resume:focus-visible {
+    padding: 0.75rem 1.2rem;
+    background: rgba(var(--accent-rgb), 0.85);
+    box-shadow: 0 4px 22px rgba(var(--accent-rgb), 0.45);
+    transform: translateY(-2px);
+}
+
+.floating-resume:hover .icon,
+.floating-resume:focus-visible .icon {
+    transform: scale(1.05);
+}
+
+.floating-resume:hover .floating-resume-label,
+.floating-resume:focus-visible .floating-resume-label {
+    width: auto;
+    max-width: 100px;
+    opacity: 1;
+    visibility: visible;
+    margin-left: 0.55rem;
+    transition-delay: 0ms;
+}
+
+.floating-resume:active {
+    transform: translateY(0);
+}
+
+.floating-resume:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .floating-resume,
+    .floating-resume .icon,
+    .floating-resume-label {
+        transition: none;
+    }
+}

@@ -11,6 +11,7 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
 import { ArchitectureModel } from './components/architecture-model/architecture-model';
+import { FloatingComponent } from './components/floating-component/floating-component';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,8 @@ import { ArchitectureModel } from './components/architecture-model/architecture-
     FooterComponent,
     TimelineComponent,
     HeroComponent,
-    CommandPaletteComponent
+    CommandPaletteComponent,
+    FloatingComponent
 ],
   templateUrl: './app.component.html'
 })

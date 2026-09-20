@@ -1,18 +1,16 @@
 import { Component, OnInit, OnDestroy, signal, computed, inject, PLATFORM_ID } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
-import { AnalyticsService } from "../../services/analytics.service";
-import { QuickFact, Evidence } from "src/app/models/model";
-import { LightboxComponent } from "../lightbox/lightbox.component";
+import { QuickFact } from "src/app/models/model";
 
 @Component({
   selector: "app-details",
   standalone: true,
-  imports: [CommonModule, LightboxComponent],
+  imports: [CommonModule],
   templateUrl: "./details.component.html",
   styleUrl: "./details.component.scss",
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  private analytics = inject(AnalyticsService);
+  
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly visible = signal(false);
@@ -50,23 +48,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
     { label: "Total Experience", value: this.totalExperienceLabel() },
   ]);
 
-  readonly certEvidence: Evidence = {
-    file: "assets/GH300-Certificate.pdf",
-    type: "pdf",
-    label: "GH-300 — GitHub Copilot Certification",
-    previewImage: "assets/gh-300-preview.jpg",
-  };
-
-  activeEvidence = signal<Evidence | null>(null);
-
-  openEvidence(evidence: Evidence): void {
-    this.activeEvidence.set(evidence);
-  }
-
-  closeEvidence(): void {
-    this.activeEvidence.set(null);
-  }
-
   ngOnInit(): void {
     setTimeout(() => this.visible.set(true), 100);
 
@@ -77,9 +58,5 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.clockTimer) clearInterval(this.clockTimer);
-  }
-
-  onResumeDownload(): void {
-    this.analytics.trackResumeDownload();
   }
 }
