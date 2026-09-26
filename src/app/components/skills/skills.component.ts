@@ -55,15 +55,20 @@ export class SkillsComponent {
       ],
     },
     {
-      heading: 'Version Control',
+      heading: 'Tools & Version Control',
       items: [
         { name: 'Git', iconSrc: 'assets/svg-assets/git.svg' },
         { name: 'GitHub', iconSrc: 'assets/svg-assets/github1.svg' },
         { name: 'Tortoise Git', iconSrc: 'assets/svg-assets/tortoisegit.svg' },
+        { name: 'VS Code', iconSrc: 'assets/svg-assets/vscode.svg' },
+        { name: 'SonarQube', iconSrc: 'assets/svg-assets/sonarqube.svg' },
+        { name: 'JFrog', iconSrc: 'assets/svg-assets/jfrog.svg' },
+        { name: 'Jira', iconSrc: 'assets/svg-assets/jira.svg' },
+        { name: 'Confluence', iconSrc: 'assets/svg-assets/confluence.svg' },
       ],
     },
     {
-      heading: 'Tools & AI',
+      heading: 'AI & Assisted Development',
       items: [
         { name: 'GitHub Actions', iconSrc: 'assets/svg-assets/githubactions.svg' },
         {
@@ -74,10 +79,6 @@ export class SkillsComponent {
         },
         { name: 'Cursor', iconSrc: 'assets/svg-assets/cursor.svg' },
         { name: 'Claude Code', iconSrc: 'assets/svg-assets/claudecode.svg' },
-        { name: 'VS Code', iconSrc: 'assets/svg-assets/vscode.svg' },
-        { name: 'SonarQube', iconSrc: 'assets/svg-assets/sonarqube.svg' },
-        { name: 'Jira', iconSrc: 'assets/svg-assets/jira.svg' },
-        { name: 'Confluence', iconSrc: 'assets/svg-assets/confluence.svg' },
       ],
     },
     {
