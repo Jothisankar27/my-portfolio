@@ -6,37 +6,36 @@
       <h2>Technical Skills & Tools</h2>
     </div>
 
-    <!-- 3-tier proficiency matrix -->
-    <div class="matrix-section">
-      @for (tier of tiers; track tier.label) {
-        <div class="matrix-tier">
-          <div class="tier-header">
-            <span class="tier-dot" [attr.data-tier]="tier.key"></span>
-            <span class="tier-label">{{ tier.label }}</span>
-            <span class="tier-desc">{{ tier.desc }}</span>
+    <!-- Icon-first logo wall, grouped by category -->
+    <div class="logo-wall">
+      @for (cat of categories; track cat.heading) {
+      <div class="logo-category">
+        <h4>{{ cat.heading }}</h4>
+        <div class="logo-grid">
+          @for (item of cat.items; track item.name) {
+          @if (item.evidence) {
+          <button type="button" class="logo-tile logo-tile--certified"
+            [attr.title]="item.name + ' — ' + item.badge + ' certified'" (click)="openEvidence(item.evidence)"
+            [attr.aria-label]="'View evidence for ' + item.badge + ' ' + item.name + ' certification'">
+            <img class="logo-tile-icon" [src]="item.iconSrc" [alt]="item.name" loading="lazy"
+              (error)="onIconError($event)" />
+            <span class="logo-tile-name">{{ item.name }}</span>
+            <span class="logo-tile-badge">{{ item.badge }}</span>
+          </button>
+          } @else {
+          <div class="logo-tile" [attr.title]="item.name">
+            <img class="logo-tile-icon" [src]="item.iconSrc" [alt]="item.name" loading="lazy"
+              (error)="onIconError($event)" />
+            <span class="logo-tile-name">{{ item.name }}</span>
           </div>
-          <div class="tier-pills">
-            @for (skill of tier.skills; track skill) {
-              <span class="tier-pill" [attr.data-tier]="tier.key">{{ skill }}</span>
-            }
-          </div>
+          }
+          }
         </div>
-      }
-    </div>
-
-    <!-- Pills — architecture, tools, design -->
-    <div class="skills-grid">
-      @for (g of groups; track g.heading) {
-        <div class="skill-group">
-          <h4>{{ g.heading }}</h4>
-          <div class="skill-list">
-            @for (item of g.items; track item) {
-              <span>{{ item }}</span>
-            }
-          </div>
-        </div>
+      </div>
       }
     </div>
 
   </section>
 </div>
+
+<app-lightbox [evidence]="activeEvidence()" (closed)="closeEvidence()"></app-lightbox>

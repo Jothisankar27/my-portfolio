@@ -1,149 +1,30 @@
-// ── 3-tier proficiency matrix ──────────────────────────────────────────────
+// ── Logo wall — icon-first, grouped by category ────────────────────────────
 
-.matrix-section {
+.logo-wall {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  margin-bottom: 3.5rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid rgba(var(--accent-rgb), 0.1);
+  gap: 2.4rem;
+  margin-bottom: 3rem;
 }
 
-.matrix-tier {
-  padding: 1.4rem 0;
-  border-bottom: 1px solid rgba(var(--accent-rgb), 0.07);
+@keyframes category-in {
+  from { opacity: 0; translate: 0 16px; }
+  to   { opacity: 1; translate: 0 0;    }
+}
 
-  &:last-child { border-bottom: none; }
-
+.logo-category {
   @supports (animation-timeline: view()) {
     opacity: 0;
-    translate: 0 12px;
-    animation: tier-in linear both;
+    translate: 0 16px;
+    animation: category-in linear both;
     animation-duration: 1ms;
     animation-timeline: view();
 
     &:nth-child(1) { animation-range: entry 0%  entry 40%; }
-    &:nth-child(2) { animation-range: entry 8%  entry 48%; }
-    &:nth-child(3) { animation-range: entry 16% entry 56%; }
-
-    @media (prefers-reduced-motion: reduce) {
-      opacity: 1; translate: none; animation: none;
-    }
-  }
-}
-
-@keyframes tier-in {
-  from { opacity: 0; translate: 0 12px; }
-  to   { opacity: 1; translate: 0 0;    }
-}
-
-.tier-header {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 0.9rem;
-}
-
-.tier-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-
-  &[data-tier='expert']    { background: var(--accent3); box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.5); }
-  &[data-tier='proficient']{ background: var(--accent2); }
-  &[data-tier='familiar']  { background: var(--text-dim); }
-}
-
-.tier-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: var(--text-dim);
-}
-
-.matrix-tier:nth-child(1) .tier-label { color: var(--accent3); }
-.matrix-tier:nth-child(2) .tier-label { color: var(--accent2); }
-.matrix-tier:nth-child(3) .tier-label { color: var(--text-dim); }
-
-.tier-desc {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--text-dim);
-  letter-spacing: 0.04em;
-
-  &::before { content: '·'; margin-right: 0.5rem; }
-}
-
-.tier-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-}
-
-.tier-pill {
-  font-size: 0.78rem;
-  font-family: var(--font-mono);
-  padding: 0.3rem 0.75rem;
-  border-radius: 20px;
-  border: 1px solid;
-  transition: box-shadow 150ms ease, transform 120ms ease;
-
-  &[data-tier='expert'] {
-    color: var(--accent3);
-    border-color: rgba(var(--accent-rgb), 0.35);
-    background: rgba(var(--accent-rgb), 0.08);
-
-    &:hover {
-      box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25);
-      transform: translateY(-1px);
-    }
-  }
-
-  &[data-tier='proficient'] {
-    color: var(--text-muted);
-    border-color: rgba(var(--accent2-rgb), 0.25);
-    background: rgba(var(--accent2-rgb), 0.06);
-
-    &:hover {
-      box-shadow: 0 0 8px rgba(var(--accent2-rgb), 0.2);
-      transform: translateY(-1px);
-    }
-  }
-
-  &[data-tier='familiar'] {
-    color: var(--text-dim);
-    border-color: rgba(var(--accent-rgb), 0.12);
-    background: transparent;
-  }
-}
-
-// ── Skill pill grid (architecture / tools / design) ────────────────────────
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-}
-
-@keyframes pill-in {
-  from { opacity: 0; translate: 0 10px; }
-  to   { opacity: 1; translate: 0 0;    }
-}
-
-.skill-group {
-  @supports (animation-timeline: view()) {
-    opacity: 0;
-    translate: 0 16px;
-    animation: pill-in linear both;
-    animation-duration: 1ms;
-    animation-timeline: view();
-
-    &:nth-child(1) { animation-range: entry 0%  entry 45%; }
-    &:nth-child(2) { animation-range: entry 10% entry 55%; }
-    &:nth-child(3) { animation-range: entry 20% entry 65%; }
+    &:nth-child(2) { animation-range: entry 5%  entry 45%; }
+    &:nth-child(3) { animation-range: entry 10% entry 50%; }
+    &:nth-child(4) { animation-range: entry 15% entry 55%; }
+    &:nth-child(5) { animation-range: entry 20% entry 60%; }
 
     @media (prefers-reduced-motion: reduce) {
       opacity: 1; translate: none; animation: none;
@@ -160,55 +41,155 @@
   }
 }
 
-.skill-list {
+.logo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 0.75rem;
+}
+
+.logo-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 1.1rem 0.6rem;
+  border: 1px solid rgba(var(--accent-rgb), 0.14);
+  border-radius: var(--radius);
+  background: rgba(var(--accent2-rgb), 0.04);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s;
+
+  &:hover {
+    border-color: rgba(var(--accent-rgb), 0.4);
+    background: rgba(var(--accent-rgb), 0.08);
+    box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.15);
+    transform: translateY(-2px);
+  }
+}
+
+// Tiles rendered as <button> (currently: any tile with linked certification
+// evidence) need the default button chrome stripped so they match the
+// plain <div> tiles exactly.
+button.logo-tile {
+  font: inherit;
+  cursor: pointer;
+  width: 100%;
+}
+
+.logo-tile--certified {
+  position: relative;
+
+  &:focus-visible {
+    outline: 2px solid var(--accent3);
+    outline-offset: 2px;
+  }
+}
+
+.logo-tile-badge {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  padding: 0.15rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.9);
+  color: var(--btn-text, #fff);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(var(--btn-depth, 0, 0, 0), 0.35);
+}
+
+.logo-tile--text-only {
+  // No icon available for this one — same tile shape, quieter treatment so
+  // it doesn't look like a mistake, just a plainer entry among colorful ones.
+  background: transparent;
+  border-style: dashed;
+  border-color: rgba(var(--accent-rgb), 0.1);
+
+  .logo-tile-name {
+    color: var(--text-dim);
+  }
+
+  &:hover {
+    border-color: rgba(var(--accent-rgb), 0.25);
+    background: rgba(var(--accent2-rgb), 0.04);
+    box-shadow: none;
+    transform: none;
+  }
+}
+
+.logo-tile-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  // fill is set per-icon inline via [attr.fill] using each tech's own brand
+  // hex — this is the one place on the page brand color is used at full
+  // saturation, everything else on the site stays within the active theme's
+  // muted palette.
+}
+
+.logo-tile-name {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-align: center;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+// ── Practices & concepts — plain text, clearly not part of the logo wall ──
+
+.practices-strip {
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(var(--accent-rgb), 0.1);
+
+  h4 {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.9rem;
+  }
+}
+
+.practices-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 
   span {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    background: rgba(var(--accent2-rgb), 0.08);
-    border: 1px solid rgba(var(--accent-rgb), 0.18);
-    padding: 0.3rem 0.7rem;
-    border-radius: 4px;
-    transition: border-color 0.2s, color 0.2s, background 0.2s,
-                box-shadow 0.2s, transform 0.15s;
-
-    @supports (animation-timeline: view()) {
-      opacity: 0;
-      animation: pill-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
-
-      @for $i from 1 through 8 {
-        &:nth-child(#{$i}) {
-          animation-delay: #{($i - 1) * 60}ms;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        opacity: 1; animation: none;
-      }
-    }
+    font-size: 0.76rem;
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid rgba(var(--accent-rgb), 0.1);
+    padding: 0.28rem 0.65rem;
+    border-radius: 20px;
+    transition: border-color 0.2s, color 0.2s;
 
     &:hover {
-      border-color: var(--accent);
-      color: var(--accent3);
-      background: rgba(var(--accent-rgb), 0.15);
-      box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.2);
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: scale(0.95);
-      transition-duration: 80ms;
+      border-color: rgba(var(--accent-rgb), 0.3);
+      color: var(--text-muted);
     }
   }
 }
 
-// ── Responsive ─────────────────────────────────────────────────────────────
+// ── Responsive ──────────────────────────────────────────────────────────────
 
 @media (max-width: 480px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
+  .logo-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .logo-tile {
+    padding: 0.85rem 0.4rem;
+  }
+
+  .logo-tile-icon {
+    width: 24px;
+    height: 24px;
   }
 }

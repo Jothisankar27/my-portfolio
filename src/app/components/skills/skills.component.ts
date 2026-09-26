@@ -1,84 +1,97 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Tier } from '../../models/model';
+import { Evidence, SkillCategory,  } from 'src/app/models/model';
+import { LightboxComponent } from '../lightbox/lightbox.component';
+
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LightboxComponent],
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss'
 })
 export class SkillsComponent {
 
-  tiers: Tier[] = [
-    {
-      key:   'expert',
-      label: 'Expert',
-      desc:  'Production-grade, daily use',
-      skills: [
-        'Angular (v13 → v20)',
-        'TypeScript',
-        'HTML5 / CSS3 / SCSS',
-        'RxJS',
-        'Component Architecture',
-        'Micro-frontends (MFE)',
-      ],
-    },
-    {
-      key:   'proficient',
-      label: 'Proficient',
-      desc:  'Shipped in real projects',
-      skills: [
-        'JavaScript (ES6+)',
-        'HttpClient / REST APIs',
-        'Git / GitHub',
-        'Cross-MFE Communication',
-        'PostgreSQL',
-        'MS-SQL',
-      ],
-    },
-    {
-      key:   'familiar',
-      label: 'Familiar',
-      desc:  'POC / supporting work',
-      skills: [
-        'Node.js',
-        'SonarQube',
-        'Agentic AI',
-        'LLM Integration',
-        'Figma (Basic)',
-      ],
-    },
-  ];
+  readonly certEvidence: Evidence = {
+    file: 'assets/documents/GH300-Certificate.pdf',
+    type: 'pdf',
+    label: 'GH-300 — GitHub Copilot Certification',
+    previewImage: 'assets/documents/gh-300-preview.jpg',
+  };
 
-  groups = [
+  activeEvidence = signal<Evidence | null>(null);
+
+  openEvidence(evidence: Evidence): void {
+    this.activeEvidence.set(evidence);
+  }
+
+  closeEvidence(): void {
+    this.activeEvidence.set(null);
+  }
+
+
+  readonly categories: SkillCategory[] = [
     {
-      heading: 'Architecture',
+      heading: 'Languages',
       items: [
-        'Change Detection',
-        'Git Workflow',
-        'Agile / Scrum',
+        { name: 'HTML5', iconSrc: 'assets/svg-assets/html5.svg' },
+        { name: 'CSS3', iconSrc: 'assets/svg-assets/css3.svg' },
+        { name: 'Sass / SCSS', iconSrc: 'assets/svg-assets/sass.svg' },
+        { name: 'JavaScript', iconSrc: 'assets/svg-assets/javascript.svg' },
+        { name: 'TypeScript', iconSrc: 'assets/svg-assets/typescript.svg' },
+        { name: 'SQL', iconSrc: 'assets/svg-assets/sql.svg' },
       ],
     },
     {
-      heading: 'Platforms & Tools',
+      heading: 'Frameworks & Libraries',
       items: [
-        'VS Code',
-        'Jira / Confluence',
-        'SSMS',
-        'PGAdmin',
-        'Claude Code',
-        'GitHub Copilot',
-        'Cursor',
+        { name: 'Angular', iconSrc: 'assets/svg-assets/angular.svg' },
+        { name: 'Node.js', iconSrc: 'assets/svg-assets/nodejs.svg' },
+        { name: 'RxJS', iconSrc: 'assets/svg-assets/rxjs.svg' },
+        { name: 'Bootstrap', iconSrc: 'assets/svg-assets/bootstrap.svg' },
+        { name: 'PostgreSQL', iconSrc: 'assets/svg-assets/postgresql.svg' },
+        { name: 'MS SQL Server', iconSrc: 'assets/svg-assets/mssql.svg' },
+        { name: 'Infragistics', iconSrc: 'assets/infragistics.png' },
+      ],
+    },
+    {
+      heading: 'Version Control',
+      items: [
+        { name: 'Git', iconSrc: 'assets/svg-assets/git.svg' },
+        { name: 'GitHub', iconSrc: 'assets/svg-assets/github1.svg' },
+        { name: 'Tortoise Git', iconSrc: 'assets/svg-assets/tortoisegit.svg' },
+      ],
+    },
+    {
+      heading: 'Tools & AI',
+      items: [
+        { name: 'GitHub Actions', iconSrc: 'assets/svg-assets/githubactions.svg' },
+        {
+          name: 'GitHub Copilot',
+          iconSrc: 'assets/svg-assets/githubcopilot.svg',
+          evidence: this.certEvidence,
+          badge: 'GH-300 Certified',
+        },
+        { name: 'Cursor', iconSrc: 'assets/svg-assets/cursor.svg' },
+        { name: 'Claude Code', iconSrc: 'assets/svg-assets/claudecode.svg' },
+        { name: 'VS Code', iconSrc: 'assets/svg-assets/vscode.svg' },
+        { name: 'SonarQube', iconSrc: 'assets/svg-assets/sonarqube.svg' },
+        { name: 'Jira', iconSrc: 'assets/svg-assets/jira.svg' },
+        { name: 'Confluence', iconSrc: 'assets/svg-assets/confluence.svg' },
       ],
     },
     {
       heading: 'Design',
       items: [
-        'Canva',
-        'Pencil',
-        'PowerPoint',
+        { name: 'Figma', iconSrc: 'assets/svg-assets/figma.svg' },
+        { name: 'Canva', iconSrc: 'assets/svg-assets/canva.svg' },
+        { name: 'PowerPoint', iconSrc: 'assets/svg-assets/powerpoint.svg' },
+        { name: 'Pencil', iconSrc: 'assets/pencil.ico' },
       ],
     },
   ];
+
+  onIconError(event: Event): void {
+    (event.target as HTMLImageElement).style.display = 'none';
+  }
 }
