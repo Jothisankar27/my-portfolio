@@ -24,10 +24,16 @@ export interface Certification {
   evidence: Evidence;
 }
 
-export interface SkillBar {
+export interface SkillItem {
   name: string;
-  level: number;
- // animated: number;
+  iconSrc: string;
+  evidence?: Evidence;
+  badge?: string;
+}
+
+export interface SkillCategory {
+  heading: string;
+  items: SkillItem[];
 }
 
 
@@ -91,7 +97,7 @@ export type FormStatus = 'idle' | 'sending' | 'success' | 'error';
 export interface TechIcon {
   path: string;
   title: string;
-  hex: string;        // official brand color, no leading '#'
+  hex: string;
   viewBox?: string;
   generic?: boolean;
 }

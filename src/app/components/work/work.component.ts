@@ -73,7 +73,7 @@ export class WorkComponent implements AfterViewInit, OnDestroy {
           text: "Rise Insta Award · Infosys · For exceptional delivery of Requirements under minimal timeframe",
           year: 2025,
           evidence: {
-            file: "assets/Insta Award - Maximus.png",
+            file: "assets/documents/Insta Award - Maximus.png",
             type: "image",
             label: "Rise Insta Award 2025 — Infosys",
           },
@@ -82,7 +82,7 @@ export class WorkComponent implements AfterViewInit, OnDestroy {
           text: "Rise Insta Award · Infosys · For Delivering Critical Modules in Production under Tight turnaround time",
           year: 2026,
           evidence: {
-            file: "assets/Insta Award - Ecosystems.png",
+            file: "assets/documents/Insta Award - Ecosystems.png",
             type: "image",
             label: "Rise Insta Award 2026 — Infosys",
           },
