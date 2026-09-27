@@ -1,6 +1,8 @@
 import { Component, signal, inject, ElementRef, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Stat } from '../../models/model';
+import { relevantExperience, yearsSince } from '../../models/experience';
+
 @Component({
   selector: "app-about",
   standalone: true,
@@ -11,10 +13,11 @@ import { Stat } from '../../models/model';
 export class AboutComponent {
 
   private host = inject(ElementRef);
+  private readonly relYears = Math.round(yearsSince(relevantExperience, Date.now()));
 
   readonly stats: Stat[] = [
     { 
-      num: 4, 
+      num: this.relYears, 
       label: 'Years experience',
       display: signal(0) 
     },

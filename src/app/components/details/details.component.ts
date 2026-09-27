@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, signal, computed, inject, PLATFORM_ID } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { QuickFact } from "src/app/models/model";
+import { totalExperience, relevantExperience, yearsSince } from "src/app/models/experience";
 
 @Component({
   selector: "app-details",
@@ -15,17 +16,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   readonly visible = signal(false);
 
-  private readonly IT_EXPERIENCE_START_DATE = new Date(2022, 3, 14);   // April 14, 2022
-  private readonly TOTAL_EXPERIENCE_START_DATE = new Date(2020, 10, 3); // November 3, 2020
-
   private readonly now = signal(Date.now());
   private clockTimer?: ReturnType<typeof setInterval>;
-
-  private yearsSince(start: Date): number {
-    const msPerYear = 1000 * 60 * 60 * 24 * 365.25; // 365.25 accounts for leap years
-    const elapsedMs = this.now() - start.getTime();
-    return elapsedMs / msPerYear;
-  }
 
   private formatYears(years: number): string {
     const rounded = Math.round(years * 100) / 100; // two decimal places, e.g. 4.34
@@ -33,11 +25,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   private readonly itExperienceLabel = computed(() =>
-    this.formatYears(this.yearsSince(this.IT_EXPERIENCE_START_DATE))
+    this.formatYears(yearsSince(relevantExperience, this.now()))
   );
 
   private readonly totalExperienceLabel = computed(() =>
-    this.formatYears(this.yearsSince(this.TOTAL_EXPERIENCE_START_DATE))
+    this.formatYears(yearsSince(totalExperience, this.now()))
   );
 
   readonly quickFacts = computed<QuickFact[]>(() => [

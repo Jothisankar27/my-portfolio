@@ -65,6 +65,7 @@ export class WorkComponent implements AfterViewInit, OnDestroy {
         "Migrated a production codebase across 3 Angular major versions — zero downtime, full feature parity maintained throughout",
         "Built cross-MFE communication services that decoupled 4+ independently deployed micro-frontends, reducing inter-team dependency delays",
         "Resolved critical production bugs within same-day turnaround on 2 separate occasions — each recognised with a Rise Insta Award",
+        "Conducted UI vulnerability analysis using ArmorCode, remediating critical-severity findings to keep the application clean and compliant",
         "Mentored 2 onboarding engineers, cutting their ramp-up time by ~30% through structured code walkthroughs",
         "Delivered stakeholder-requested UI workflow changes end-to-end — from requirement to production — within sprint cycles",
       ],
