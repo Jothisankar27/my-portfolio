@@ -1,12 +1,12 @@
 import { mergeApplicationConfig, ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideServerRendering, withRoutes } from '@angular/ssr';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { serverRoutes } from './app.routes.server';
 
 const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideClientHydration(withEventReplay()),
     provideZonelessChangeDetection()
   ]
