@@ -107,7 +107,7 @@ export class CommandPaletteComponent {
       keywords: "cv pdf download",
       run: () => {
         this.analytics.trackResumeDownload();
-        this.openUrl("assets/Jothi_Sankar_Resume_2026.pdf");
+        this.openUrl("assets/documents/Jothi_Sankar_Resume_2026.pdf");
       },
     },
     {
