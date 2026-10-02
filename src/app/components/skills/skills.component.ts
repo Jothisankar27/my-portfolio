@@ -51,7 +51,7 @@ export class SkillsComponent {
         { name: 'Bootstrap', iconSrc: 'assets/svg-assets/bootstrap.svg' },
         { name: 'PostgreSQL', iconSrc: 'assets/svg-assets/postgresql.svg' },
         { name: 'MS SQL Server', iconSrc: 'assets/svg-assets/mssql.svg' },
-        { name: 'Infragistics', iconSrc: 'assets/infragistics.png' },
+        { name: 'Infragistics', iconSrc: 'assets/svg-assets/infragistics.svg' },
       ],
     },
     {
@@ -87,7 +87,7 @@ export class SkillsComponent {
         { name: 'Figma', iconSrc: 'assets/svg-assets/figma.svg' },
         { name: 'Canva', iconSrc: 'assets/svg-assets/canva.svg' },
         { name: 'PowerPoint', iconSrc: 'assets/svg-assets/powerpoint.svg' },
-        { name: 'Pencil', iconSrc: 'assets/pencil.ico' },
+        { name: 'Pencil', iconSrc: 'assets/svg-assets/pencil.svg' },
       ],
     },
   ];
