@@ -33,7 +33,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   );
 
   readonly quickFacts = computed<QuickFact[]>(() => [
-    { label: "Role", value: "IT Analyst, TCS Limited" },
+    { label: "Role", value: "Web Application Engineer" },
     { label: "Focus", value: "Angular · Micro-frontends" },
     { label: "Location", value: "Bengaluru, KA · India" },
     { label: "Relevant Experience", value: this.itExperienceLabel() },
