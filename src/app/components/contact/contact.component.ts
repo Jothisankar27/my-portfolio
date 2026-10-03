@@ -78,7 +78,7 @@ export class ContactComponent {
     formData.append('message', message);
 
     this.http
-      .post<{ success: boolean }>(environment.web3Fromslink, formData)
+      .post<{ success: boolean }>(environment.web3Formslink, formData)
       .subscribe({
         next: (res) => {
           this.status.set(res.success ? 'success' : 'error');

@@ -38,7 +38,7 @@ export class AnalyticsService {
       `Tagged link (?ref=): ${ref}`
     );
 
-    this.http.post(environment.web3Fromslink, formData).subscribe({ error: () => {} });
+    this.http.post(environment.web3Formslink, formData).subscribe({ error: () => {} });
   }
 
   trackContactSubmit(): void {
