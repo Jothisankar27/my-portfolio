@@ -52,7 +52,7 @@ jobs:
             const env = {
               production: true,
               web3formsKey: process.env.WEB3FORMS_KEY,
-              web3formsUrl: process.env.WEB3FORMS_URL
+              web3Formslink: process.env.WEB3FORMS_URL
             };
             fs.mkdirSync('src/environments', { recursive: true });
             fs.writeFileSync(
