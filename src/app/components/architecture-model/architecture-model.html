@@ -18,10 +18,10 @@
 
     <div class="arch-body">
       @if (view() === 'narrative') {
-      <svg viewBox="0 0 380 610" role="img" aria-label="How the app works, step by step, from page load to redeploy">
+      <svg viewBox="0 0 380 690" role="img" aria-label="How the app works, step by step, from page load to redeploy">
         <title>Portfolio architecture narrative</title>
 
-        <line class="arch-spine" x1="60" y1="60" x2="60" y2="540" stroke="var(--border)" stroke-width="1.5" />
+        <line class="arch-spine" x1="60" y1="60" x2="60" y2="620" stroke="var(--border)" stroke-width="1.5" />
 
         <g class="arch-step">
           <circle cx="60" cy="60" r="8" fill="var(--surface2)" stroke="var(--accent2)" stroke-width="0.5" />
@@ -83,10 +83,8 @@
           <line x1="60" y1="460" x2="88" y2="460" stroke="var(--accent3)" stroke-width="1" />
           <rect x="90" y="432" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent3)"
             stroke-width="0.5" />
-          <text x="100" y="452" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">Only
-            that view re-renders</text>
-          <text x="100" y="472" dominant-baseline="central" fill="var(--text-muted)" font-size="12">OnPush skips the
-            rest</text>
+          <text x="100" y="452" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">View marked dirty</text>
+          <text x="100" y="472" dominant-baseline="central" fill="var(--text-muted)" font-size="12">Zoneless schedules a check</text>
         </g>
 
         <g class="arch-step">
@@ -98,6 +96,17 @@
             form [Web3Forms]</text>
           <text x="100" y="552" dominant-baseline="central" fill="var(--text-muted)" font-size="12">API-driven reactive
             forms</text>
+        </g>
+
+        <g class="arch-step">
+          <circle cx="60" cy="620" r="8" fill="var(--surface2)" stroke="var(--accent)" stroke-width="0.5" />
+          <line x1="60" y1="620" x2="88" y2="620" stroke="var(--accent)" stroke-width="1" />
+          <rect x="90" y="592" width="240" height="56" rx="8" fill="var(--surface2)" stroke="var(--accent)"
+            stroke-width="0.5" />
+          <text x="100" y="612" dominant-baseline="central" fill="var(--text)" font-size="14" font-weight="500">Pipeline
+            redeploys</text>
+          <text x="100" y="632" dominant-baseline="central" fill="var(--text-muted)" font-size="12">On push, or Mondays
+            08:00 IST</text>
         </g>
 
         <defs>
@@ -124,11 +133,21 @@
         <div class="arch-feature-group">
           <h3 class="arch-feature-heading">Technical</h3>
           <ul>
-            <li>Zoneless change detection, no zone.js</li>
+            <li>Zoneless change detection, no zone.js polyfill</li>
             <li>Full SSR prerendering for every route</li>
             <li>Signal-based state, no NgRx</li>
             <li>Standalone components, zero NgModules</li>
-            <li>OnPush declared on every component</li>
+            <li>OnPush on the hero, nav, work cards and this modal</li>
+          </ul>
+        </div>
+        <div class="arch-feature-group">
+          <h3 class="arch-feature-heading">Delivery</h3>
+          <ul>
+            <li>Build and deploy run as separate jobs</li>
+            <li>Build output is smoke-checked before every deploy</li>
+            <li>Rebuilds itself every Monday, 08:00 IST</li>
+            <li>Pull requests are build-checked before merge</li>
+            <li>Dependabot opens weekly update PRs</li>
           </ul>
         </div>
       </div>

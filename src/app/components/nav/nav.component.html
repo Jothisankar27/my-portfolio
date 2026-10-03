@@ -1,5 +1,7 @@
 <nav class="nav" [class.scrolled]="isScrolled">
-  <a class="nav-logo" href="#home" (click)="closeMenu()">JS</a>
+  <a class="nav-logo" href="#home" (click)="closeMenu()">JS
+    <!-- <img src="assets/svg-assets/header_logo.svg" alt="Jothi Sankar Logo" width="32" height="32" /> -->
+  </a>
 
   <ul class="nav-links" [class.open]="menuOpen">
     <li><a href="#home"      (click)="closeMenu()" [class.active]="activeSection() === 'home'">Home</a></li>
