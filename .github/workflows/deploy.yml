@@ -4,26 +4,29 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '**.md'
   workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 1'
+      timezone: 'Asia/Kolkata'
 
+# Least privilege by default; the deploy job opts into what it needs.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  deploy:
-    name: Build & Deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
@@ -38,23 +41,54 @@ jobs:
         run: npm ci
 
       - name: Generate environment file
+        env:
+          WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
+          WEB3FORMS_URL: ${{ secrets.WEB3FORMS_URL }}
         run: |
-          mkdir -p src/environments
-          printf 'export const environment = {\n  production: true,\n  web3formsKey: "%s",\n  web3Fromslink: "%s"\n};\n' \
-            "${{ secrets.WEB3FORMS_KEY }}" \
-            "${{ secrets.WEB3FORMS_URL }}" \
-            > src/environments/environment.ts
+          test -n "$WEB3FORMS_KEY" || { echo "::error::WEB3FORMS_KEY secret is empty"; exit 1; }
+          test -n "$WEB3FORMS_URL" || { echo "::error::WEB3FORMS_URL secret is empty"; exit 1; }
+          node -e "
+            const fs = require('fs');
+            const env = {
+              production: true,
+              web3formsKey: process.env.WEB3FORMS_KEY,
+              web3formsUrl: process.env.WEB3FORMS_URL
+            };
+            fs.mkdirSync('src/environments', { recursive: true });
+            fs.writeFileSync(
+              'src/environments/environment.ts',
+              'export const environment = ' + JSON.stringify(env, null, 2) + ';\n'
+            );
+          "
 
       - name: Build
         run: npx ng build --base-href /my-portfolio/ --configuration production
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5.0.0
+      - name: Smoke check build output
+        run: |
+          out=dist/portfolio/browser
+          test -s "$out/index.html" || { echo "::error::index.html missing or empty"; exit 1; }
+          test -s "$out/assets/documents/Jothi_Sankar_Resume_2026.pdf" || { echo "::error::Resume PDF missing from build"; exit 1; }
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: dist/portfolio/browser
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5.0.0
 
       - name: Deploy to GitHub Pages
         id: deployment
