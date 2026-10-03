@@ -35,7 +35,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v7.0.1
 
       - name: Set up Node (from .nvmrc)
         uses: actions/setup-node@v4.4.0
