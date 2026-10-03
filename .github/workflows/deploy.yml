@@ -6,6 +6,11 @@ on:
       - main
     paths-ignore:
       - '**.md'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
   workflow_dispatch:
   schedule:
     - cron: '0 8 * * 1'
@@ -15,9 +20,10 @@ on:
 permissions:
   contents: read
 
+# Pull-request builds are cancelled when superseded. Deploys are never cancelled mid-flight.
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-${{ github.event_name == 'pull_request' && github.head_ref || 'deploy' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -31,16 +37,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.2.2
 
-      - name: Set up Node 24
+      - name: Set up Node (from .nvmrc)
         uses: actions/setup-node@v4.4.0
         with:
-          node-version: '24'
+          node-version-file: '.nvmrc'
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
+      # Real secrets: push, schedule and manual runs.
       - name: Generate environment file
+        if: github.event_name != 'pull_request'
         env:
           WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
           WEB3FORMS_URL: ${{ secrets.WEB3FORMS_URL }}
@@ -52,7 +60,7 @@ jobs:
             const env = {
               production: true,
               web3formsKey: process.env.WEB3FORMS_KEY,
-              web3Formslink: process.env.WEB3FORMS_URL
+              web3Fromslink: process.env.WEB3FORMS_URL
             };
             fs.mkdirSync('src/environments', { recursive: true });
             fs.writeFileSync(
@@ -60,6 +68,13 @@ jobs:
               'export const environment = ' + JSON.stringify(env, null, 2) + ';\n'
             );
           "
+
+      # Pull requests (including Dependabot) cannot read repository secrets,and a build check does not need the real values.
+      - name: Generate placeholder environment file (PR builds)
+        if: github.event_name == 'pull_request'
+        run: |
+          mkdir -p src/environments
+          printf 'export const environment = {\n  production: true,\n  web3formsKey: "pr-build-placeholder",\n  web3Fromslink: "https://example.invalid"\n};\n' > src/environments/environment.ts
 
       - name: Build
         run: npx ng build --base-href /my-portfolio/ --configuration production
@@ -71,6 +86,7 @@ jobs:
           test -s "$out/assets/documents/Jothi_Sankar_Resume_2026.pdf" || { echo "::error::Resume PDF missing from build"; exit 1; }
 
       - name: Upload build artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: dist/portfolio/browser
@@ -78,6 +94,7 @@ jobs:
   deploy:
     name: Deploy
     needs: build
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
