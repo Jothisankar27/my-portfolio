@@ -2,7 +2,6 @@ import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/cor
 import { ArchitectureModelService } from '../../services/architecture-model.service';
 import { ArchView } from '../../models/model';
 
-
 @Component({
   selector: 'app-architecture-model',
   standalone: true,

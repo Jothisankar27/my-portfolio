@@ -7,13 +7,13 @@ import {
   linkedSignal,
   output,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { Evidence } from '../../models/model';
 
 @Component({
   selector: 'app-lightbox',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './lightbox.component.html',
   styleUrl: './lightbox.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, signal, computed, inject, PLATFORM_ID, ChangeDetectionStrategy } from "@angular/core";
-import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { isPlatformBrowser } from "@angular/common";
 import { QuickFact } from "src/app/models/model";
 import { totalExperience, relevantExperience, yearsSince } from "src/app/models/experience";
 import { CURRENT_ROLE } from "../../data/career.data";
@@ -8,7 +8,7 @@ import { PROFILE } from "../../data/profile.data";
 @Component({
   selector: "app-details",
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: "./details.component.html",
   styleUrl: "./details.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

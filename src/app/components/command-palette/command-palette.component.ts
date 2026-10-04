@@ -9,7 +9,7 @@ import {
   effect,
   viewChild,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { ThemeService } from '../../services/themes.service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { Theme } from '../../models/model';
@@ -20,7 +20,7 @@ import { LINKS } from "../../data/profile.data";
 @Component({
   selector: "app-command-palette",
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: "./command-palette.component.html",
   styleUrl: "./command-palette.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

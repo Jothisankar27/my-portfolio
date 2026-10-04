@@ -1,13 +1,12 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Evidence, SkillCategory,  } from 'src/app/models/model';
+import { Evidence, SkillCategory } from 'src/app/models/model';
 import { LightboxComponent } from '../lightbox/lightbox.component';
 import { SKILLS } from '../../data/skills.data';
 
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule, LightboxComponent],
+  imports: [LightboxComponent],
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

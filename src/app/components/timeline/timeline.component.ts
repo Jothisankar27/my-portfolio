@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { TimelineEvent } from '../../models/model';
 import { CAREER } from '../../data/career.data';
 
 @Component({
   selector: "app-timeline",
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: "./timeline.component.html",
   styleUrl: "./timeline.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,

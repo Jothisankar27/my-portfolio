@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NavComponent } from './components/nav/nav.component';
 import { DetailsComponent } from "./components/details/details.component";
 import { WorkComponent } from './components/work/work.component';
@@ -12,14 +12,12 @@ import { HeroComponent } from './components/hero/hero.component';
 import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
 import { ArchitectureModel } from './components/architecture-model/architecture-model';
 import { FloatingComponent } from './components/floating-component/floating-component';
-import { LogoComponent } from './components/logo/logo';
 import { StructuredDataService } from './services/strucuture.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
     NavComponent,
     DetailsComponent,
     ArchitectureModel,
@@ -31,8 +29,7 @@ import { StructuredDataService } from './services/strucuture.service';
     TimelineComponent,
     HeroComponent,
     CommandPaletteComponent,
-    FloatingComponent,
-    LogoComponent
+    FloatingComponent
 ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
