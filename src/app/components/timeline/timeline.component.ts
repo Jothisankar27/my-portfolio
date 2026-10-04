@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TimelineEvent } from '../../models/model';
+import { CAREER } from '../../models/career.data';
 
 @Component({
   selector: "app-timeline",
@@ -8,30 +9,8 @@ import { TimelineEvent } from '../../models/model';
   imports: [CommonModule],
   templateUrl: "./timeline.component.html",
   styleUrl: "./timeline.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineComponent {
-  events: TimelineEvent[] = [
-    {
-      year: "2026",
-      role: "Web Application Engineer",
-      place: "Tata Consultancy Services · Bengaluru, Karnataka, India",
-      desc: "Angular Development, Micro-Frontend [Module Federation], UI/UX, Agentic AI, LLM integration",
-      type: "work",
-      current: true,
-    },
-    {
-      year: "2022",
-      role: "UI Developer",
-      place: "Infosys Limited · Bengaluru, Karnataka, India",
-      desc: "Angular v20 migration, Micro-Frontend architecture, Cross-MFE communication, stakeholder delivery. Rise Insta Award recipient.",
-      type: "work",
-    },
-    {
-      year: "2020",
-      role: "Quality Inspector",
-      place: "Layam Flexi Solutions · Hosur, Tamil Nadu, India",
-      desc: "Root-cause analysis, process documentation, tolerance inspection. Built the instincts for precision that now go into every component.",
-      type: "work",
-    },
-  ];
+  readonly events: readonly TimelineEvent[] = CAREER;
 }

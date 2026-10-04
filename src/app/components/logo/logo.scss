@@ -1,0 +1,161 @@
+// Interactive monogram. Every colour comes from the theme tokens, so it follows
+// Graphite / Synthwave / Newspaper without any per-theme code.
+
+:host {
+  display: inline-flex;
+}
+
+.logo {
+  --lx: 0px;
+  --ly: 0px;
+
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+  // Larger hit area, cancelled out by the negative margin so the nav layout is unchanged.
+  padding: 6px 8px;
+  margin: -6px -8px;
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: inherit; // same line box as the old text logo, so the nav keeps its height
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.logo:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.glyphs {
+  position: relative;
+  display: inline-block;
+  transform: translate(calc(var(--lx) * 0.35), calc(var(--ly) * 0.35));
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+.base {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+// The "shifted" copy that peeks out from behind the letters.
+.ghost {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  color: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(calc(var(--lx) * -1 - 2px), calc(var(--ly) * -1 + 2px));
+  transition:
+    opacity 0.2s ease,
+    transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+.dot {
+  position: relative;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: logo-breathe 2.8s ease-in-out infinite;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.logo:focus-visible {
+  .ghost {
+    opacity: 0.9;
+  }
+  .dot {
+    transform: scale(1.7);
+    box-shadow: 0 0 10px var(--accent);
+    animation: none;
+  }
+}
+
+// Hover styles only where hover exists, so a tap does not leave them stuck on.
+@media (hover: hover) {
+  .logo:hover {
+    .ghost {
+      opacity: 0.9;
+    }
+    .dot {
+      transform: scale(1.7);
+      box-shadow: 0 0 10px var(--accent);
+      animation: none;
+    }
+  }
+}
+
+.logo--pulse {
+  .glyphs {
+    animation: logo-pop 0.42s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+  }
+  .dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    animation: logo-ring 0.42s ease-out forwards;
+  }
+}
+
+@keyframes logo-breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes logo-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(0.88);
+  }
+  70% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes logo-ring {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glyphs,
+  .ghost,
+  .dot {
+    transition: none;
+  }
+  .dot {
+    animation: none;
+  }
+  .logo--pulse .glyphs,
+  .logo--pulse .dot::after {
+    animation: none;
+  }
+}

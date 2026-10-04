@@ -1,12 +1,14 @@
-import { Component, signal, inject, afterNextRender } from '@angular/core';
+import { Component, signal, inject, afterNextRender, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ghCommit } from 'src/app/models/model';
+import { PROFILE } from '../../models/profile.data';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.scss'
+  styleUrl: './footer.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
 
@@ -21,7 +23,7 @@ export class FooterComponent {
     afterNextRender(() => {
       this.http
         .get<ghCommit[]>(
-          'https://api.github.com/repos/Jothisankar27/my-portfolio/commits?per_page=1'
+          `https://api.github.com/repos/${PROFILE.github.user}/${PROFILE.github.repo}/commits?per_page=1`
         )
         .subscribe({
           next: (commits) => {

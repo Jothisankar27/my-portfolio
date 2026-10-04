@@ -4,9 +4,10 @@ import {
   computed,
   inject,
   PLATFORM_ID,
-  HostListener,
   ElementRef,
-  ViewChild,
+  ChangeDetectionStrategy,
+  effect,
+  viewChild,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ThemeService } from '../../services/themes.service';
@@ -14,6 +15,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { Theme } from '../../models/model';
 import { PaletteCommand, CommandGroup } from '../../models/model';
 import { ArchitectureModelService } from "../../services/architecture-model.service";
+import { LINKS } from "../../models/profile.data";
 
 @Component({
   selector: "app-command-palette",
@@ -21,6 +23,8 @@ import { ArchitectureModelService } from "../../services/architecture-model.serv
   imports: [CommonModule],
   templateUrl: "./command-palette.component.html",
   styleUrl: "./command-palette.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { "(document:keydown)": "onGlobalKeydown($event)" },
 })
 export class CommandPaletteComponent {
   private readonly platformId = inject(PLATFORM_ID);
@@ -28,7 +32,12 @@ export class CommandPaletteComponent {
   private readonly analytics = inject(AnalyticsService);
   private readonly architectureModel = inject(ArchitectureModelService);
 
-  @ViewChild("searchInput") searchInput?: ElementRef<HTMLInputElement>;
+  constructor() {
+    // The input only renders while the palette is open, so focus it the moment it exists.
+    effect(() => this.searchInput()?.nativeElement.focus());
+  }
+
+  readonly searchInput = viewChild<ElementRef<HTMLInputElement>>("searchInput");
 
   readonly isOpen = signal(false);
   readonly query = signal("");
@@ -83,22 +92,22 @@ export class CommandPaletteComponent {
       group: "Connect",
       label: "Email me",
       keywords: "mail gmail contact",
-      hint: "jothisankarg99@gmail.com",
-      run: () => this.openUrl("mailto:jothisankarg99@gmail.com"),
+      hint: LINKS.email,
+      run: () => this.openUrl(LINKS.mailto),
     },
     {
       id: "connect-linkedin",
       group: "Connect",
       label: "Open LinkedIn",
       keywords: "linkedin profile",
-      run: () => this.openUrl("https://linkedin.com/in/jothi-sankar-g"),
+      run: () => this.openUrl(LINKS.linkedin),
     },
     {
       id: "connect-github",
       group: "Connect",
       label: "Open GitHub",
       keywords: "github repos code",
-      run: () => this.openUrl("https://github.com/Jothisankar27"),
+      run: () => this.openUrl(LINKS.github),
     },
     {
       id: "connect-resume",
@@ -107,7 +116,7 @@ export class CommandPaletteComponent {
       keywords: "cv pdf download",
       run: () => {
         this.analytics.trackResumeDownload();
-        this.openUrl("assets/documents/Jothi_Sankar_Resume_2026.pdf");
+        this.openUrl(LINKS.resume);
       },
     },
     {
@@ -163,7 +172,6 @@ export class CommandPaletteComponent {
     return groups;
   });
 
-  @HostListener("document:keydown", ["$event"])
   onGlobalKeydown(event: KeyboardEvent): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
@@ -200,8 +208,6 @@ export class CommandPaletteComponent {
     this.query.set("");
     this.activeIndex.set(0);
     this.isOpen.set(true);
-    // Wait a tick for the input to render, then focus it
-    setTimeout(() => this.searchInput?.nativeElement.focus(), 0);
   }
 
   close(): void {

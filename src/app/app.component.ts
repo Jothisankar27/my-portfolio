@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavComponent } from './components/nav/nav.component';
 import { DetailsComponent } from "./components/details/details.component";
@@ -12,6 +12,8 @@ import { HeroComponent } from './components/hero/hero.component';
 import { CommandPaletteComponent } from './components/command-palette/command-palette.component';
 import { ArchitectureModel } from './components/architecture-model/architecture-model';
 import { FloatingComponent } from './components/floating-component/floating-component';
+import { LogoComponent } from './components/logo/logo';
+import { StructuredDataService } from './services/strucuture.service';
 
 @Component({
   selector: 'app-root',
@@ -29,8 +31,16 @@ import { FloatingComponent } from './components/floating-component/floating-comp
     TimelineComponent,
     HeroComponent,
     CommandPaletteComponent,
-    FloatingComponent
+    FloatingComponent,
+    LogoComponent
 ],
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  private readonly structuredData = inject(StructuredDataService);
+
+  ngOnInit(): void {
+    this.structuredData.applyPersonSchema();
+  }
+}

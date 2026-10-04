@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy, signal, computed, inject, PLATFORM_ID } from "@angular/core";
+import { Component, OnInit, OnDestroy, signal, computed, inject, PLATFORM_ID, ChangeDetectionStrategy } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { QuickFact } from "src/app/models/model";
 import { totalExperience, relevantExperience, yearsSince } from "src/app/models/experience";
+import { CURRENT_ROLE } from "../../models/career.data";
+import { PROFILE } from "../../models/profile.data";
 
 @Component({
   selector: "app-details",
@@ -9,6 +11,7 @@ import { totalExperience, relevantExperience, yearsSince } from "src/app/models/
   imports: [CommonModule],
   templateUrl: "./details.component.html",
   styleUrl: "./details.component.scss",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   
@@ -33,9 +36,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
   );
 
   readonly quickFacts = computed<QuickFact[]>(() => [
-    { label: "Role", value: "Web Application Engineer" },
-    { label: "Focus", value: "Angular · Micro-frontends" },
-    { label: "Location", value: "Bengaluru, KA · India" },
+    { label: "Role", value: CURRENT_ROLE },
+    { label: "Focus", value: PROFILE.focus },
+    { label: "Location", value: PROFILE.location },
     { label: "Relevant Experience", value: this.itExperienceLabel() },
     { label: "Total Experience", value: this.totalExperienceLabel() },
   ]);

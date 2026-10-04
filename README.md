@@ -12,21 +12,19 @@ Personal portfolio built with **Angular 20** — standalone components, signals,
 |--------------|--------------------------------------------------------------|
 | Framework    | Angular 20 (standalone, zoneless)                            |
 | Language     | TypeScript 5.8                                               |
-| Runtime      | Node 24 (pinned in `.nvmrc`)                                 |
+| Runtime      | Node 24 (set in the deploy workflow)                         |
 | Styling      | SCSS + CSS custom properties (3-theme system)                |
 | Rendering    | Angular SSR — static prerendering via `RenderMode.Prerender` |
 | Analytics    | Google Analytics 4 (GA4)                                     |
 | Contact      | Web3Forms                                                    |
 | Linting      | angular-eslint + typescript-eslint                           |
 | CI/CD        | GitHub Actions → GitHub Pages                                |
-| Dependencies | Dependabot (npm + GitHub Actions, weekly)                    |
 
 ---
 
 ## Getting Started
 
 ```bash
-nvm use            # picks up Node 24 from .nvmrc
 npm ci             # install exactly what package-lock.json specifies
 npm start          # dev server
 npm run lint       # angular-eslint
@@ -41,15 +39,12 @@ Everything lives in `.github/`.
 | File                         | Purpose                                                                 |
 |------------------------------|-------------------------------------------------------------------------|
 | `workflows/deploy.yml`       | Build, smoke-check and deploy to GitHub Pages                           |
-| `dependabot.yml`             | Weekly update PRs for npm and GitHub Actions (Mondays, IST)             |
-| `../.nvmrc`                  | Single source of truth for the Node version, read by CI and local tools |
 
 **Triggers**
 
 | Event                | What runs                                         |
 |----------------------|---------------------------------------------------|
 | Push to `main`       | Build → smoke check → deploy                      |
-| Pull request to `main` | Build → smoke check only (no deploy)            |
 | Monday 08:00 IST     | Scheduled rebuild + deploy, so build-time values (e.g. experience labels) stay fresh |
 | Manual               | `workflow_dispatch` — same as a push              |
 
@@ -60,9 +55,7 @@ Markdown-only changes (`**.md`) do not trigger a run.
 - **Two jobs.** `build` runs with `contents: read` only. Only `deploy` gets `pages: write` and `id-token: write`.
 - **Smoke check.** The build fails if `index.html` or the resume PDF is missing from the output.
 - **Secrets.** Passed through `env:` and written by a small Node script using `JSON.stringify`, so special characters cannot break the generated file. The build fails fast if a secret is empty.
-- **Pull requests and Dependabot** cannot read repository secrets, so PR builds use a placeholder environment file. The real values are only used on push, schedule and manual runs.
-- **Concurrency.** Superseded PR builds are cancelled. Deploys are never cancelled mid-flight.
-- **Dependabot** groups all `@angular/*` packages into one PR and ignores Angular major bumps, which should go through `ng update`.
+- **Concurrency.** Deploys queue and are never cancelled mid-flight.
 - The Web3Forms key is bundled into the client JavaScript, so restrict it by domain in the Web3Forms dashboard.
 
 ---
@@ -71,19 +64,26 @@ Markdown-only changes (`**.md`) do not trigger a run.
 
 ```
 .github/
-├── dependabot.yml                         # Weekly dependency PRs
 └── workflows/
     └── deploy.yml                         # CI / deploy pipeline
-.nvmrc                                     # Node version pin
 src/
 ├── app/
 │   ├── app.component.ts/html              # Root — composes all feature components
 │   ├── app.config.server.ts               # SSR server config — merges app + server providers
 │   ├── app.routes.server.ts               # Server routes — RenderMode.Prerender for all paths
+│   ├── data/                              # Single source of truth for content (typed, readonly)
+│   │   ├── profile.data.ts                # Names (EN / TA / HI), location, focus, contact links, resume path
+│   │   ├── career.data.ts                 # Career entries; current role and employer are derived from the current entry
+│   │   ├── projects.data.ts               # Work experience cards and award evidence
+│   │   ├── skills.data.ts                 # Skill categories and the GH-300 certificate evidence
+│   │   ├── about.data.ts                  # "Then vs now" list
+│   │   ├── education.data.ts              # Empty slot for the education block
+│   │   └── structured-data.ts             # Builds schema.org Person JSON-LD from the data above
 │   ├── models/
-│   │   └── model.ts                       # Shared interfaces and types (Project, Evidence, Theme, TimelineEvent, ...)
+│   │   └── model.ts                       # Shared interfaces and types (Project, Evidence, Theme, TimelineEvent, Profile, ...)
 │   ├── services/
 │   │   ├── analytics.service.ts           # GA4 wrapper — section dwell timing, resume-access email notification
+│   │   ├── structured-data.service.ts     # Adds the Person JSON-LD to <head> during prerender only
 │   │   ├── themes.service.ts              # Signal-based theme switching, localStorage persistence, clip-path reveal
 │   │   └── architecture-model.service.ts  # Shared open/close signal for the "Peek under the hood" modal
 │   └── components/
@@ -118,7 +118,7 @@ src/
 |----------------------------|-----------------------|-------------------------------------------------------------------------------------|
 | Multilingual name swipe    | `hero`                | Mouse + touch drag — English / Tamil / Hindi                                        |
 | Mobile auto-crossfade      | `hero`                | Auto-cycles EN → TA → HI on narrow viewports                                        |
-| Sticky nav + shrink        | `nav`                 | `@HostListener` scroll, height transition                                           |
+| Sticky nav + shrink        | `nav`                 | Host `(window:scroll)` listener, height transition                                  |
 | Active section highlight   | `nav`                 | `IntersectionObserver` across section IDs                                           |
 | Theme switcher             | `nav`                 | Graphite / Synthwave / Newspaper, circular clip-path reveal from click origin       |
 | "Peek under the hood"      | `nav`                 | Opens the architecture modal                                                        |
@@ -144,16 +144,18 @@ src/
 
 | Pattern                              | Applied In                                                                       |
 |--------------------------------------|----------------------------------------------------------------------------------|
-| **Standalone components**            | All 13 components — no NgModule anywhere                                         |
+| **Standalone components**            | All 14 components — no NgModule anywhere                                         |
 | **Zoneless change detection**        | `provideZonelessChangeDetection()` in `main.ts`; `polyfills` is empty in `angular.json` |
-| **`ChangeDetectionStrategy.OnPush`** | `hero`, `nav`, `work`, `architecture-model`                                      |
+| **`ChangeDetectionStrategy.OnPush`** | Every component, including the root                                              |
 | **`signal()` / `computed()`**        | Theme, active section, palette state, active project, modal open/view state, experience labels |
 | **`effect()`**                       | `ThemeService` — syncs the theme signal to the `document` attribute and `localStorage` |
 | **`inject()`**                       | Services and platform tokens across components                                   |
 | **`PLATFORM_ID` + `isPlatformBrowser`** | `ThemeService`, `nav`, `hero`, `work`, `details`, `lightbox`, `command-palette` — guards browser-only APIs during prerender |
 | **`afterNextRender()`**              | `footer` — SSR-safe HTTP call for the commits API                                |
 | **`@for` / `@if`**                   | Template iteration and conditionals                                              |
-| **`@HostListener`**                  | Scroll, Escape, outside-click and touch handling                                 |
+| **`host` metadata listeners**        | Scroll, Escape, outside-click, Ctrl+K and mouse-drag handling, declared in `host` instead of `@HostListener` |
+| **Signal inputs, outputs, queries**  | `input()` / `output()` on the lightbox, `viewChild()` / `viewChild.required()` in the command palette and work deck, `linkedSignal()` to reset the lightbox skeleton |
+| **Typed content layer**              | `src/app/data` — readonly, shared interfaces; components import facts instead of retyping them |
 | **SCSS + CSS custom properties**     | 3-theme system via `data-theme` on `<html>`, component-scoped styles             |
 | **`prefers-reduced-motion`**         | Respected in the animated components, including the architecture modal           |
 | **CSS `animation-timeline`**         | Scroll-driven animations with `@supports` progressive enhancement                |

@@ -1,8 +1,5 @@
 .about-grid {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 5rem;
-  align-items: start;
+  display: block;
 }
 
 .about-text p {
@@ -32,82 +29,134 @@
   font-size: 1.4rem;
 }
 
-// The stats container no longer needs its own scroll-driven animation
-// to trigger the JS counter — IntersectionObserver handles that now.
-.about-stats {
+// Purely CSS scroll-driven entrance — no JS/IntersectionObserver needed
+// for static text the way the old animated number counter required.
+.about-then-now {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(var(--accent-rgb), 0.12);
+}
+
+.then-now-item {
+  text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: .5rem;
 }
 
-@keyframes stat-in {
-  from { opacity: 0; translate: 0 12px; }
-  to   { opacity: 1; translate: 0 0;    }
-}
-
-.stat {
-  text-align: right;
+// "then" — struck through on scroll. The strike is a real element (not
+// text-decoration or a ::after pseudo-element) so its draw-on animates
+// reliably by scaling it from 0 to full width as this item scrolls in.
+.then {
   position: relative;
-
-  // Default: always visible (unsupported browsers / reduced-motion)
-  opacity: 1;
-
-  // Visual entrance animation — purely cosmetic, no longer tied to JS trigger.
-  // Browsers that don't support scroll-driven animations simply skip the block
-  // and the stats are visible immediately (opacity: 1 above is the fallback).
-  @supports (animation-timeline: view()) {
-    animation: stat-in linear both;
-    animation-duration: 1ms;
-    animation-timeline: view();
-
-    &:nth-child(1) { animation-range: entry 5%  entry 50%; }
-    &:nth-child(2) { animation-range: entry 15% entry 60%; }
-    &:nth-child(3) { animation-range: entry 25% entry 70%; }
-  }
-
-  &::after {
-    content: '+';
-    font-family: var(--font-display);
-    font-size: 2rem;
-    background: linear-gradient(135deg, var(--accent2), var(--accent3));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    vertical-align: super;
-  }
+  display: inline-block;
+  width: fit-content;
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  color: var(--text-dim);
+  letter-spacing: .04em;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .stat {
-    opacity: 1;
-    animation: none !important;
-  }
+.strike-line {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background: rgba(var(--accent-rgb), 0.7);
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
-.stat-num {
-  display: block;
+// "now" — the replacement fact, revealed just after the strike draws in.
+.now {
   font-family: var(--font-display);
-  font-size: 4rem;
-  line-height: 1;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  opacity: 1;
   background: linear-gradient(120deg, var(--accent) 0%, var(--accent3) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -.03em;
 }
 
-.stat-label {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: .7rem;
-  color: var(--text-dim);
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  margin-top: .3rem;
+@keyframes strike-draw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes now-reveal {
+  from { opacity: 0; translate: 0 6px; }
+  to   { opacity: 1; translate: 0 0;    }
+}
+
+// Each item's strike-line and "now" reveal are declared as one complete
+// animation shorthand + range per selector (not split across a base rule
+// and a separate override) — the strike draws first, "now" fades in right
+// after, so the line finishes an instant before the replacement text shows.
+@supports (animation-timeline: view()) {
+  .then-now-item:nth-child(1) {
+    .strike-line {
+      animation: strike-draw linear both;
+      animation-duration: 1ms;
+      animation-timeline: view();
+      animation-range: entry 10% entry 45%;
+    }
+    .now {
+      opacity: 0;
+      animation: now-reveal linear both;
+      animation-duration: 1ms;
+      animation-timeline: view();
+      animation-range: entry 35% entry 70%;
+    }
+  }
+  .then-now-item:nth-child(2) {
+    .strike-line {
+      animation: strike-draw linear both;
+      animation-duration: 1ms;
+      animation-timeline: view();
+      animation-range: entry 20% entry 55%;
+    }
+    .now {
+      opacity: 0;
+      animation: now-reveal linear both;
+      animation-duration: 1ms;
+      animation-timeline: view();
+      animation-range: entry 45% entry 80%;
+    }
+  }
+  .then-now-item:nth-child(3) {
+    .strike-line {
+      animation: strike-draw linear both;
+      animation-duration: 1ms;
+      animation-timeline: view();
+      animation-range: entry 30% entry 65%;
+    }
+    .now {
+      opacity: 0;
+      animation: now-reveal linear both;
+      animation-duration: 1ms;
+      animation-timeline: view();
+      animation-range: entry 55% entry 90%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strike-line,
+  .now {
+    animation: none !important;
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 @media (max-width: 768px) {
-  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .about-stats { flex-direction: row; justify-content: space-around; }
-  .stat { text-align: center; }
+  .about-then-now {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
 }

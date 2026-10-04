@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CustomValidators } from '../../validators/custom-validator';
 import { FormStatus } from 'src/app/models/model';
+import { LINKS } from '../../models/profile.data';
 
 @Component({
   selector: 'app-contact',
@@ -13,10 +14,13 @@ import { FormStatus } from 'src/app/models/model';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactComponent {
 
   private readonly http = inject(HttpClient);
+
+  readonly links = LINKS;
   private readonly analytics = inject(AnalyticsService);
   private readonly fb = inject(FormBuilder);
 

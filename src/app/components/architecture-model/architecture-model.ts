@@ -1,4 +1,4 @@
-import { Component, inject, signal, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { ArchitectureModelService } from '../../services/architecture-model.service';
 import { ArchView } from '../../models/model';
 
@@ -9,6 +9,7 @@ import { ArchView } from '../../models/model';
   templateUrl: './architecture-model.html',
   styleUrl: './architecture-model.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '(document:keydown.escape)': 'onEsc()' },
 })
 export class ArchitectureModel {
   private modal = inject(ArchitectureModelService);
@@ -27,7 +28,6 @@ export class ArchitectureModel {
     this.modal.close();
   }
 
-  @HostListener('document:keydown.escape')
   onEsc(): void {
     if (this.isOpen()) {
       this.close();

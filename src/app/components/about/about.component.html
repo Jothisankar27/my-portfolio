@@ -7,34 +7,32 @@
   <div class="about-grid">
     <div class="about-text">
       <p>
-        Frontend developer based in Bengaluru, originally from Hosur, Tamil Nadu. My path here is a bit unusual -
-        I started in automotive field as a quality inspector, which trained me to care about precision, 
+        Frontend developer based in Bengaluru, originally from Hosur, Tamil Nadu. My path here is a bit unusual —
+        I started in the automotive field as a quality inspector, which trained me to care about precision, 
         process, and finding the root of every problem.
       </p>
       <p>
-        Those instincts now go into every component I build, work and maintain. Since joining Infosys in 2022, 
-        I've worked across platform features, Version migrations and took part in decisions that satisfies the needs of users.
+        Those instincts now go into every component I build. I spent four years at Infosys working across
+        platform features, version migrations, and UI decisions that genuinely moved the needle for users.
+        Since July 2026, I've brought that same approach to TCS, in the Strategic Growth Business group,
+        continuing to build in the Angular ecosystem.
       </p>
       <p>
-        I'm constantly learning - Angular's latest releases, how AI tooling genuinely improves developer
+        I'm constantly learning — Angular's latest releases, how AI tooling genuinely improves developer
         workflows, and how good UI decisions actually reduce tickets.
       </p>
-
-      <!-- <div class="about-award">
-        <span class="award-icon">🚧</span>
-        <div>
-          <strong>Stay tuned !! My Other projects are In-progress and will be available soon..</strong>
-        </div>
-      </div> -->
     </div>
+  </div>
 
-    <div class="about-stats" #statsSection>
-      @for (s of stats; track s.label) {
-        <div class="stat">
-          <span class="stat-num">{{ s.display() }}</span>
-          <span class="stat-label">{{ s.label }}</span>
-        </div>
-      }
-    </div>
+  <div class="about-then-now" #thenNowSection>
+    @for (item of thenNow; track item.then) {
+      <div class="then-now-item">
+        <span class="then">
+          <span class="then-text">{{ item.then }}</span>
+          <span class="strike-line" aria-hidden="true"></span>
+        </span>
+        <span class="now">{{ item.now }}</span>
+      </div>
+    }
   </div>
 </section>

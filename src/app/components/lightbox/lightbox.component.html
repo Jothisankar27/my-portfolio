@@ -1,29 +1,29 @@
-@if (evidence) {
+@if (evidence(); as ev) {
   <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
   <div class="lightbox-backdrop" (click)="onBackdropClick($event)">
     <div class="lightbox-panel">
       <button class="lightbox-close" (click)="close()" aria-label="Close evidence viewer">✕</button>
 
-      <div class="lightbox-label">{{ evidence.label }}</div>
+      <div class="lightbox-label">{{ ev.label }}</div>
 
-      @if (evidence.type === 'image' || evidence.previewImage) {
+      @if (ev.type === 'image' || ev.previewImage) {
         <div class="lightbox-media-wrap">
-          @if (!imageLoaded) {
+          @if (!imageLoaded()) {
             <div class="lightbox-skeleton" aria-hidden="true">
               <span class="lightbox-spinner"></span>
             </div>
           }
           <img
             class="lightbox-media"
-            [class.lightbox-media--loaded]="imageLoaded"
-            [src]="evidence.type === 'image' ? evidence.file : evidence.previewImage"
-            [alt]="evidence.label"
+            [class.lightbox-media--loaded]="imageLoaded()"
+            [src]="ev.type === 'image' ? ev.file : ev.previewImage"
+            [alt]="ev.label"
             (load)="onImageLoad()"
           />
         </div>
       } @else {
         <p class="lightbox-fallback">
-          Preview unavailable. <a [href]="evidence.file" target="_blank" rel="noopener">Open PDF in a new tab</a>
+          Preview unavailable. <a [href]="ev.file" target="_blank" rel="noopener">Open PDF in a new tab</a>
         </p>
       }
 

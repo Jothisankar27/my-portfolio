@@ -1,9 +1,7 @@
-<nav class="nav" [class.scrolled]="isScrolled">
-  <a class="nav-logo" href="#home" (click)="closeMenu()">JS
-    <!-- <img src="assets/svg-assets/header_logo.svg" alt="Jothi Sankar Logo" width="32" height="32" /> -->
-  </a>
+<nav class="nav" [class.scrolled]="isScrolled()">
+  <app-logo (activated)="closeMenu()" />
 
-  <ul class="nav-links" [class.open]="menuOpen">
+  <ul class="nav-links" [class.open]="menuOpen()">
     <li><a href="#home"      (click)="closeMenu()" [class.active]="activeSection() === 'home'">Home</a></li>
     <li><a href="#timeline"  (click)="closeMenu()" [class.active]="activeSection() === 'timeline'">Career</a></li>
     <li><a href="#work"      (click)="closeMenu()" [class.active]="activeSection() === 'work'">Work</a></li>
@@ -41,7 +39,7 @@
     </div>
   </div>
 
-  <button class="hamburger" [class.open]="menuOpen" (click)="toggleMenu()" aria-label="Toggle menu">
+  <button class="hamburger" [class.open]="menuOpen()" (click)="toggleMenu()" aria-label="Toggle menu">
     <span></span>
     <span></span>
   </button>

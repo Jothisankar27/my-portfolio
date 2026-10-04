@@ -1,6 +1,5 @@
 import {
   Component,
-  HostListener,
   OnInit,
   OnDestroy,
   inject,
@@ -14,17 +13,24 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { ThemeService } from '../../services/themes.service';
 import { ArchitectureModelService } from '../../services/architecture-model.service';
 import { Theme } from 'src/app/models/model';
+import { LogoComponent } from 'src/app/components/logo/logo';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
+  imports: [LogoComponent],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "(window:scroll)": "onScroll()",
+    "(document:keydown.escape)": "onEscape()",
+    "(document:click)": "onDocClick($event)",
+  },
 })
 export class NavComponent implements OnInit, OnDestroy {
-  isScrolled = false;
-  menuOpen = false;
+  readonly isScrolled = signal(false);
+  readonly menuOpen = signal(false);
   paletteOpen = signal(false);
   activeSection = signal<string>('home');
 
@@ -86,19 +92,16 @@ export class NavComponent implements OnInit, OnDestroy {
     this.observer?.disconnect();
   }
 
-  @HostListener('window:scroll')
   onScroll(): void {
     if (!this.isBrowser) return;
-    this.isScrolled = window.scrollY > 60;
+    this.isScrolled.set(window.scrollY > 60);
   }
 
-  @HostListener('document:keydown.escape')
   onEscape(): void {
     this.paletteOpen.set(false);
   }
 
   // Close palette when clicking outside
-  @HostListener('document:click', ['$event'])
   onDocClick(e: MouseEvent): void {
     const target = e.target as HTMLElement;
     if (!target.closest('.theme-switcher')) {
@@ -107,11 +110,11 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
+    this.menuOpen.update((open) => !open);
   }
 
   closeMenu(): void {
-    this.menuOpen = false;
+    this.menuOpen.set(false);
   }
 
   openArchitecture(): void {
@@ -135,4 +138,4 @@ export class NavComponent implements OnInit, OnDestroy {
     );
     return theme?.swatch ?? '#a855f7';
   });
-}
+} 

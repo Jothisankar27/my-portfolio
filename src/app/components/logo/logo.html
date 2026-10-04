@@ -1,0 +1,18 @@
+<a
+  class="logo"
+  href="#home"
+  [attr.aria-label]="label"
+  [class.logo--pulse]="pulsing()"
+  [style.--lx]="offset().x + 'px'"
+  [style.--ly]="offset().y + 'px'"
+  (click)="onClick()"
+  (pointermove)="onPointerMove($event)"
+  (pointerleave)="onPointerLeave()"
+  (animationend)="onAnimationEnd($event)"
+>
+  <span class="glyphs" aria-hidden="true">
+    <span class="ghost">{{ initials }}</span>
+    <span class="base">{{ initials }}</span>
+  </span>
+  <span class="dot" aria-hidden="true"></span>
+</a>

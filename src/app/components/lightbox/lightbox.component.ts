@@ -1,11 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
-  HostListener,
   PLATFORM_ID,
   inject,
+  input,
+  linkedSignal,
+  output,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Evidence } from '../../models/model';
@@ -16,33 +16,29 @@ import { Evidence } from '../../models/model';
   imports: [CommonModule],
   templateUrl: './lightbox.component.html',
   styleUrl: './lightbox.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '(document:keydown.escape)': 'onEsc()' },
 })
 export class LightboxComponent {
-  private platformId = inject(PLATFORM_ID);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  private _evidence: Evidence | null = null;
-  imageLoaded = false;
+  readonly evidence = input<Evidence | null>(null);
+  readonly closed = output<void>();
 
-  @Input()
-  set evidence(value: Evidence | null) {
-    this._evidence = value;
-    this.imageLoaded = false; // reset skeleton whenever a new evidence is opened
-  }
-  get evidence(): Evidence | null {
-    return this._evidence;
-  }
+  // Resets to false whenever a new evidence item is opened, so the skeleton shows again.
+  readonly imageLoaded = linkedSignal<Evidence | null, boolean>({
+    source: this.evidence,
+    computation: () => false,
+  });
 
-  @Output() closed = new EventEmitter<void>();
-
-  @HostListener('document:keydown.escape')
   onEsc(): void {
-    if (isPlatformBrowser(this.platformId) && this.evidence) {
+    if (this.isBrowser && this.evidence()) {
       this.close();
     }
   }
 
   onImageLoad(): void {
-    this.imageLoaded = true;
+    this.imageLoaded.set(true);
   }
 
   close(): void {

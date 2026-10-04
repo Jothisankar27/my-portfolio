@@ -1,7 +1,6 @@
 import {
   Component,
   OnDestroy,
-  HostListener,
   signal,
   inject,
   PLATFORM_ID,
@@ -9,6 +8,7 @@ import {
   ChangeDetectionStrategy,
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { PROFILE } from "../../models/profile.data";
 
 @Component({
   selector: "app-hero",
@@ -17,6 +17,10 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
   templateUrl: "./hero.component.html",
   styleUrl: "./hero.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    "(document:mousemove)": "onMouseMove($event)",
+    "(document:mouseup)": "onMouseUp()",
+  },
 })
 export class HeroComponent implements OnDestroy {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
@@ -52,14 +56,7 @@ export class HeroComponent implements OnDestroy {
   };
 
   // --- Mobile crossfade state ---
-  private static readonly NAME_SCRIPTS: Record<
-    "en" | "ta" | "hi",
-    { line1: string; line2: string }
-  > = {
-    en: { line1: "Jothi Sankar", line2: "GnanaSambandam" },
-    ta: { line1: "ஜோதி ஷங்கர்", line2: "ஞானசம்பந்தம்" },
-    hi: { line1: "जोति संकर", line2: "न्यानासम्बंदम" },
-  };
+  private static readonly NAME_SCRIPTS = PROFILE.names;
   readonly NAME_SCRIPTS = HeroComponent.NAME_SCRIPTS;
 
   readonly mobileScript = signal<"en" | "ta" | "hi">("en");
@@ -93,7 +90,6 @@ export class HeroComponent implements OnDestroy {
     if (this.hintState() === "click") this.hintState.set("drag");
   }
 
-  @HostListener("document:mousemove", ["$event"])
   onMouseMove(e: MouseEvent): void {
     if (this.swipeStartX === null || this.swipeFired) return;
     const delta = e.clientX - this.swipeStartX;
@@ -104,7 +100,6 @@ export class HeroComponent implements OnDestroy {
     }
   }
 
-  @HostListener("document:mouseup")
   onMouseUp(): void {
     this.swipeStartX = null;
     this.swipeFired = false;
