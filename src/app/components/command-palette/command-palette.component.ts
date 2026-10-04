@@ -15,7 +15,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { Theme } from '../../models/model';
 import { PaletteCommand, CommandGroup } from '../../models/model';
 import { ArchitectureModelService } from "../../services/architecture-model.service";
-import { LINKS } from "../../models/profile.data";
+import { LINKS } from "../../data/profile.data";
 
 @Component({
   selector: "app-command-palette",

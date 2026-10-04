@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { AnalyticsService } from '../../services/analytics.service';
 import { CustomValidators } from '../../validators/custom-validator';
 import { FormStatus } from 'src/app/models/model';
-import { LINKS } from '../../models/profile.data';
+import { LINKS } from '../../data/profile.data';
 
 @Component({
   selector: 'app-contact',

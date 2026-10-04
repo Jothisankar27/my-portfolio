@@ -2,7 +2,7 @@ import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Evidence, SkillCategory,  } from 'src/app/models/model';
 import { LightboxComponent } from '../lightbox/lightbox.component';
-import { SKILLS } from '../../models/skills.data';
+import { SKILLS } from '../../data/skills.data';
 
 @Component({
   selector: 'app-skills',

@@ -8,7 +8,7 @@ import {
   ChangeDetectionStrategy,
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
-import { PROFILE } from "../../models/profile.data";
+import { PROFILE } from "../../data/profile.data";
 
 @Component({
   selector: "app-hero",

@@ -1,7 +1,7 @@
 import { Component, signal, inject, afterNextRender, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ghCommit } from 'src/app/models/model';
-import { PROFILE } from '../../models/profile.data';
+import { PROFILE } from '../../data/profile.data';
 
 @Component({
   selector: 'app-footer',

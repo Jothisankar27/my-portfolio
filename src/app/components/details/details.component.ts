@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, signal, computed, inject, PLATFORM_ID, Ch
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { QuickFact } from "src/app/models/model";
 import { totalExperience, relevantExperience, yearsSince } from "src/app/models/experience";
-import { CURRENT_ROLE } from "../../models/career.data";
-import { PROFILE } from "../../models/profile.data";
+import { CURRENT_ROLE } from "../../data/career.data";
+import { PROFILE } from "../../data/profile.data";
 
 @Component({
   selector: "app-details",

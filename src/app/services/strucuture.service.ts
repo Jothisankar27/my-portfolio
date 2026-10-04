@@ -1,6 +1,6 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { buildPersonJsonLd } from '../models/strucuture.data';
+import { buildPersonJsonLd } from '../data/strucuture.data';
 
 @Injectable({ providedIn: 'root' })
 export class StructuredDataService {

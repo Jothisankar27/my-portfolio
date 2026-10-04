@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
-import { PROFILE } from '../../models/profile.data';
+import { PROFILE } from '../../data/profile.data';
 
 /** How far (px) the layers travel when the pointer reaches the edge of the logo. */
 const MAX_SHIFT_X = 8;

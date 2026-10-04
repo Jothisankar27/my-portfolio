@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TimelineEvent } from '../../models/model';
-import { CAREER } from '../../models/career.data';
+import { CAREER } from '../../data/career.data';
 
 @Component({
   selector: "app-timeline",

@@ -1,4 +1,4 @@
-import { Links, Profile } from './model';
+import { Links, Profile } from '../models/model';
 
 export const PROFILE: Profile = {
   names: {

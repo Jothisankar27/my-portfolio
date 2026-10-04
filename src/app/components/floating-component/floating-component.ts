@@ -1,6 +1,6 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AnalyticsService } from "../../services/analytics.service";
-import { LINKS } from '../../models/profile.data';
+import { LINKS } from '../../data/profile.data';
 
 @Component({
   selector: 'app-floating-component',

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThenNow } from 'src/app/models/model';
-import { THEN_NOW } from '../../models/about.data';
+import { THEN_NOW } from '../../data/about.data';
 
 @Component({
   selector: "app-about",

@@ -12,7 +12,7 @@ import {
 import { isPlatformBrowser } from "@angular/common";
 import { Project, Evidence } from "../../models/model";
 import { LightboxComponent } from "../lightbox/lightbox.component";
-import { PROJECTS } from "../../models/project.data";
+import { PROJECTS } from "../../data/project.data";
 
 @Component({
   selector: "app-work",
