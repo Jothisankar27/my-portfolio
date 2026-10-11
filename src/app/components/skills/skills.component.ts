@@ -79,6 +79,7 @@ export class SkillsComponent {
         },
         { name: 'Cursor', iconSrc: 'assets/svg-assets/cursor.svg' },
         { name: 'Claude Code', iconSrc: 'assets/svg-assets/claudecode.svg' },
+        { name: 'MCPs', iconSrc: 'assets/svg-assets/mcp.svg' }
       ],
     },
     {
