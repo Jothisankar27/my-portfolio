@@ -8,7 +8,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { ThemeService } from '../../services/themes.service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { Theme } from '../../models/model';
@@ -18,7 +18,7 @@ import { ArchitectureModelService } from "../../services/architecture-model.serv
 @Component({
   selector: "app-command-palette",
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: "./command-palette.component.html",
   styleUrl: "./command-palette.component.scss",
 })

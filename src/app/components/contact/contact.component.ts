@@ -1,5 +1,4 @@
 import { Component, signal, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -10,7 +9,7 @@ import { FormStatus } from 'src/app/models/model';
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })

@@ -1,12 +1,11 @@
 import { Component, signal, inject, ElementRef, afterNextRender } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Stat } from '../../models/model';
 import { relevantExperience, yearsSince } from '../../models/experience';
 
 @Component({
   selector: "app-about",
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: "./about.component.html",
   styleUrl: "./about.component.scss",
 })

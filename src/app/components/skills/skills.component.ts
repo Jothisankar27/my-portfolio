@@ -1,12 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Evidence, SkillCategory,  } from 'src/app/models/model';
 import { LightboxComponent } from '../lightbox/lightbox.component';
 
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule, LightboxComponent],
+  imports: [ LightboxComponent],
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss'
 })
@@ -57,14 +56,30 @@ export class SkillsComponent {
     {
       heading: 'Tools & Version Control',
       items: [
-        { name: 'Git', iconSrc: 'assets/svg-assets/git.svg' },
-        { name: 'GitHub', iconSrc: 'assets/svg-assets/github1.svg' },
-        { name: 'Tortoise Git', iconSrc: 'assets/svg-assets/tortoisegit.svg' },
-        { name: 'VS Code', iconSrc: 'assets/svg-assets/vscode.svg' },
-        { name: 'SonarQube', iconSrc: 'assets/svg-assets/sonarqube.svg' },
-        { name: 'JFrog', iconSrc: 'assets/svg-assets/jfrog.svg' },
-        { name: 'Jira', iconSrc: 'assets/svg-assets/jira.svg' },
-        { name: 'Confluence', iconSrc: 'assets/svg-assets/confluence.svg' },
+        { name: 'Git', 
+          iconSrc: 'assets/svg-assets/git.svg' 
+        },
+        { name: 'GitHub', 
+          iconSrc: 'assets/svg-assets/github1.svg' 
+        },
+        { name: 'Tortoise Git', 
+          iconSrc: 'assets/svg-assets/tortoisegit.svg' 
+        },
+        { name: 'VS Code', 
+          iconSrc: 'assets/svg-assets/vscode.svg' 
+        },
+        { name: 'SonarQube', 
+          iconSrc: 'assets/svg-assets/sonarqube.svg' 
+        },
+        { name: 'JFrog', 
+          iconSrc: 'assets/svg-assets/jfrog.svg' 
+        },
+        { name: 'Jira', 
+          iconSrc: 'assets/svg-assets/jira.svg' 
+        },
+        { name: 'Confluence', 
+          iconSrc: 'assets/svg-assets/confluence.svg' 
+        },
       ],
     },
     {

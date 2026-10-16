@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { NavComponent } from './components/nav/nav.component';
 import { DetailsComponent } from "./components/details/details.component";
 import { WorkComponent } from './components/work/work.component';
@@ -17,7 +16,6 @@ import { FloatingComponent } from './components/floating-component/floating-comp
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
     NavComponent,
     DetailsComponent,
     ArchitectureModel,

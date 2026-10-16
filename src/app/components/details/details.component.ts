@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, signal, computed, inject, PLATFORM_ID } from "@angular/core";
-import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { isPlatformBrowser } from "@angular/common";
 import { QuickFact } from "src/app/models/model";
 import { totalExperience, relevantExperience, yearsSince } from "src/app/models/experience";
 
 @Component({
   selector: "app-details",
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: "./details.component.html",
   styleUrl: "./details.component.scss",
 })

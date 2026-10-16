@@ -8,12 +8,12 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
 } from "@angular/core";
-import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { isPlatformBrowser } from "@angular/common";
 
 @Component({
   selector: "app-hero",
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: "./hero.component.html",
   styleUrl: "./hero.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
