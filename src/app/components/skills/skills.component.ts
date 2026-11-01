@@ -85,7 +85,7 @@ export class SkillsComponent {
     {
       heading: 'AI & Assisted Development',
       items: [
-        { name: 'GitHub Actions', iconSrc: 'assets/svg-assets/githubactions.svg' },
+        { name: 'GitHub Copilot', iconSrc: 'assets/svg-assets/githubactions.svg' },
         {
           name: 'GitHub Copilot',
           iconSrc: 'assets/svg-assets/githubcopilot.svg',

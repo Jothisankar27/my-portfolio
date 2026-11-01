@@ -41,3 +41,11 @@ src/environments/environment.ts
 *.sqlite
 *.sublime-*
 *.code-workspace
+
+# Generated at build time by scripts/generate-og.mjs
+/src/assets/og-preview.png
+
+# Quality tooling output
+/e2e/.lighthouseci/
+/e2e/playwright-report/
+/e2e/test-results/

@@ -61,6 +61,9 @@ jobs:
             );
           "
 
+      - name: Generate OG preview image
+        run: npm run og
+
       - name: Build
         run: npx ng build --base-href /my-portfolio/ --configuration production
 
@@ -69,6 +72,8 @@ jobs:
           out=dist/portfolio/browser
           test -s "$out/index.html" || { echo "::error::index.html missing or empty"; exit 1; }
           test -s "$out/assets/documents/Jothi_Sankar_Resume_2026.pdf" || { echo "::error::Resume PDF missing from build"; exit 1; }
+          test -s "$out/assets/og-preview.png" || { echo "::error::OG preview image missing from build"; exit 1; }
+          grep -q "assets/og-preview.png" "$out/index.html" || { echo "::error::og:image tag missing from index.html"; exit 1; }
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3.0.1
