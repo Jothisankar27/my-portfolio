@@ -12,26 +12,53 @@ Personal portfolio built with **Angular 20** — standalone components, signals,
 |--------------|--------------------------------------------------------------|
 | Framework    | Angular 20 (standalone, zoneless)                            |
 | Language     | TypeScript 5.8                                               |
-| Runtime      | Node 24 (pinned in `.nvmrc`)                                 |
+| Runtime      | Node 24 (set explicitly in CI; `src/.nvmrc` for local use)   |
 | Styling      | SCSS + CSS custom properties (3-theme system)                |
 | Rendering    | Angular SSR — static prerendering via `RenderMode.Prerender` |
 | Analytics    | Google Analytics 4 (GA4)                                     |
-| Contact      | Web3Forms                                                    |
+| Contact      | Web3Forms + hCaptcha                                         |
+| Social card  | Satori + resvg — PNG generated at build time                 |
 | Linting      | angular-eslint + typescript-eslint                           |
 | CI/CD        | GitHub Actions → GitHub Pages                                |
-| Dependencies | Dependabot (npm + GitHub Actions, weekly)                    |
+| Dependencies | Updated manually (Dependabot is currently off)               |
 
 ---
 
 ## Getting Started
 
 ```bash
-nvm use            # picks up Node 24 from .nvmrc
+nvm use 24         # or any Node 24 install
 npm ci             # install exactly what package-lock.json specifies
+# create src/environments/environment.ts first — see "Environment & secrets"
 npm start          # dev server
 npm run lint       # angular-eslint
+npm run og         # regenerate the social preview image (src/assets/og-preview.png)
 npx ng build --base-href /my-portfolio/ --configuration production
 ```
+
+`npm run build` runs `npm run og` first (via `prebuild`). Calling `npx ng build` directly skips it, which is why CI has its own OG step.
+
+---
+
+## Environment & secrets
+
+`src/environments/environment.ts` is git-ignored. Locally you create it by hand; CI generates it from repository secrets.
+
+```ts
+export const environment = {
+  web3Formslink: 'https://api.web3forms.com/submit',
+  web3formsKey: '<contact form access key>',
+  web3formsPingKey: '<resume-ping access key>',
+};
+```
+
+| GitHub secret         | Goes into                       | Used by                                   |
+|-----------------------|---------------------------------|-------------------------------------------|
+| `WEB3FORMS_URL`       | `environment.web3Formslink`     | Contact form and resume ping              |
+| `WEB3FORMS_KEY`       | `environment.web3formsKey`      | Contact form (hCaptcha **on**)            |
+| `WEB3FORMS_PING_KEY`  | `environment.web3formsPingKey`  | Resume-access email (hCaptcha **off**)    |
+
+Add them as **repository** secrets (Settings → Secrets and variables → Actions). The build job does not use a GitHub Environment, so environment-scoped secrets are not visible to it. All three are bundled into the client JavaScript, so treat them as public.
 
 
 ## CI/CD
@@ -41,29 +68,61 @@ Everything lives in `.github/`.
 | File                         | Purpose                                                                 |
 |------------------------------|-------------------------------------------------------------------------|
 | `workflows/deploy.yml`       | Build, smoke-check and deploy to GitHub Pages                           |
-| `dependabot.yml`             | Weekly update PRs for npm and GitHub Actions (Mondays, IST)             |
-| `../.nvmrc`                  | Single source of truth for the Node version, read by CI and local tools |
+| `../src/.nvmrc`              | Node version for local use. CI sets Node 24 explicitly in the workflow  |
+| `../scripts/generate-og.mjs` | Renders the social preview PNG; called by the workflow and `prebuild`   |
 
 **Triggers**
 
 | Event                | What runs                                         |
 |----------------------|---------------------------------------------------|
 | Push to `main`       | Build → smoke check → deploy                      |
-| Pull request to `main` | Build → smoke check only (no deploy)            |
 | Monday 08:00 IST     | Scheduled rebuild + deploy, so build-time values (e.g. experience labels) stay fresh |
 | Manual               | `workflow_dispatch` — same as a push              |
 
 Markdown-only changes (`**.md`) do not trigger a run.
 
+**Build job order:** checkout → Node 24 → `npm ci` → generate `environment.ts` → generate OG image → `ng build` → smoke check → upload Pages artifact. The deploy job then publishes it.
+
 **Design notes**
 
 - **Two jobs.** `build` runs with `contents: read` only. Only `deploy` gets `pages: write` and `id-token: write`.
-- **Smoke check.** The build fails if `index.html` or the resume PDF is missing from the output.
-- **Secrets.** Passed through `env:` and written by a small Node script using `JSON.stringify`, so special characters cannot break the generated file. The build fails fast if a secret is empty.
-- **Pull requests and Dependabot** cannot read repository secrets, so PR builds use a placeholder environment file. The real values are only used on push, schedule and manual runs.
-- **Concurrency.** Superseded PR builds are cancelled. Deploys are never cancelled mid-flight.
-- **Dependabot** groups all `@angular/*` packages into one PR and ignores Angular major bumps, which should go through `ng update`.
-- The Web3Forms key is bundled into the client JavaScript, so restrict it by domain in the Web3Forms dashboard.
+- **Smoke check.** The build fails if `index.html`, the resume PDF or `assets/og-preview.png` is missing from the output, or if `index.html` has no `og:image` reference.
+- **Secrets.** Passed through `env:` and written by a small Node script using `JSON.stringify`, so special characters cannot break the generated file. The build fails fast if `WEB3FORMS_KEY`, `WEB3FORMS_URL` or `WEB3FORMS_PING_KEY` is empty.
+- **Concurrency.** Runs share one `pages` group and are never cancelled mid-flight; a newer run waits for the current one.
+- **No lint or test step yet.** `npm run lint` passes locally but is not part of the pipeline.
+
+---
+
+## Contact form & spam protection
+
+Web3Forms access keys are public once they are in the bundle, so anyone can post to the endpoint directly. The browser-side checks below filter simple bots; the captcha is the only layer Web3Forms enforces.
+
+| Layer | Where it runs | What it does |
+|-------|---------------|--------------|
+| Honeypot (`hp_trap`) | Browser | Off-screen field styled inline. If filled, the form reports success and sends nothing. The name avoids `website`/`url`/`company`, which browsers autofill. |
+| Timing check | Browser | Requires 2 s between the first field focus and submit. A failure shows the error banner, not a fake success, so a real visitor can retry. |
+| hCaptcha | Browser + Web3Forms | Widget loads from `js.hcaptcha.com` (browser only, skipped on `localhost`). The token is sent as `h-captcha-response` and checked by Web3Forms. Tokens are single-use, so the widget resets after every attempt. |
+
+**One-time setup:** in the Web3Forms dashboard, enable hCaptcha as the spam-blocking option on the **contact** form's key only. Do this after the code that sends the token is deployed, otherwise the live form is rejected. If the captcha script is blocked (ad-blockers), the form tells the visitor to email directly.
+
+**Local development:** hCaptcha does not run on `localhost`, so with captcha enforced a local submit is rejected. Test the contact form on the deployed site.
+
+### Resume-access email
+
+`AnalyticsService` posts a silent notification when the resume is downloaded or opened. It uses its **own** access key (`WEB3FORMS_PING_KEY`), because a ping cannot solve a captcha and so needs a key without one; the separate key can also be disabled or rotated without affecting the contact form.
+
+- At most one ping per browser per 24 hours (`localStorage`), and one per page load if storage is blocked.
+- Skipped when `navigator.webdriver` is set.
+- `?ref=` is reduced to letters, digits, `_`, `.`, `-` and 40 characters; the referrer is reduced to its origin.
+- The Web3Forms free plan allows 250 submissions a month. Whether that is counted per key or per account is unconfirmed, hence the cooldown.
+
+---
+
+## Social preview image
+
+`scripts/generate-og.mjs` renders `src/assets/og-preview.png` (1200×630) with Satori and resvg, using DM Serif Display, Outfit and DM Mono from `@fontsource/*` (no network fetch). The file is git-ignored and regenerated on every CI run and every `npm run build`. `index.html` points `og:image` and `twitter:image` at `https://jothisankar27.github.io/my-portfolio/assets/og-preview.png`.
+
+The name, role and URL are constants at the top of the script. After deploying, LinkedIn caches previews, so re-scrape the URL in its Post Inspector to see changes.
 
 ---
 
@@ -71,11 +130,12 @@ Markdown-only changes (`**.md`) do not trigger a run.
 
 ```
 .github/
-├── dependabot.yml                         # Weekly dependency PRs
 └── workflows/
     └── deploy.yml                         # CI / deploy pipeline
-.nvmrc                                     # Node version pin
+scripts/
+└── generate-og.mjs                        # Build-time social preview image (Satori + resvg)
 src/
+├── .nvmrc                                 # Node version for local use
 ├── app/
 │   ├── app.component.ts/html              # Root — composes all feature components
 │   ├── app.config.server.ts               # SSR server config — merges app + server providers
@@ -83,14 +143,14 @@ src/
 │   ├── models/
 │   │   └── model.ts                       # Shared interfaces and types (Project, Evidence, Theme, TimelineEvent, ...)
 │   ├── services/
-│   │   ├── analytics.service.ts           # GA4 wrapper — section dwell timing, resume-access email notification
+│   │   ├── analytics.service.ts           # GA4 wrapper — section dwell timing, resume-access email (own key, 24 h cooldown)
 │   │   ├── themes.service.ts              # Signal-based theme switching, localStorage persistence, clip-path reveal
 │   │   └── architecture-model.service.ts  # Shared open/close signal for the "Peek under the hood" modal
 │   └── components/
-│       ├── about/                         # Bio + "then vs now" comparison list
+│       ├── about/                         # Bio + animated stat counters
 │       ├── architecture-model/            # "Peek under the hood" — animated narrative diagram + features list
 │       ├── command-palette/               # Cmd/Ctrl+K — navigate, connect, theme switching, architecture view
-│       ├── contact/                       # Web3Forms reactive form with signal state machine
+│       ├── contact/                       # Web3Forms form — hCaptcha, honeypot, timing check, signal state machine
 │       ├── details/                       # Resume quick-facts, hourly-refreshed experience labels
 │       ├── floating-component/            # Floating resume download button
 │       ├── footer/                        # Footer with "site updated" badge from the GitHub commits API
@@ -99,12 +159,12 @@ src/
 │       ├── nav/                           # Sticky nav, active-section highlight, theme palette, architecture trigger
 │       ├── skills/                        # Icon logo wall grouped by category, certified tiles open the lightbox
 │       ├── timeline/                      # Vertical career timeline with live pulse on current role
-│       └── work/                          # Tabbed project cards with enter/exit animations
-├── assets/                                # SVG icons, images, documents (resume, certificates)
+│       └── work/                          # Scroll-snap project deck with jump-to-card dots
+├── assets/                                # SVG icons, images, documents (resume, certificates); og-preview.png is generated
 ├── environments/                          # environment.ts — git-ignored, generated in CI
 ├── styles/
 │   └── styles.scss                        # Global CSS variables, resets, utilities, scroll progress bar
-├── index.html                             # Meta tags, GA4 script
+├── index.html                             # Meta tags (Open Graph + Twitter card), GA4 script
 ├── main.ts                                # Browser bootstrap — zoneless, hydration with event replay
 ├── main.server.ts                         # Server bootstrap — consumes app.config.server
 └── server.ts                              # Express server entry for SSR
@@ -126,13 +186,14 @@ src/
 | Architecture walkthrough   | `architecture-model`  | Animated step-by-step diagram (page load → interaction → redeploy) plus a features list |
 | Experience labels          | `details`             | `computed()` labels driven by a `now` signal refreshed hourly in the browser        |
 | Career timeline            | `timeline`            | Vertical layout, live pulse on current role                                         |
-| Then vs now                | `about`               | Struck-through "then" lines next to the "now" version                               |
+| Animated stats             | `about`               | Counter animation on the stat tiles                                                 |
 | Skills logo wall           | `skills`              | Category-grouped icon tiles; certified tiles open evidence in the lightbox          |
-| Tabbed project cards       | `work`                | Enter/exit animations with `data-state` transitions                                 |
+| Project deck               | `work`                | Scroll-snap cards with jump-to-card dot markers                                     |
 | Certificate/award lightbox | `lightbox`            | Image / PDF evidence viewer                                                         |
-| Contact form               | `contact`             | Reactive form, signal state machine: `idle → sending → success / error`             |
+| Contact form               | `contact`             | Reactive form, signal state machine, honeypot + timing check + hCaptcha             |
 | Resume download button     | `floating-component`  | Floating link, tracked through `AnalyticsService`                                   |
-| Resume access notification | `analytics.service`   | Silent Web3Forms email on resume download/view, with referrer and optional `?ref=`  |
+| Resume access notification | `analytics.service`   | Silent email on resume download/view via a separate key; 24 h cooldown per browser; sanitised referrer origin and `?ref=` |
+| Social preview image       | `scripts/`            | 1200×630 PNG generated at build time; Open Graph + Twitter card tags                |
 | Section dwell tracking     | `analytics.service`   | `performance.now()` timers, reported to GA4                                         |
 | Site-updated badge         | `footer`              | Latest commit time from the GitHub API, fetched after first render                  |
 | Scroll progress bar        | `app`                 | CSS `animation-timeline: scroll()` with `@supports` fallback                        |
@@ -148,7 +209,8 @@ src/
 | **Zoneless change detection**        | `provideZonelessChangeDetection()` in `main.ts`; `polyfills` is empty in `angular.json` |
 | **`ChangeDetectionStrategy.OnPush`** | `hero`, `nav`, `work`, `architecture-model`                                      |
 | **`signal()` / `computed()`**        | Theme, active section, palette state, active project, modal open/view state, experience labels |
-| **`effect()`**                       | `ThemeService` — syncs the theme signal to the `document` attribute and `localStorage` |
+| **`effect()`**                       | `ThemeService` — syncs the theme signal to the `document` attribute and `localStorage`; `contact` — mounts the captcha when its host element exists |
+| **`viewChild()`**                    | `contact` — signal query for the captcha host element                            |
 | **`inject()`**                       | Services and platform tokens across components                                   |
 | **`PLATFORM_ID` + `isPlatformBrowser`** | `ThemeService`, `nav`, `hero`, `work`, `details`, `lightbox`, `command-palette` — guards browser-only APIs during prerender |
 | **`afterNextRender()`**              | `footer` — SSR-safe HTTP call for the commits API                                |

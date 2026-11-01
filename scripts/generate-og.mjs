@@ -24,10 +24,17 @@ const theme = { bg: '#080a0d', surface: '#0f1318', accent: '#a8b8cc', text: '#e8
 const h = (type, style, children) => ({ type, props: { style, children } });
 
 const tree = h('div', {
-  width: 1200, height: 630, boxSizing: 'border-box', display: 'flex', flexDirection: 'column',
-  justifyContent: 'space-between', padding: 72, background: theme.bg,
+  width: 1200, 
+  height: 630, 
+  boxSizing: 'border-box', 
+  display: 'flex', 
+  flexDirection: 'column',
+  justifyContent: 'space-between', 
+  padding: 72, 
+  background: theme.bg,
   backgroundImage: `radial-gradient(circle at 85% 15%, ${theme.surface} 0%, ${theme.bg} 60%)`,
-  fontFamily: 'Outfit', color: theme.text,
+  fontFamily: 'Outfit', 
+  color: theme.text,
 }, [
   h('div', { display: 'flex', alignItems: 'center', gap: 14, fontFamily: 'DM Mono', fontSize: 24, color: theme.muted }, [
     h('div', { width: 14, height: 14, borderRadius: 7, background: '#4ade80' }, ''),

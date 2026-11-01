@@ -44,15 +44,18 @@ jobs:
         env:
           WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_KEY }}
           WEB3FORMS_URL: ${{ secrets.WEB3FORMS_URL }}
+          WEB3FORMS_PING_KEY: ${{ secrets.WEB3FORMS_PING_KEY }}
         run: |
           test -n "$WEB3FORMS_KEY" || { echo "::error::WEB3FORMS_KEY secret is empty"; exit 1; }
           test -n "$WEB3FORMS_URL" || { echo "::error::WEB3FORMS_URL secret is empty"; exit 1; }
+          test -n "$WEB3FORMS_PING_KEY" || { echo "::error::WEB3FORMS_PING_KEY secret is empty"; exit 1; }
           node -e "
             const fs = require('fs');
             const env = {
               production: true,
               web3formsKey: process.env.WEB3FORMS_KEY,
-              web3Formslink: process.env.WEB3FORMS_URL
+              web3Formslink: process.env.WEB3FORMS_URL,
+              web3formsPingKey: process.env.WEB3FORMS_PING_KEY
             };
             fs.mkdirSync('src/environments', { recursive: true });
             fs.writeFileSync(
