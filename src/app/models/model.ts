@@ -103,8 +103,3 @@ export interface TechIcon {
 }
 
 export type ArchView = 'narrative' | 'features';
-
-export interface HCaptchaApi {
-  render(host: HTMLElement, options: Record<string, unknown>): string;
-  reset(widgetId?: string): void;
-}

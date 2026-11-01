@@ -10,8 +10,11 @@ declare const gtag: (...args: unknown[]) => void;
 export class AnalyticsService {
 
   private readonly http = inject(HttpClient);
-  private dwellTimers = new Map<string, number>();
   private readonly platformId = inject(PLATFORM_ID);
+  private dwellTimers = new Map<string, number>();
+
+  // Resume e-mail pings share Web3Forms' monthly quota with real contact messages,
+  // so at most one ping per browser per cooldown window.
   private static readonly RESUME_PING_KEY = 'resume_ping_at';
   private static readonly RESUME_PING_COOLDOWN_MS = 24 * 60 * 60 * 1000;
   private resumePingedThisPage = false;
@@ -66,8 +69,8 @@ export class AnalyticsService {
     const ref = AnalyticsService.cleanRef(new URLSearchParams(window.location.search).get('ref'));
 
     const formData = new FormData();
-    // Separate access key from the contact form: the contact key enforces a captcha
-    // (which a silent ping cannot solve), and this one can be disabled or rotated on its own if someone abuses it.
+    // Separate access key from the contact form, so it can be disabled or rotated
+    // on its own if someone abuses this endpoint, without breaking the contact form.
     formData.append('access_key', environment.web3formsPingKey);
     formData.append('subject', 'Resume viewed/downloaded on portfolio');
     formData.append(

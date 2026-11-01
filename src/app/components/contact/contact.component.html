@@ -46,7 +46,7 @@
               <div class="field" [class.field--error]="name.invalid && name.touched">
                 <label for="cf-name">Name</label>
                 <input id="cf-name" type="text" placeholder="Your Name here Please"
-                  formControlName="name" autocomplete="name" maxlength="20" />
+                  formControlName="name" autocomplete="name" maxlength="80" />
                 @if (name.touched && name.errors?.['required'])  { <span class="field-hint">Name is required.</span> }
                 @if (name.touched && name.errors?.['minlength']) { <span class="field-hint">At least 2 characters.</span> }
                 @if (name.touched && name.errors?.['notBlank'])  { <span class="field-hint">Name can't be just spaces.</span> }
@@ -55,7 +55,7 @@
               <div class="field" [class.field--error]="email.invalid && email.touched">
                 <label for="cf-email">Email</label>
                 <input id="cf-email" type="email" placeholder="you@example.com"
-                  formControlName="email" autocomplete="email" />
+                  formControlName="email" autocomplete="email" maxlength="254" />
                 @if (email.touched && email.errors?.['required']) { <span class="field-hint">Email is required.</span> }
                 @if (email.touched && email.errors?.['email'])    { <span class="field-hint">Enter a valid email.</span> }
               </div>
@@ -64,7 +64,7 @@
             <div class="field" [class.field--error]="message.invalid && message.touched">
               <label for="cf-message">Message</label>
               <textarea id="cf-message" placeholder="Detailed Description" rows="5"
-                formControlName="message" maxlength="500"></textarea>
+                formControlName="message" maxlength="2000"></textarea>
               @if (message.touched && message.errors?.['required'])  { <span class="field-hint">Message is required.</span> }
               @if (message.touched && message.errors?.['minlength']) { <span class="field-hint">At least 10 characters.</span> }
               @if (message.touched && message.errors?.['notBlank'])  { <span class="field-hint">Message can't be just spaces.</span> }
@@ -77,17 +77,6 @@
               <input id="cf-trap" type="text" formControlName="hp_trap"
                 tabindex="-1" autocomplete="off" />
             </div>
-
-            <!-- hCaptcha mounts here (browser only, not on localhost) -->
-            <div #captcha style="margin-bottom: 1rem"></div>
-            @if (captchaMissing()) {
-              <span class="field-hint" role="alert">Please complete the captcha.</span>
-            }
-            @if (captchaFailed()) {
-              <span class="field-hint" role="alert">
-                Please email me directly instead.
-              </span>
-            }
 
             <button class="submit-btn" type="submit" [disabled]="isSending()">
               @if (!isSending()) {

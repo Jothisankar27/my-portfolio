@@ -16,7 +16,7 @@ Personal portfolio built with **Angular 20** — standalone components, signals,
 | Styling      | SCSS + CSS custom properties (3-theme system)                |
 | Rendering    | Angular SSR — static prerendering via `RenderMode.Prerender` |
 | Analytics    | Google Analytics 4 (GA4)                                     |
-| Contact      | Web3Forms + hCaptcha                                         |
+| Contact      | Web3Forms                                                    |
 | Social card  | Satori + resvg — PNG generated at build time                 |
 | Linting      | angular-eslint + typescript-eslint                           |
 | CI/CD        | GitHub Actions → GitHub Pages                                |
@@ -55,8 +55,8 @@ export const environment = {
 | GitHub secret         | Goes into                       | Used by                                   |
 |-----------------------|---------------------------------|-------------------------------------------|
 | `WEB3FORMS_URL`       | `environment.web3Formslink`     | Contact form and resume ping              |
-| `WEB3FORMS_KEY`       | `environment.web3formsKey`      | Contact form (hCaptcha **on**)            |
-| `WEB3FORMS_PING_KEY`  | `environment.web3formsPingKey`  | Resume-access email (hCaptcha **off**)    |
+| `WEB3FORMS_KEY`       | `environment.web3formsKey`      | Contact form messages                     |
+| `WEB3FORMS_PING_KEY`  | `environment.web3formsPingKey`  | Resume-access email                       |
 
 Add them as **repository** secrets (Settings → Secrets and variables → Actions). The build job does not use a GitHub Environment, so environment-scoped secrets are not visible to it. All three are bundled into the client JavaScript, so treat them as public.
 
@@ -95,21 +95,18 @@ Markdown-only changes (`**.md`) do not trigger a run.
 
 ## Contact form & spam protection
 
-Web3Forms access keys are public once they are in the bundle, so anyone can post to the endpoint directly. The browser-side checks below filter simple bots; the captcha is the only layer Web3Forms enforces.
+Web3Forms access keys are public once they are in the bundle, so anyone can post to the endpoint directly and the checks below cannot stop that. They filter simple form-filling bots. Web3Forms also runs its own server-side spam check on submissions.
 
 | Layer | Where it runs | What it does |
 |-------|---------------|--------------|
 | Honeypot (`hp_trap`) | Browser | Off-screen field styled inline. If filled, the form reports success and sends nothing. The name avoids `website`/`url`/`company`, which browsers autofill. |
 | Timing check | Browser | Requires 2 s between the first field focus and submit. A failure shows the error banner, not a fake success, so a real visitor can retry. |
-| hCaptcha | Browser + Web3Forms | Widget loads from `js.hcaptcha.com` (browser only, skipped on `localhost`). The token is sent as `h-captcha-response` and checked by Web3Forms. Tokens are single-use, so the widget resets after every attempt. |
 
-**One-time setup:** in the Web3Forms dashboard, enable hCaptcha as the spam-blocking option on the **contact** form's key only. Do this after the code that sends the token is deployed, otherwise the live form is rejected. If the captcha script is blocked (ad-blockers), the form tells the visitor to email directly.
-
-**Local development:** hCaptcha does not run on `localhost`, so with captcha enforced a local submit is rejected. Test the contact form on the deployed site.
+There is no captcha. Do not enable hCaptcha on either Web3Forms key, because the form sends no captcha token and every submission would be rejected.
 
 ### Resume-access email
 
-`AnalyticsService` posts a silent notification when the resume is downloaded or opened. It uses its **own** access key (`WEB3FORMS_PING_KEY`), because a ping cannot solve a captcha and so needs a key without one; the separate key can also be disabled or rotated without affecting the contact form.
+`AnalyticsService` posts a silent notification when the resume is downloaded or opened. It uses its **own** access key (`WEB3FORMS_PING_KEY`) so that this endpoint can be disabled or rotated if it is abused, without affecting the contact form.
 
 - At most one ping per browser per 24 hours (`localStorage`), and one per page load if storage is blocked.
 - Skipped when `navigator.webdriver` is set.
@@ -150,7 +147,7 @@ src/
 │       ├── about/                         # Bio + animated stat counters
 │       ├── architecture-model/            # "Peek under the hood" — animated narrative diagram + features list
 │       ├── command-palette/               # Cmd/Ctrl+K — navigate, connect, theme switching, architecture view
-│       ├── contact/                       # Web3Forms form — hCaptcha, honeypot, timing check, signal state machine
+│       ├── contact/                       # Web3Forms form — honeypot, timing check, signal state machine
 │       ├── details/                       # Resume quick-facts, hourly-refreshed experience labels
 │       ├── floating-component/            # Floating resume download button
 │       ├── footer/                        # Footer with "site updated" badge from the GitHub commits API
@@ -190,7 +187,7 @@ src/
 | Skills logo wall           | `skills`              | Category-grouped icon tiles; certified tiles open evidence in the lightbox          |
 | Project deck               | `work`                | Scroll-snap cards with jump-to-card dot markers                                     |
 | Certificate/award lightbox | `lightbox`            | Image / PDF evidence viewer                                                         |
-| Contact form               | `contact`             | Reactive form, signal state machine, honeypot + timing check + hCaptcha             |
+| Contact form               | `contact`             | Reactive form, signal state machine, honeypot + timing check                        |
 | Resume download button     | `floating-component`  | Floating link, tracked through `AnalyticsService`                                   |
 | Resume access notification | `analytics.service`   | Silent email on resume download/view via a separate key; 24 h cooldown per browser; sanitised referrer origin and `?ref=` |
 | Social preview image       | `scripts/`            | 1200×630 PNG generated at build time; Open Graph + Twitter card tags                |
@@ -209,8 +206,7 @@ src/
 | **Zoneless change detection**        | `provideZonelessChangeDetection()` in `main.ts`; `polyfills` is empty in `angular.json` |
 | **`ChangeDetectionStrategy.OnPush`** | `hero`, `nav`, `work`, `architecture-model`                                      |
 | **`signal()` / `computed()`**        | Theme, active section, palette state, active project, modal open/view state, experience labels |
-| **`effect()`**                       | `ThemeService` — syncs the theme signal to the `document` attribute and `localStorage`; `contact` — mounts the captcha when its host element exists |
-| **`viewChild()`**                    | `contact` — signal query for the captcha host element                            |
+| **`effect()`**                       | `ThemeService` — syncs the theme signal to the `document` attribute and `localStorage` |
 | **`inject()`**                       | Services and platform tokens across components                                   |
 | **`PLATFORM_ID` + `isPlatformBrowser`** | `ThemeService`, `nav`, `hero`, `work`, `details`, `lightbox`, `command-palette` — guards browser-only APIs during prerender |
 | **`afterNextRender()`**              | `footer` — SSR-safe HTTP call for the commits API                                |
